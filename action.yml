@@ -1,0 +1,61 @@
+name: "Lighthouse CI Action"
+description: "Audit URLs using Lighthouse and test performance with Lighthouse CI"
+inputs:
+  urls:
+    description: "List of URL(s) to analyze"
+  budgetPath:
+    description: "Path to a Lighthouse budgets.json file"
+  configPath:
+    description: "Path to a LHCI lighthouserc.json file"
+  uploadArtifacts:
+    description: "Opt-out of saving Lighthouse results as an action artifacts"
+  artifactName:
+    description: "Name of the artifact group if using uploadArtifacts. default: lighthouse-results"
+    default: lighthouse-results
+  temporaryPublicStorage:
+    description: "Opt-in to saving Lighthouse results to temporary public storage"
+  runs:
+    description: "Number of runs to do per URL"
+  serverBaseUrl:
+    description: "Address of a LHCI server"
+  serverToken:
+    description: "API token to push to LHCI server"
+  basicAuthUsername:
+    description: "Basic auth username for LHCI server"
+  basicAuthPassword:
+    description: "Basic auth password for LHCI server"
+outputs:
+  resultsPath:
+    description: "Path to the folder with LHCI results"
+    value: ${{ steps.treosh-lhci-action.outputs.resultsPath }}
+  links:
+    description: "Links to compare/result UI for each URL (content of links.json)"
+    value: ${{ steps.treosh-lhci-action.outputs.links }}
+  assertionResults:
+    description: "Assertion results (content of assertion-results.json)"
+    value: ${{ steps.treosh-lhci-action.outputs.assertionResults }}
+runs:
+  using: "composite"
+  steps:
+    - name: Treosh Lighthouse CI Action
+      id: treosh-lhci-action
+      uses: treosh/lighthouse-ci-action@v9
+      with:
+        urls: ${{ inputs.urls }}
+        budgetPath: ${{ inputs.budgetPath }}
+        configPath: ${{ inputs.configPath }}
+        uploadArtifacts: ${{ inputs.uploadArtifacts }}
+        artifactName: ${{ inputs.artifactName }}
+        temporaryPublicStorage: ${{ inputs.temporaryPublicStorage }}
+        runs: ${{ inputs.runs }}
+        serverBaseUrl: ${{ inputs.serverBaseUrl }}
+        serverToken: ${{ inputs.serverToken }}
+        basicAuthUsername: ${{ inputs.basicAuthUsername }}
+        basicAuthPassword: ${{ inputs.basicAuthPassword }}
+    - name: Print outputs
+      shell: bash
+      run: |
+        echo ${{ steps.treosh-lhci-action.outputs.resultsPath }}
+        echo ${{ steps.treosh-lhci-action.outputs.links }}
+        echo ${{ steps.treosh-lhci-action.outputs.assertionResults }}
+        echo ${{ steps.treosh-lhci-action.outputs.manifest }}
