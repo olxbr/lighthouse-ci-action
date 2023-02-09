@@ -27,7 +27,7 @@ then
         --header "Authorization: token ${GH_TOKEN}" \
         --header "Content-Type: application/json" \
         --data-raw "{\"body\": \"${COMMENT}\"}" \
-        --silent
+        --silent -o /dev/null
 else
     echo "Not commenting on PR :) see full report above"
 fi

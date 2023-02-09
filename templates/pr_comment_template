@@ -1,8 +1,8 @@
-## Lighthoue report
+# Lighthoue report
 
 For full web report see [this page](${LIGHTHOUSE_URL_REPORT}).
 
-# General Performance
+## General Performance
 
 | Category            | Score                      |
 |---------------------|----------------------------|
@@ -12,7 +12,7 @@ For full web report see [this page](${LIGHTHOUSE_URL_REPORT}).
 | SEO                 | ${LIGHTHOUSE_SEO}          |
 | Progressive Web App | ${LIGHTHOUSE_PWA}          |
 
-# Metrics
+## Metrics
 
 | Metric name              | Timing (seconds)  |
 |--------------------------|-------------------|
