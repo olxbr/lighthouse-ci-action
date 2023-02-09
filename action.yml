@@ -77,8 +77,8 @@ runs:
         }
         
         function _summaryColor() {
-            (($1 > 89))             && print "${C_GRE} $percentage ${C_END}"
-            (($1 < 90 && $1 > 49))) && print "${C_YEL} $percentage ${C_END}"
+            (($1 > 89))            && print "${C_GRE} $percentage ${C_END}"
+            (($1 < 90 && $1 > 49)) && print "${C_YEL} $percentage ${C_END}"
             print "${C_RED} $percentage ${C_END}"
         }
 
