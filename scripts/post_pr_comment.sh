@@ -24,7 +24,7 @@ then
     curl --location --request POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
         --header "Authorization: token ${GH_TOKEN}" \
         --header "Content-Type: application/json" \
-        --data-raw "{"body": '${COMMENT@Q}'}"
+        --data-raw "{\"body\": \"${COMMENT@Q}\"}"
 else
     echo "Not commenting on PR :) see full report above"
 fi
