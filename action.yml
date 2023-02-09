@@ -77,9 +77,9 @@ runs:
         }
         
         function _summaryColor() {
-            (($1 > 89))            && printf "${C_GRE} $1 ${C_END}"
-            (($1 < 90 && $1 > 49)) && printf "${C_YEL} $1 ${C_END}"
-            printf "${C_RED} $1 ${C_END}"
+            (($1 > 89))            && printf "${C_GRE} $1% ${C_END}"
+            (($1 < 90 && $1 > 49)) && printf "${C_YEL} $1% ${C_END}"
+            printf "${C_RED} $1% ${C_END}"
         }
 
         _log "#########################"
@@ -87,11 +87,11 @@ runs:
         _log "#########################"
         
         ## Summary (AVG)
-        avg_performance=$(jq -r '.[].summary.performance'         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100"%"}' || echo '-')
-        avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100"%"}' || echo '-')
-        avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100"%"}' || echo '-')
-        avg_seo=$(jq -r '.[].summary.seo'                         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100"%"}' || echo '-')
-        avg_pwa=$(jq -r '.[].summary.pwa'                         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100"%"}' || echo '-')
+        avg_performance=$(jq -r '.[].summary.performance'         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_seo=$(jq -r '.[].summary.seo'                         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_pwa=$(jq -r '.[].summary.pwa'                         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         
         _log "Performance: $(_summaryColor $avg_performance)"
         _log "Aaccessibility: $(_summaryColor $avg_accessibility)"
