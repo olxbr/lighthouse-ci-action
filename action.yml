@@ -102,17 +102,28 @@ runs:
         avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         
         _log "🅢 Summary"
-        _log "⠀⠀⠀┠⎯⎯Performance: $(_summaryColor $avg_performance)"
-        _log "⠀⠀⠀┠⎯⎯Accessibility: $(_summaryColor $avg_accessibility)"
-        _log "⠀⠀⠀┠⎯⎯Best practices: $(_summaryColor $avg_best_practices)"
-        _log "⠀⠀⠀┠⎯⎯SEO: $(_summaryColor $avg_seo)"
-        _log "⠀⠀⠀┖⎯⎯PWA: $(_summaryColor $avg_pwa)"
+        _log "   ┠⎯⎯Performance: $(_summaryColor $avg_performance)"
+        _log "   ┠⎯⎯Accessibility: $(_summaryColor $avg_accessibility)"
+        _log "   ┠⎯⎯Best practices: $(_summaryColor $avg_best_practices)"
+        _log "   ┠⎯⎯SEO: $(_summaryColor $avg_seo)"
+        _log "   ┖⎯⎯PWA: $(_summaryColor $avg_pwa)"
 
         ## Metrics (AVG)
-        all_json_path=$(jq -r '.[].jsonPath' <<< $JSON)
+        list_json_path=$(jq -r '.[].jsonPath' <<< $JSON)
+        hash_avg_metrics=(firstContentfulPaint:0 
+                          largestContentfulPaint:0 
+                          interactive:0 
+                          speedIndex:0 
+                          totalBlockingTime:0
+                          totalCumulativeLayoutShift:0)
 
-        for file in $all_json_path; do
+        for file in $list_json_path; do
           _log "Get info from file $file..."
+          
+          ## Get all metrics
+          for metric_name in $hash_avg_metrics; do
+            _log $metric_name
+          done
         done
         
         _log "🅜 Metrics"
