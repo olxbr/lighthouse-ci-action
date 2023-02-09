@@ -65,7 +65,7 @@ runs:
         JSON='${{ steps.treosh-lhci-action.outputs.manifest }}'
         
         ## Load common functions
-        source ./scripts/utils.sh
+        source scripts/utils.sh
 
         _log "#########################"
         _log "### Average of ${C_WHT}${{ inputs.runs }}${C_END} runs ###"
