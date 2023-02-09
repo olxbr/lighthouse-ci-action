@@ -55,26 +55,21 @@ runs:
     - name: Print outputs
       shell: bash
       run: |
-        echo ${{ steps.treosh-lhci-action.outputs.resultsPath }}
-        echo ${{ steps.treosh-lhci-action.outputs.links }}
-        echo ${{ steps.treosh-lhci-action.outputs.assertionResults }}
-        echo ${{ steps.treosh-lhci-action.outputs.manifest }}
-        
+
         ## Colors
         ESC_SEQ='\033['
         C_END=$ESC_SEQ'0m'
         C_GREEN=$ESC_SEQ'1;32m'
-        
-        
+
         echo "[INFO] - Average of ${{ inputs.runs }} runs"
         avg_performance=$(jq -r '.[].summary.performance'         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print sum/qtd}' || echo '-')
         avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print sum/qtd}' || echo '-')
         avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print sum/qtd}' || echo '-')
         avg_seo=$(jq -r '.[].summary.seo'                         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print sum/qtd}' || echo '-')
         avg_pwa=$(jq -r '.[].summary.pwa'                         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print sum/qtd}' || echo '-')
-        
+
         echo -e "Performance: ${C_GREEN} $avg_performance ${C_END}"
         echo -e "Aaccessibility: ${C_GREEN} $avg_accessibility ${C_END}"
         echo -e "Best practices: ${C_GREEN} $avg_best_practices ${C_END}"
         echo -e "SEO: ${C_GREEN} $avg_seo ${C_END}"
-        echo -e "PWD: ${C_GREEN} $avg_pwa ${C_END}"
+        echo -e "PWA: ${C_GREEN} $avg_pwa ${C_END}"
