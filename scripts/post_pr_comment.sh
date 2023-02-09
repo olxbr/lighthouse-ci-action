@@ -19,6 +19,7 @@ COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < templates/pr_co
 
 if [ -n "${PR_NUMBER}" ];
 then
+    echo "https://api.github.com/repos/olxbr/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/replies"
     curl --location --request POST 'https://api.github.com/repos/olxbr/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/replies' \
         --header 'Authorization: token ${GH_TOKEN}' \
         --header 'Content-Type: application/json' \
