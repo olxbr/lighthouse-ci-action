@@ -13,14 +13,14 @@ export LIGHTHOUSE_TBT=${avg_tbt:='-'}
 export LIGHTHOUSE_CLS=${avg_cls:='-'}
 export LIGHTHOUSE_TI=${avg_ti:='-'}
 #PR_NUMBER
-#GHA_TOKEN
+#GH_TOKEN
 
 COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < templates/pr_comment_template)
 
 if [ -n "${PR_NUMBER}" ];
 then
     curl --location --request POST 'https://api.github.com/repos/olxbr/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/replies' \
-        --header 'Authorization: token ${GHA_TOKEN}' \
+        --header 'Authorization: token ${GH_TOKEN}' \
         --header 'Content-Type: application/json' \
         --data-raw '{"body": "${COMMENT@Q}"}'
 else
