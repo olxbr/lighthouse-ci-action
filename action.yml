@@ -95,12 +95,13 @@ runs:
         _log "#########################"
 
         ## Summary (AVG)
-        _log "🅢 Summary"
         avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        
+        _log "🅢 Summary"
         _log "⠀⠀⠀┠⎯⎯Performance: $(_summaryColor $avg_performance)"
         _log "⠀⠀⠀┠⎯⎯Accessibility: $(_summaryColor $avg_accessibility)"
         _log "⠀⠀⠀┠⎯⎯Best practices: $(_summaryColor $avg_best_practices)"
@@ -114,6 +115,8 @@ runs:
         for file in $all_json_path; do
           _log "Get info from file $file..."
         done
+        
+        _log "🅜 Metrics"
         
         ## Exporting variables
         lighthouse_link=$(jq -r '.[]' <<< '${{ steps.treosh-lhci-action.outputs.links }}')
