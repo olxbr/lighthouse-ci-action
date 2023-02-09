@@ -71,7 +71,7 @@ runs:
             *)    logLevel="${C_WHT}[INFO]${C_RESET}";;
           esac
           
-          msg=$( ($#>1) && ${2} || ${1}  )
+          msg=$( ($#>1) && echo ${2} || echo ${1}  )
 
           echo -e "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${msg}"
         }
