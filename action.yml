@@ -55,7 +55,7 @@ runs:
     - name: Print outputs
       shell: bash
       run: |
-      
+
         ## Load json to print metrics
         JSON='${{ steps.treosh-lhci-action.outputs.manifest }}'
 
@@ -66,19 +66,19 @@ runs:
         C_YEL=$ESC_SEQ'1;33m'
         C_RED=$ESC_SEQ'1;31m'
         C_WHT=$ESC_SEQ'1;37m'
-        
+
         function _log() {
           case $1 in
             erro) logLevel="${C_RED}[ERRO]${C_END}";;
             warn) logLevel="${C_YEL}[WARN]${C_END}";;
             *)    logLevel="${C_WHT}[INFO]${C_END}";;
           esac
-          
+
           msg=$( (($#>1)) && echo ${2} || echo ${1} )
 
           echo -e "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${msg}"
         }
-        
+
         function _summaryColor() {
             [[ $1 -ge 90 ]]              && printf "${C_GRE}${1}%%${C_END}" && return
             [[ $1 -le 89 && $1 -ge 50 ]] && printf "${C_YEL}${1}%%${C_END}" && return
@@ -88,7 +88,7 @@ runs:
         _log "#########################"
         _log "### Average of ${C_WHT}${{ inputs.runs }}${C_END} runs ###"
         _log "#########################"
-        
+
         ## Summary (AVG)
         _log "🅢 Summary"
         avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
@@ -96,17 +96,16 @@ runs:
         avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
-        
         _log "⠀⠀⠀├⎯⎯Performance: $(_summaryColor $avg_performance)"
         _log "⠀⠀⠀├⎯⎯Accessibility: $(_summaryColor $avg_accessibility)"
         _log "⠀⠀⠀├⎯⎯Best practices: $(_summaryColor $avg_best_practices)"
         _log "⠀⠀⠀├⎯⎯SEO: $(_summaryColor $avg_seo)"
         _log "⠀⠀⠀├⎯⎯PWA: $(_summaryColor $avg_pwa)"
-        
+
         ## Metrics (AVG)
         _log "⠀🅜 Metrics"
         all_json_path=$(jq -r '.[].jsonPath' <<< $JSON)
-        
+
         for file in $all_json_path; do
           _log "Get info from file $file..."
         done

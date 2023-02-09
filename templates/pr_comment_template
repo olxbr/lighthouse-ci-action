@@ -1,0 +1,24 @@
+## Lighthoue report
+
+For full web report see [this page](${LIGHTHOUSE_URL_REPORT}).
+
+# General Performance
+
+| Category            | Score                      |
+|---------------------|----------------------------|
+| Performance         | ${LIGHTHOUSE_PERFORMANCE}  |
+| Acessibility        | ${LIGHTHOUSE_ACESSIBILITY} |
+| Best Practices      | ${LIGHTHOUSE_BP}           |
+| SEO                 | ${LIGHTHOUSE_SEO}          |
+| Progressive Web App | ${LIGHTHOUSE_PWA}          |
+
+# Metrics
+
+| Metric name              | Timing (seconds)  |
+|--------------------------|-------------------|
+| First Contentful Paint   | ${LIGHTHOUSE_FCP} |
+| Speed Index              | ${LIGHTHOUSE_SI}  |
+| Largest Contentful Paint | ${LIGHTHOUSE_LCP} |
+| Total Blocking Time      | ${LIGHTHOUSE_TBT} |
+| Cumulative Layout Shift  | ${LIGHTHOUSE_CLS} |
+| Time to Interactive      | ${LIGHTHOUSE_TI}  |
