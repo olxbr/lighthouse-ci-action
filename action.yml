@@ -57,7 +57,7 @@ runs:
       run: |
       
         ## Load json to print metrics
-        JSON=${{ steps.treosh-lhci-action.outputs.manifest }}
+        JSON='${{ steps.treosh-lhci-action.outputs.manifest }}'
 
         ## Colors
         ESC_SEQ='\033['
