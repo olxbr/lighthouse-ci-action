@@ -66,12 +66,12 @@ runs:
         
         function _log() {
           case $1 in
-            erro) logLevel="${C_RED}[ERRO]${C_RESET}";;
-            warn) logLevel="${C_YEL}[WARN]${C_RESET}";;
-            *)    logLevel="${C_WHT}[INFO]${C_RESET}";;
+            erro) logLevel="${C_RED}[ERRO]${C_END}";;
+            warn) logLevel="${C_YEL}[WARN]${C_END}";;
+            *)    logLevel="${C_WHT}[INFO]${C_END}";;
           esac
           
-          msg=$( ($#>1) && echo ${2} || echo ${1}  )
+          msg=$( (($#>1)) && echo ${2} || echo ${1}  )
 
           echo -e "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${msg}"
         }
@@ -94,7 +94,7 @@ runs:
         ## Metrics (AVG)
         all_json_path=$(jq -r '.[].jsonPath' <<< '${{ steps.treosh-lhci-action.outputs.manifest }}')
         
-        for file in all_json_path; do
+        for file in $all_json_path; do
           _log "Get info from file $file..."
         done
         
