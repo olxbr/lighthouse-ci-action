@@ -70,8 +70,10 @@ runs:
             warn) logLevel="${C_YEL}[WARN]${C_RESET}";;
             *)    logLevel="${C_WHT}[INFO]${C_RESET}";;
           esac
+          
+          msg=$( ($#>1) && ${2} || ${1}  )
 
-          echo -e "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${2}"
+          echo -e "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${msg}"
         }
 
         _log "Average of ${{ inputs.runs }} runs"
