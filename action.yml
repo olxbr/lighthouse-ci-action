@@ -90,11 +90,11 @@ runs:
         _log "#########################"
         
         ## Summary (AVG)
-        avg_performance=$(jq -r '.[].summary.performance'         <<< "$JSON" | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
-        avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< "$JSON" | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
-        avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< "$JSON" | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
-        avg_seo=$(jq -r '.[].summary.seo'                         <<< "$JSON" | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
-        avg_pwa=$(jq -r '.[].summary.pwa'                         <<< "$JSON" | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         
         _log "Performance: $(_summaryColor $avg_performance)"
         _log "Aaccessibility: $(_summaryColor $avg_accessibility)"
