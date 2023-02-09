@@ -17,9 +17,12 @@ export LIGHTHOUSE_TI=${avg_ti:='-'}
 
 COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < templates/pr_comment_template)
 
-#curl --location --request POST 'https://api.github.com/repos/olxbr/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/replies' \
-#    --header 'Authorization: token ${GHA_TOKEN}' \
-#    --header 'Content-Type: application/json' \
-#    --data-raw '{"body": "${COMMENT@Q}"}'
-
-echo "${COMMENT@Q}"
+if [ -n "${PR_NUMBER}" ];
+then
+    curl --location --request POST 'https://api.github.com/repos/olxbr/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/replies' \
+        --header 'Authorization: token ${GHA_TOKEN}' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{"body": "${COMMENT@Q}"}'
+else
+    echo "Not commenting on PR :) see full report above"
+fi
