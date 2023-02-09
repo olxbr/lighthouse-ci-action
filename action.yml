@@ -121,7 +121,7 @@ runs:
           _log "Get info from file $file..."
           
           ## Get all metrics
-          for metric_name in $hash_avg_metrics; do
+          for metric_name in ${hash_avg_metrics[@]}; do
             _log $metric_name
           done
         done
