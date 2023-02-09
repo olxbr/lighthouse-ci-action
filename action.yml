@@ -117,4 +117,5 @@ runs:
         GH_TOKEN: ${{ inputs.gh_token }}
         PR_NUMBER: ${{ github.event.number }}
       run: |
+        cd ${{github.action_path}}
         bash scripts/post_pr_comment.sh
