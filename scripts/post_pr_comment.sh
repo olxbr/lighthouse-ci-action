@@ -1,6 +1,6 @@
 #/bin/bash
 
-export LIGHTHOUSE_LINK=${lighthouse_link:='https://github.com/olxbr/lighthouse-ci-action'}
+export LIGHTHOUSE_URL_REPORT=${lighthouse_link:='https://github.com/olxbr/lighthouse-ci-action'}
 export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}
 export LIGHTHOUSE_ACESSIBILITY=${avg_accessibility:='-'}
 export LIGHTHOUSE_BP=${avg_best_practices:='-'}
