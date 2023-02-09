@@ -80,8 +80,8 @@ runs:
         }
         
         function _summaryColor() {
-            (($1 > 89))            && printf "${C_GRE}${1}%%${C_END}" && return
-            (($1 < 90 && $1 > 49)) && printf "${C_YEL}${1}%%${C_END}" && return
+            [ $1 -ge 90 ]              && printf "${C_GRE}${1}%%${C_END}" && return
+            [ $1 -le 89 && $1 -ge 50 ] && printf "${C_YEL}${1}%%${C_END}" && return
             printf "${C_RED}${1}%%${C_END}"
         }
 
@@ -97,11 +97,11 @@ runs:
         avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         
-        _log "      Performance: $(_summaryColor $avg_performance)"
-        _log "      Aaccessibility: $(_summaryColor $avg_accessibility)"
-        _log "      Best practices: $(_summaryColor $avg_best_practices)"
-        _log "      SEO: $(_summaryColor $avg_seo)"
-        _log "      PWA: $(_summaryColor $avg_pwa)"
+        _log "  ├   Performance: $(_summaryColor $avg_performance)"
+        _log "  ├   Accessibility: $(_summaryColor $avg_accessibility)"
+        _log "  ├   Best practices: $(_summaryColor $avg_best_practices)"
+        _log "  ├   SEO: $(_summaryColor $avg_seo)"
+        _log "  ├   PWA: $(_summaryColor $avg_pwa)"
         
         ## Metrics (AVG)
         _log "🅜 Metrics"
