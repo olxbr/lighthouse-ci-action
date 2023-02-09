@@ -109,6 +109,15 @@ runs:
         for file in $all_json_path; do
           _log "Get info from file $file..."
         done
+        
+        ## Exporting variables
+        lighthouse_link=$(jq -r '.[]' <<< '${{ steps.treosh-lhci-action.outputs.links }}')
+        echo "lighthouse_link=${lighthouse_link}" >> $GITHUB_ENV
+        echo "avg_performance=${avg_performance}" >> $GITHUB_ENV
+        echo "avg_accessibility=${avg_accessibility}" >> $GITHUB_ENV
+        echo "avg_best_practices=${avg_best_practices}" >> $GITHUB_ENV
+        echo "avg_seo=${avg_seo}" >> $GITHUB_ENV
+        echo "avg_pwa=${avg_pwa}" >> $GITHUB_ENV
 
 
     - name: Coment on PR
