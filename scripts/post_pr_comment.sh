@@ -20,7 +20,8 @@ COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < templates/pr_co
 if [ -n "${PR_NUMBER}" ];
 then
     echo "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments"
-    curl --location --request POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/replies" \
+    echo "${GH_TOKEN}"
+    curl --location --request POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
         --header "Authorization: token ${GH_TOKEN}" \
         --header "Content-Type: application/json" \
         --data-raw "{"body": '${COMMENT@Q}'}"
