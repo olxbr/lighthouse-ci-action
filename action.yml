@@ -76,7 +76,7 @@ runs:
           echo -e "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${msg}"
         }
 
-        _log "Average of ${{ inputs.runs }} runs"
+        _log "### Average of ${C_WHT}${{ inputs.runs }}${C_END} runs ###"
         
         ## Summary (AVG)
         avg_performance=$(jq -r '.[].summary.performance'         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100"%"}' || echo '-')
@@ -85,11 +85,11 @@ runs:
         avg_seo=$(jq -r '.[].summary.seo'                         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100"%"}' || echo '-')
         avg_pwa=$(jq -r '.[].summary.pwa'                         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100"%"}' || echo '-')
 
-        _log "Performance: ${C_GREEN} $avg_performance ${C_END}"
-        _log "Aaccessibility: ${C_GREEN} $avg_accessibility ${C_END}"
-        _log "Best practices: ${C_GREEN} $avg_best_practices ${C_END}"
-        _log "SEO: ${C_GREEN} $avg_seo ${C_END}"
-        _log "PWA: ${C_GREEN} $avg_pwa ${C_END}"
+        _log "Performance: ${C_GRE} $avg_performance ${C_END}"
+        _log "Aaccessibility: ${C_GRE} $avg_accessibility ${C_END}"
+        _log "Best practices: ${C_GRE} $avg_best_practices ${C_END}"
+        _log "SEO: ${C_GRE} $avg_seo ${C_END}"
+        _log "PWA: ${C_GRE} $avg_pwa ${C_END}"
         
         ## Metrics (AVG)
         all_json_path=$(jq -r '.[].jsonPath' <<< '${{ steps.treosh-lhci-action.outputs.manifest }}')
