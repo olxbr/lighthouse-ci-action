@@ -109,5 +109,12 @@ runs:
         for file in $all_json_path; do
           _log "Get info from file $file..."
         done
-        
-        
+
+
+    - name: Coment on PR
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.gh_token }}
+        PR_NUMBER: ${{ github.event.number }}
+      run: |
+        bash scripts/post_pr_comment.sh
