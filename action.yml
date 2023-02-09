@@ -103,7 +103,7 @@ runs:
         _log "PWA: $(_summaryColor $avg_pwa)"
         
         ## Metrics (AVG)
-        all_json_path=$(jq -r '.[].jsonPath' <<< "$JSON")
+        all_json_path=$(jq -r '.[].jsonPath' <<< $JSON)
         
         for file in $all_json_path; do
           _log "Get info from file $file..."
