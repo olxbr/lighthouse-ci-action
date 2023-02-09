@@ -55,6 +55,9 @@ runs:
     - name: Print outputs
       shell: bash
       run: |
+      
+        ## Load json to print metrics
+        JSON=${{ steps.treosh-lhci-action.outputs.manifest }}
 
         ## Colors
         ESC_SEQ='\033['
@@ -87,11 +90,11 @@ runs:
         _log "#########################"
         
         ## Summary (AVG)
-        avg_performance=$(jq -r '.[].summary.performance'         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
-        avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
-        avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
-        avg_seo=$(jq -r '.[].summary.seo'                         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
-        avg_pwa=$(jq -r '.[].summary.pwa'                         <<< '${{ steps.treosh-lhci-action.outputs.manifest }}' | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_performance=$(jq -r '.[].summary.performance'         <<< "$JSON" | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< "$JSON" | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< "$JSON" | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_seo=$(jq -r '.[].summary.seo'                         <<< "$JSON" | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+        avg_pwa=$(jq -r '.[].summary.pwa'                         <<< "$JSON" | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         
         _log "Performance: $(_summaryColor $avg_performance)"
         _log "Aaccessibility: $(_summaryColor $avg_accessibility)"
@@ -100,7 +103,7 @@ runs:
         _log "PWA: $(_summaryColor $avg_pwa)"
         
         ## Metrics (AVG)
-        all_json_path=$(jq -r '.[].jsonPath' <<< '${{ steps.treosh-lhci-action.outputs.manifest }}')
+        all_json_path=$(jq -r '.[].jsonPath' <<< "$JSON")
         
         for file in $all_json_path; do
           _log "Get info from file $file..."
