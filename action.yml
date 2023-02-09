@@ -122,7 +122,8 @@ runs:
           
           ## Get all metrics
           for metric_name in ${hash_avg_metrics[@]}; do
-            _log $metric_name
+            _log ${metric_name%:*}
+            jq -r ".audits.metrics.details.items[].${metric_name%:*}" <<< $file
           done
         done
         
