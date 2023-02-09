@@ -102,11 +102,11 @@ runs:
         avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
         
         _log "🅢 Summary"
-        _log "   ┠⎯⎯Performance: $(_summaryColor $avg_performance)"
-        _log "   ┠⎯⎯Accessibility: $(_summaryColor $avg_accessibility)"
-        _log "   ┠⎯⎯Best practices: $(_summaryColor $avg_best_practices)"
-        _log "   ┠⎯⎯SEO: $(_summaryColor $avg_seo)"
-        _log "   ┖⎯⎯PWA: $(_summaryColor $avg_pwa)"
+        _log "   ├⎯⎯Performance: $(_summaryColor $avg_performance)"
+        _log "   ├⎯⎯Accessibility: $(_summaryColor $avg_accessibility)"
+        _log "   ├⎯⎯Best practices: $(_summaryColor $avg_best_practices)"
+        _log "   ├⎯⎯SEO: $(_summaryColor $avg_seo)"
+        _log "   └⎯⎯PWA: $(_summaryColor $avg_pwa)"
 
         ## Metrics (AVG)
         list_json_path=$(jq -r '.[].jsonPath' <<< $JSON)
