@@ -79,7 +79,7 @@ runs:
         function _summaryColor() {
             (($1 > 89))            && printf "${C_GRE} $1 ${C_END}"
             (($1 < 90 && $1 > 49)) && printf "${C_YEL} $1 ${C_END}"
-            printf "${C_RED} $percentage ${C_END}"
+            printf "${C_RED} $1 ${C_END}"
         }
 
         _log "#########################"
