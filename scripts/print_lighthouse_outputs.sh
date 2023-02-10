@@ -68,4 +68,4 @@ SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
 SUMMARY="${SUMMARY@Q}"
 SUMMARY="${SUMMARY#\$\'}"
 SUMMARY="${SUMMARY%\'}"
-echo ${SUMMARY} >> $GITHUB_STEP_SUMMARY
+echo -e ${SUMMARY} >> $GITHUB_STEP_SUMMARY
