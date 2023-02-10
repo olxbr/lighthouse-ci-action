@@ -74,11 +74,11 @@ runs:
         _log "#########################"
 
         ## Summary (AVG)
-        avg_performance=$(eval jq -r '.[].summary.performance'         <<< $JSON | $cmd_calc_avg || echo '-')
-        avg_accessibility=$(eval jq -r '.[].summary.accessibility'     <<< $JSON | $cmd_calc_avg || echo '-')
-        avg_best_practices=$(eval jq -r '.[].summary."best-practices"' <<< $JSON | $cmd_calc_avg || echo '-')
-        avg_seo=$(eval jq -r '.[].summary.seo'                         <<< $JSON | $cmd_calc_avg || echo '-')
-        avg_pwa=$(eval jq -r '.[].summary.pwa'                         <<< $JSON | $cmd_calc_avg || echo '-')
+        avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | eval $cmd_calc_avg || echo '-')
+        avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | eval $cmd_calc_avg || echo '-')
+        avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | eval $cmd_calc_avg || echo '-')
+        avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | eval $cmd_calc_avg || echo '-')
+        avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | eval $cmd_calc_avg || echo '-')
         
         _log "🅢 Summary"
         _log "   ├⎯⎯Performance: $(_summaryColor $avg_performance)"
