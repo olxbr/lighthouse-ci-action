@@ -67,18 +67,18 @@ runs:
         ## Load common functions
         source ${{github.action_path}}/scripts/utils.sh
         
-        cmd_calc_avg='awk "{ sum+=$1; qtd+=1 } END {print (sum/qtd)}"'
+        awk_calc_avg='{ sum+=$1; qtd+=1 } END {print (sum/qtd)}'
 
         _log "#########################"
         _log "### Average of ${C_WHT}${{ inputs.runs }}${C_END} runs ###"
         _log "#########################"
 
         ## Summary (AVG)
-        avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | eval $cmd_calc_avg || echo '-')
-        avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | eval $cmd_calc_avg || echo '-')
-        avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | eval $cmd_calc_avg || echo '-')
-        avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | eval $cmd_calc_avg || echo '-')
-        avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | eval $cmd_calc_avg || echo '-')
+        avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk "$cmd_calc_avg" || echo '-')
+        avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | awk "$cmd_calc_avg" || echo '-')
+        avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | awk "$cmd_calc_avg" || echo '-')
+        avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk "$cmd_calc_avg" || echo '-')
+        avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk "$cmd_calc_avg" || echo '-')
         
         _log "🅢 Summary"
         _log "   ├⎯⎯Performance: $(_summaryColor $avg_performance)"
