@@ -97,7 +97,7 @@ runs:
           avg=$(jq -r ".audits.metrics.details.items[].${metric_name} | select (.!=null)" <<< $(cat $list_json_path) | awk "$awk_calc_avg")
 
           [[ $idx -lt ${#list_metrics_name[@]} ]] &&
-            _log "   ├⎯⎯${metric_name}: $avg"
+            _log "   ├⎯⎯${metric_name}: $avg" ||
             _log "   └⎯⎯${metric_name}: $avg"
           
         done
