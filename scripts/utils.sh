@@ -31,18 +31,18 @@ function _summary_color() {
     percent=$(bc <<< $1*100)
 
     [[ $(bc <<< "$percent>=90") == 1 && $(bc <<< "$percent<=99") == 1 ]] &&
-        printf "${C_GRE}%.1f%%${C_END} ${E_GRE}" $percent &&
+        printf "${E_GRE} ${C_GRE}%.1f%%${C_END}" $percent &&
         return
 
     [[ $(bc <<< "$percent<=89") == 1 && $(bc <<< "$percent>=50") == 1 ]] &&
-        printf "${C_YEL}%.1f%%${C_END} ${E_YEL}" $percent &&
+        printf "${E_YEL} ${C_YEL}%.1f%%${C_END}" $percent &&
         return
 
     [[ $(bc <<< "$percent==100") == 1 ]] &&
-        printf "${C_GRE}%.1f%%${C_END} ${E_TRO}" $percent &&
+        printf "${E_TRO} ${C_GRE}%.1f%%${C_END}" $percent &&
         return
 
-    printf "${C_RED}%.1f%%${C_END} ${E_RED}" $percent
+    printf "${E_RED} ${C_RED}%.1f%%${C_END}" $percent
 }
 
 function _summary_emoji() {
