@@ -92,13 +92,19 @@ runs:
         list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
          
         _log "🅜 Metrics"
+        
+        ## Get unit time
+        [[ jq -r '.audits.metrics.numericUnit' =~ milli ]] && 
+          metric_unit="ms" ||
+          metric_unit="s"
+        
         for metric_name in ${list_metrics_name[@]}; do
           let idx+=1
           avg=$(jq -r ".audits.metrics.details.items[].${metric_name} | select (.!=null)" <<< $(cat $list_json_path) | awk "$awk_calc_avg")
 
           [[ $idx -lt ${#list_metrics_name[@]} ]] &&
-            _log "   ├⎯⎯${metric_name}: $avg" ||
-            _log "   └⎯⎯${metric_name}: $avg"
+            _log "   ├⎯⎯${metric_name}: ${C_WHT}$avg ${metric_unit}${C_END}" ||
+            _log "   └⎯⎯${metric_name}: ${C_WHT}$avg ${metric_unit}${C_END}"
           
           ## Exporting for Comment
           echo "avg_${metric_name}=${metric_name}" >> $GITHUB_ENV
