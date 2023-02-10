@@ -34,5 +34,5 @@ then
         --data-raw "{\"body\": \"${COMMENT}\"}" \
         --silent -o /dev/null
 else
-    _log info "This may not be a PR so not commenting... See full report above"
+    _log warn "This may not be a PR so not commenting... See full report above"
 fi
