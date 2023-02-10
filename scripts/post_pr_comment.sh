@@ -2,11 +2,19 @@
 
 source scripts/utils.sh
 
+# Summary
 export LIGHTHOUSE_URL_REPORT=${lighthouse_link:='https://github.com/olxbr/lighthouse-ci-action'}
 export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}
 export LIGHTHOUSE_ACESSIBILITY=${avg_accessibility:='-'}
 export LIGHTHOUSE_BP=${avg_best_practices:='-'}
 export LIGHTHOUSE_SEO=${avg_seo:='-'}
+export PERFORMANCE_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PERFORMANCE})
+export ACESSIBILITY_EMOJI=$(_summary_emoji ${LIGHTHOUSE_ACESSIBILITY})
+export BP_EMOJI=$(_summary_emoji ${LIGHTHOUSE_BP})
+export SEO_EMOJI=$(_summary_emoji ${LIGHTHOUSE_SEO})
+export PWA_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PWA})
+
+# Metrics
 export LIGHTHOUSE_PWA=${avg_pwa:='-'}
 export LIGHTHOUSE_FCP=${avg_first_contentful_paint:='-'}
 export LIGHTHOUSE_SI=${avg_speed_index:='-'}

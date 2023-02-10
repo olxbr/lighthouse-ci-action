@@ -4,13 +4,13 @@ For full web report see [this page](${LIGHTHOUSE_URL_REPORT}).
 
 ## General Performance
 
-| Category            | Score                      |
-|---------------------|----------------------------|
-| Performance         | ${LIGHTHOUSE_PERFORMANCE}  |
-| Acessibility        | ${LIGHTHOUSE_ACESSIBILITY} |
-| Best Practices      | ${LIGHTHOUSE_BP}           |
-| SEO                 | ${LIGHTHOUSE_SEO}          |
-| Progressive Web App | ${LIGHTHOUSE_PWA}          |
+| Category            | Score                                            |
+|---------------------|--------------------------------------------------|
+| Performance         | ${LIGHTHOUSE_PERFORMANCE} ${PERFORMANCE_EMOJI}   |
+| Acessibility        | ${LIGHTHOUSE_ACESSIBILITY} ${ACESSIBILITY_EMOJI} |
+| Best Practices      | ${LIGHTHOUSE_BP} ${BP_EMOJI}                     |
+| SEO                 | ${LIGHTHOUSE_SEO} ${SEO_EMOJI}                   |
+| Progressive Web App | ${LIGHTHOUSE_PWA} ${PWA_EMOJI}                   |
 
 ## Metrics
 

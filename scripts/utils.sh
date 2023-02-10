@@ -27,13 +27,13 @@ function _log() {
 
 function _summary_color() {
     ! [[ $1 =~ ^[0-9] ]] && printf "${C_RED}${1}${C_END}" && return ## not a number
-    
+
     percent=$(bc <<< $1*100)
-    
+
     [[ $(bc <<< "$percent>=90") == 1 && $(bc <<< "$percent<=99") == 1 ]] &&
         printf "${C_GRE}%.1f%%${C_END} ${E_GRE}" $percent &&
         return
-        
+
     [[ $(bc <<< "$percent<=89") == 1 && $(bc <<< "$percent>=50") == 1 ]] &&
         printf "${C_YEL}%.1f%%${C_END} ${E_YEL}" $percent &&
         return
@@ -41,8 +41,28 @@ function _summary_color() {
     [[ $(bc <<< "$percent==100") == 1 ]] &&
         printf "${C_GRE}%.1f%%${C_END} ${E_TRO}" $percent &&
         return
-        
+
     printf "${C_RED}%.1f%%${C_END} ${E_RED}" $percent
+}
+
+function _summary_emoji() {
+    ! [[ $1 =~ ^[0-9] ]] && printf "" && return ## not a number
+
+    percent=$(bc <<< $1*100)
+
+    [[ $(bc <<< "$percent>=90") == 1 && $(bc <<< "$percent<=99") == 1 ]] &&
+        printf "${E_GRE}" $percent &&
+        return
+
+    [[ $(bc <<< "$percent<=89") == 1 && $(bc <<< "$percent>=50") == 1 ]] &&
+        printf "${E_YEL}" $percent &&
+        return
+
+    [[ $(bc <<< "$percent==100") == 1 ]] &&
+        printf "${E_TRO}" $percent &&
+        return
+
+    printf "${E_RED}" $percent
 }
 
 function _camel_to_snake_case () {

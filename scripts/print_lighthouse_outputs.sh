@@ -15,10 +15,15 @@ _log "#########################"
 
 ## Summary (AVG)
 export avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk "${awk_calc_avg}" || echo '-')
+export emoji_performance=$(_summary_emoji ${avg_performance})
 export avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | awk "${awk_calc_avg}" || echo '-')
+export emoji_accessibility=$(_summary_emoji ${avg_accessibility})
 export avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | awk "${awk_calc_avg}" || echo '-')
+export emoji_best_practices=$(_summary_emoji ${avg_best_practices})
 export avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk "${awk_calc_avg}" || echo '-')
+export emoji_seo=$(_summary_emoji ${avg_seo})
 export avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk "${awk_calc_avg}" || echo '-')
+export emoji_pwa=$(_summary_emoji ${avg_pwa})
 
 _log "🅢 Summary"
 _log "   ├⎯⎯Performance: $(_summary_color ${avg_performance})"
