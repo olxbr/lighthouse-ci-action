@@ -14,11 +14,11 @@ _log "### Average of ${C_WHT}${RUNS}${C_END} runs ###"
 _log "#########################"
 
 ## Summary (AVG)
-avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk "${awk_calc_avg}" || echo '-')
-avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | awk "${awk_calc_avg}" || echo '-')
-avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | awk "${awk_calc_avg}" || echo '-')
-avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk "${awk_calc_avg}" || echo '-')
-avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk "${awk_calc_avg}" || echo '-')
+export avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk "${awk_calc_avg}" || echo '-')
+export avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | awk "${awk_calc_avg}" || echo '-')
+export avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | awk "${awk_calc_avg}" || echo '-')
+export avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk "${awk_calc_avg}" || echo '-')
+export avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk "${awk_calc_avg}" || echo '-')
 
 _log "🅢 Summary"
 _log "   ├⎯⎯Performance: $(_summaryColor ${avg_performance})"
@@ -65,4 +65,7 @@ echo "avg_pwa=${avg_pwa}" >> ${GITHUB_ENV}
 
 TEMPLATE="templates/github_summary_template"
 SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
+SUMMARY="${SUMMARY@Q}"
+SUMMARY="${SUMMARY#\$\'}"
+SUMMARY="${SUMMARY%\'}"
 echo ${SUMMARY} >> $GITHUB_STEP_SUMMARY

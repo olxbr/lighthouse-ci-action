@@ -6,4 +6,3 @@
    ├⎯⎯Best practices: ${avg_best_practices}
    ├⎯⎯SEO: ${avg_seo}
    └⎯⎯PWA: ${avg_pwa}
-
