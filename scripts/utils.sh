@@ -21,6 +21,7 @@ function _log() {
 }
 
 function _summaryColor() {
+    [[ $1 =~ '^[0-9]*' ]] && printf "${C_RED}{1}${C_END}" && return
     [[ $1 -ge 90 ]]              && printf "${C_GRE}${1}%%${C_END}" && return
     [[ $1 -le 89 && $1 -ge 50 ]] && printf "${C_YEL}${1}%%${C_END}" && return
     printf "${C_RED}${1}%%${C_END}"
