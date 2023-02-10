@@ -58,7 +58,7 @@ COMMENT="${COMMENT%\'}"
 if [ -n "${PR_NUMBER}" ];
 then
     _check_for_comments
-    #_post_comment
+    _post_comment
 else
     _log warn "This may not be a PR so not commenting... See full report above"
 fi
