@@ -60,3 +60,9 @@ echo "avg_accessibility=${avg_accessibility}" >> ${GITHUB_ENV}
 echo "avg_best_practices=${avg_best_practices}" >> ${GITHUB_ENV}
 echo "avg_seo=${avg_seo}" >> ${GITHUB_ENV}
 echo "avg_pwa=${avg_pwa}" >> ${GITHUB_ENV}
+
+## Print summary to action
+
+TEMPLATE="templates/github_summary_template"
+SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
+echo ${SUMMARY} >> $GITHUB_STEP_SUMMARY
