@@ -8,12 +8,12 @@ export LIGHTHOUSE_ACESSIBILITY=${avg_accessibility:='-'}
 export LIGHTHOUSE_BP=${avg_best_practices:='-'}
 export LIGHTHOUSE_SEO=${avg_seo:='-'}
 export LIGHTHOUSE_PWA=${avg_pwa:='-'}
-export LIGHTHOUSE_FCP=${avg_fcp:='-'}
-export LIGHTHOUSE_SI=${avg_si:='-'}
-export LIGHTHOUSE_LCP=${avg_lcp:='-'}
-export LIGHTHOUSE_TBT=${avg_tbt:='-'}
-export LIGHTHOUSE_CLS=${avg_cls:='-'}
-export LIGHTHOUSE_TI=${avg_ti:='-'}
+export LIGHTHOUSE_FCP=${avg_first_contentful_paint:='-'}
+export LIGHTHOUSE_SI=${avg_speed_index:='-'}
+export LIGHTHOUSE_LCP=${avg_largest_contentful_paint:='-'}
+export LIGHTHOUSE_TBT=${avg_total_blocking_time:='-'}
+export LIGHTHOUSE_CLS=${avg_total_cumulative_layout_shift:='-'}
+export LIGHTHOUSE_TI=${avg_time_to_interactive:='-'}
 #PR_NUMBER
 #GH_TOKEN
 

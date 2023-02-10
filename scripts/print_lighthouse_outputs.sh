@@ -21,11 +21,11 @@ export avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk
 export avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk "${awk_calc_avg}" || echo '-')
 
 _log "🅢 Summary"
-_log "   ├⎯⎯Performance: $(_summaryColor ${avg_performance})"
-_log "   ├⎯⎯Accessibility: $(_summaryColor ${avg_accessibility})"
-_log "   ├⎯⎯Best practices: $(_summaryColor ${avg_best_practices})"
-_log "   ├⎯⎯SEO: $(_summaryColor ${avg_seo})"
-_log "   └⎯⎯PWA: $(_summaryColor ${avg_pwa})"
+_log "   ├⎯⎯Performance: $(_summary_color ${avg_performance})"
+_log "   ├⎯⎯Accessibility: $(_summary_color ${avg_accessibility})"
+_log "   ├⎯⎯Best practices: $(_summary_color ${avg_best_practices})"
+_log "   ├⎯⎯SEO: $(_summary_color ${avg_seo})"
+_log "   └⎯⎯PWA: $(_summary_color ${avg_pwa})"
 
 ## Metrics (AVG)
 list_json_path=$(jq -r '.[].jsonPath' <<< ${JSON})
@@ -47,8 +47,9 @@ for metric_name in ${list_metrics_name[@]}; do
     _log "   ├⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}${C_END}" ||
     _log "   └⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}${C_END}"
     
+    snake_metric_name=$(_camel_to_snake_case ${metric_name}})
     ## Exporting for Comment
-    echo "avg_${metric_name}=${metric_name}" >> ${GITHUB_ENV}
+    echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
 done
 
 
