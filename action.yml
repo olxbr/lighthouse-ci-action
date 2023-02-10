@@ -74,11 +74,11 @@ runs:
         _log "#########################"
 
         ## Summary (AVG)
-        avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk "$cmd_calc_avg" || echo '-')
-        avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | awk "$cmd_calc_avg" || echo '-')
-        avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | awk "$cmd_calc_avg" || echo '-')
-        avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk "$cmd_calc_avg" || echo '-')
-        avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk "$cmd_calc_avg" || echo '-')
+        avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk "$awk_calc_avg" || echo '-')
+        avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | awk "$awk_calc_avg" || echo '-')
+        avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | awk "$awk_calc_avg" || echo '-')
+        avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk "$awk_calc_avg" || echo '-')
+        avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk "$awk_calc_avg" || echo '-')
         
         _log "🅢 Summary"
         _log "   ├⎯⎯Performance: $(_summaryColor $avg_performance)"
@@ -96,8 +96,7 @@ runs:
         _log "🅜 Metrics"
         for metric_name in $list_metrics_name; do
           _log $metric_name
-          all_values=$(jq -r ".audits.metrics.details.items[].${metric_name} | select (.!=null)" <<< $(cat $list_json_path))
-          avg=$(awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)*100}' || echo '-')
+          all_values=$(jq -r ".audits.metrics.details.items[].${metric_name} | select (.!=null)" <<< $(cat $list_json_path) | awk "$awk_calc_avg")
         done
         
         
