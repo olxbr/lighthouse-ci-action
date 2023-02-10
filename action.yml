@@ -74,7 +74,7 @@ runs:
         _log "#########################"
 
         ## Summary (AVG)
-        avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk "${awk_calc_avg}*100" | bc || echo '-')
+        avg_performance=$(bc <<< `jq -r '.[].summary.performance' <<< $JSON | awk "${awk_calc_avg}"`*100 || echo '-')
         avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | awk "${awk_calc_avg}*100" | bc || echo '-')
         avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | awk "${awk_calc_avg}*100" | bc || echo '-')
         avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk "${awk_calc_avg}*100" | bc || echo '-')
