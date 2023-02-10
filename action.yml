@@ -97,7 +97,7 @@ runs:
         for metric_name in $list_metrics_name; do
           _log $metric_name
           avg=$(jq -r ".audits.metrics.details.items[].${metric_name} | select (.!=null)" <<< $(cat $list_json_path) | awk "$awk_calc_avg")
-          _log $avg
+          _log "   ├⎯⎯${metric_name}: $avg"
         done
         
         
