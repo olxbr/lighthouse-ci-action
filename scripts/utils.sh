@@ -25,11 +25,11 @@ function _summaryColor() {
     
     percent=$(bc <<< $1*100)
     
-    [[ $(bc $percent>=90) == 1 ]] &&
+    [[ $(bc <<< $percent>=90) == 1 ]] &&
         printf "${C_GRE}${percent}%%${C_END}" &&
         return
         
-    [[ $(bc $percent<=89) == 1 && $(bc $percent>=50) == 1 ]] &&
+    [[ $(bc <<< $percent<=89) == 1 && $(bc <<< $percent>=50) == 1 ]] &&
         printf "${C_YEL}${percent}%%${C_END}" &&
         return
         
