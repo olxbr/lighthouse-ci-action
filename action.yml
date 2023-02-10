@@ -89,14 +89,17 @@ runs:
 
         ## Metrics (AVG)
         list_json_path=$(jq -r '.[].jsonPath' <<< $JSON)
-        list_metrics_name='firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift'
-
-        _log "Get info from files ${list_json_path}..."
-          
+        list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
+         
         _log "🅜 Metrics"
-        for metric_name in $list_metrics_name; do
+        for metric_name in ${list_metrics_name[@]}; do
+          let idx+=1
           avg=$(jq -r ".audits.metrics.details.items[].${metric_name} | select (.!=null)" <<< $(cat $list_json_path) | awk "$awk_calc_avg")
-          _log "   ├⎯⎯${metric_name}: $avg"
+
+          [[ $idx -lt ${#list_metrics_name[@]} ]] &&
+            _log "   ├⎯⎯${metric_name}: $avg"
+            _log "   └⎯⎯${metric_name}: $avg"
+          
         done
         
         
