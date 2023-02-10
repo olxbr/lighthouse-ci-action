@@ -24,7 +24,7 @@ function _summaryColor() {
     ! [[ $1 =~ ^[0-9] ]] && printf "${C_RED}${1}${C_END}" && return ## not a number
     
     percent=$(bc <<< $1*100)
-    [[ $percent -ge 90 ]]                   && printf "${C_GRE}${percent}%%${C_END}" && return
-    [[ $percent -le 89 && $percent-ge 50 ]] && printf "${C_YEL}${percent}%%${C_END}" && return
+    [[ $percent -ge 90 ]]                    && printf "${C_GRE}${percent}%%${C_END}" && return
+    [[ $percent -le 89 && $percent -ge 50 ]] && printf "${C_YEL}${percent}%%${C_END}" && return
     printf "${C_RED}${percent}%%${C_END}"
 }
