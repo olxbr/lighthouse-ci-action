@@ -94,7 +94,8 @@ runs:
         _log "🅜 Metrics"
         
         ## Get unit time
-        [[ "$(jq -r '.audits.metrics.numericUnit')" =~ milli ]] && 
+        unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $JSON)"
+        [[ "$unit_time" =~ milli ]] && 
           metric_unit="ms" ||
           metric_unit="s"
         
