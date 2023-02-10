@@ -64,7 +64,7 @@ runs:
         RUNS: ${{ inputs.runs }}
         LINKS: ${{ steps.treosh-lhci-action.outputs.links }}
       run: |
-        ## Get outputs
+        ## Print outputs
         cd ${{github.action_path}}
         bash scripts/print_lighthouse_outputs.sh
 

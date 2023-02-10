@@ -34,7 +34,7 @@ function _check_for_comments () {
             --header "Authorization: token ${GH_TOKEN}" \
             --silent -o /dev/null || _log warn "Got an error during deletion of ${LAST_COMMENT_ID}! This may be a Token issue!"
     else
-        _log info "There is no comments of this action in the PR!"
+        _log info "There is no old comments of this action in the PR!"
     fi
 }
 
