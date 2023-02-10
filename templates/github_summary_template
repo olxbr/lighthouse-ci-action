@@ -1,8 +1,11 @@
-# Lighthouse Summary
+# Lighthouse results
 
-🅢 Summary
-   ├⎯⎯Performance: ${avg_performance}
-   ├⎯⎯Accessibility: ${avg_accessibility}
-   ├⎯⎯Best practices: ${avg_best_practices}
-   ├⎯⎯SEO: ${avg_seo}
-   └⎯⎯PWA: ${avg_pwa}
+🅢 Sumary 
+
+| Category            | Score                 |
+|---------------------|-----------------------|
+| Performance         | ${avg_performance}    |
+| Acessibility        | ${avg_accessibility}  |
+| Best Practices      | ${avg_best_practices} |
+| SEO                 | ${avg_seo}            |
+| Progressive Web App | ${avg_pwa}            |
