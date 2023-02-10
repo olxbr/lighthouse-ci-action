@@ -67,7 +67,7 @@ runs:
         ## Load common functions
         source ${{github.action_path}}/scripts/utils.sh
         
-        cmd_calc_avg="awk '{ sum+=$1; qtd+=1 } END {print (sum/qtd)}'"
+        cmd_calc_avg='awk "{ sum+=$1; qtd+=1 } END {print (sum/qtd)}"'
 
         _log "#########################"
         _log "### Average of ${C_WHT}${{ inputs.runs }}${C_END} runs ###"
