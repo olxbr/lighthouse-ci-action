@@ -33,7 +33,7 @@ function _summary_color() {
         return
 
     [[ $1 -le 89 && $1 -ge 50 ]] &&
-        printf "${E_YEL} ${C_YEL}$1f%%${C_END}" &&
+        printf "${E_YEL} ${C_YEL}$1%%${C_END}" &&
         return
 
     [[ $1 -eq 100 ]] &&
