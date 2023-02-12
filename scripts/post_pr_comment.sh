@@ -27,6 +27,9 @@ export LIGHTHOUSE_TI=${avg_time_to_interactive:='-'}
 
 TEMPLATE="templates/pr_comment_template"
 
+echo DEBUG:
+envsubst < $TEMPLATE
+
 function _check_for_comments () {
     _log info "Checking for past comments"
     HEADER=$(cat ${TEMPLATE} | head -n1)
