@@ -8,7 +8,7 @@ JSON=${JSON}
 RUNS=${RUNS}
 
 calc_avg='{ sum+=$1; qtd+=1 } END { print (sum/qtd)$multiplier }'
-awk_calc_avg=$(multiplier=1 envsubst <<< $calc_avg)
+awk_calc_avg=$(multiplier=*1 envsubst <<< $calc_avg)
 awk_calc_avg_in_percentage=$(multiplier=*100 envsubst <<< $calc_avg)
 
 echo ${awk_calc_avg_in_percentage}
