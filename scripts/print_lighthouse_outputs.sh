@@ -62,10 +62,10 @@ done
 lighthouse_link=$(jq -r '.[]' <<< ${LINKS})
 echo "lighthouse_link='$(_summary_color $lighthouse_link)'" >> ${GITHUB_ENV}
 echo "avg_performance='$(_summary_color $avg_performance)'" >> ${GITHUB_ENV}
-echo "avg_accessibility='$(_summary_color avg_accessibility)'" >> ${GITHUB_ENV}
-echo "avg_best_practices='$(_summary_color avg_best_practices)'" >> ${GITHUB_ENV}
-echo "avg_seo='$(_summary_color avg_seo)'" >> ${GITHUB_ENV}
-echo "avg_pwa='$(_summary_color avg_pwa)'" >> ${GITHUB_ENV}
+echo "avg_accessibility='$(_summary_color $avg_accessibility)'" >> ${GITHUB_ENV}
+echo "avg_best_practices='$(_summary_color $avg_best_practices)'" >> ${GITHUB_ENV}
+echo "avg_seo='$(_summary_color $avg_seo)'" >> ${GITHUB_ENV}
+echo "avg_pwa='$(_summary_color $avg_pwa)'" >> ${GITHUB_ENV}
 
 echo "DEBUG: $(cat ${GITHUB_ENV})"
 
