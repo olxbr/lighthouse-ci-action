@@ -28,8 +28,6 @@ function _log() {
 function _summary_color() {
     ! [[ $1 =~ ^[0-9] ]] && printf "${C_RED}${1}${C_END}" && return ## not a number
 
-    percent=$(bc <<< $1*100)
-
     [[ $(bc <<< "$percent>=90") == 1 && $(bc <<< "$percent<=99") == 1 ]] &&
         printf "${E_GRE} ${C_GRE}%.1f%%${C_END}" $percent &&
         return
@@ -47,8 +45,6 @@ function _summary_color() {
 
 function _summary_emoji() {
     ! [[ $1 =~ ^[0-9] ]] && printf "" && return ## not a number
-
-    percent=$(bc <<< $1*100)
 
     [[ $(bc <<< "$percent>=90") == 1 && $(bc <<< "$percent<=99") == 1 ]] &&
         printf "${E_GRE}" $percent &&
