@@ -66,8 +66,5 @@ function _summary_emoji() {
 }
 
 function _camel_to_snake_case () {
-
-    echo $1 | sed 's/\([^A-Z]\)\([A-Z0-9]\)/\1_\2/g' \
-        | sed 's/\([A-Z0-9]\)\([A-Z0-9]\)\([^A-Z]\)/\1_\2\3/g' \
-        | tr '[:upper:]' '[:lower:]'
+    echo $1 | sed -E 's,([A-Z]),_\1,g' | tr '[:upper:]' '[:lower:]'
 }
