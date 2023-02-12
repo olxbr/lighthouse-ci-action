@@ -28,15 +28,15 @@ function _log() {
 function _summary_color() {
     ! [[ $1 =~ ^[0-9] ]] && printf "${C_RED}${1}${C_END}" && return ## not a number
 
-    [[ $1 >= 90 && $1 <= 99 ]] &&
+    [[ $1 -ge 90 && $1 -le 99 ]] &&
         printf "${E_GRE} ${C_GRE}$1%%${C_END}" &&
         return
 
-    [[ $1 <= 89 && $1 >= 50 ]] &&
+    [[ $1 -le 89 && $1 -ge 50 ]] &&
         printf "${E_YEL} ${C_YEL}$1f%%${C_END}" &&
         return
 
-    [[ $1 == 100 ]] &&
+    [[ $1 -eq 100 ]] &&
         printf "${E_TRO} ${C_GRE}$1%%${C_END}" &&
         return
 
