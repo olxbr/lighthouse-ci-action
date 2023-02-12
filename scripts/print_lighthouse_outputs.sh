@@ -74,7 +74,8 @@ echo "DEBUG: $(cat ${GITHUB_ENV})"
 TEMPLATE="templates/github_summary_template"
 echo "DEBUG2: $(cat ${GITHUB_ENV})"
 echo "====="
-env
+env | tr -d '[[:cntrl:]]'
+
 envsubst < $TEMPLATE
 SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
 SUMMARY="${SUMMARY@Q}"
