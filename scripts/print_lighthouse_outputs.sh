@@ -14,15 +14,15 @@ _log "### Average of ${C_WHT}${RUNS}${C_END} runs ###"
 _log "#########################"
 
 ## Summary (AVG)
-export avg_performance=$(bc <<< `jq -r '.[].summary.performance'         <<< $JSON | awk "${awk_calc_avg}"`*100 || echo '-')
+export avg_performance=$(bc <<< '`jq -r '.[].summary.performance'         <<< $JSON | awk "${awk_calc_avg}"`*100' || echo '-')
 export emoji_performance=$(_summary_emoji ${avg_performance})
-export avg_accessibility=$(bc <<< `jq -r '.[].summary.accessibility'     <<< $JSON | awk "${awk_calc_avg}"`*100 || echo '-')
+export avg_accessibility=$(bc <<< '`jq -r '.[].summary.accessibility'     <<< $JSON | awk "${awk_calc_avg}"`*100' || echo '-')
 export emoji_accessibility=$(_summary_emoji ${avg_accessibility})
-export avg_best_practices=$(bc <<< `jq -r '.[].summary."best-practices"' <<< $JSON | awk "${awk_calc_avg}"`*100 || echo '-')
+export avg_best_practices=$(bc <<< '`jq -r '.[].summary."best-practices"' <<< $JSON | awk "${awk_calc_avg}"`*100' || echo '-')
 export emoji_best_practices=$(_summary_emoji ${avg_best_practices})
-export avg_seo=$(bc <<< `jq -r '.[].summary.seo'                         <<< $JSON | awk "${awk_calc_avg}"`*100 || echo '-')
+export avg_seo=$(bc <<< '`jq -r '.[].summary.seo'                         <<< $JSON | awk "${awk_calc_avg}"`*100' || echo '-')
 export emoji_seo=$(_summary_emoji ${avg_seo})
-export avg_pwa=$(bc <<< `jq -r '.[].summary.pwa'                         <<< $JSON | awk "${awk_calc_avg}"`*100 || echo '-')
+export avg_pwa=$(bc <<< '`jq -r '.[].summary.pwa'                         <<< $JSON | awk "${awk_calc_avg}"`*100' || echo '-')
 export emoji_pwa=$(_summary_emoji ${avg_pwa})
 
 _log "🅢 Summary"
