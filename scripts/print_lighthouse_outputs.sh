@@ -7,7 +7,7 @@ source scripts/utils.sh
 JSON=${JSON}
 RUNS=${RUNS}
 
-awk_calc_avg="{ sum+=\$1; qtd+=1 } END {print (sum/qtd)*$multiplier}"
+awk_calc_avg="awk { sum+=\$1; qtd+=1 } END {print (sum/qtd)*$multiplier}"
 
 _log "#########################"
 _log "### Average of ${C_WHT}${RUNS}${C_END} runs ###"
@@ -15,7 +15,7 @@ _log "#########################"
 
 ## Summary (AVG)
 multiplier=100
-export avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk "${awk_calc_avg}" || echo '-')
+export avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | eval $awk_calc_avg || echo '-')
 export emoji_performance=$(_summary_emoji ${avg_performance})
 export avg_accessibility=$(bc <<< "$(jq -r '.[].summary.accessibility'     <<< $JSON | awk "${awk_calc_avg}")*100" || echo '-')
 export emoji_accessibility=$(_summary_emoji ${avg_accessibility})
