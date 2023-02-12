@@ -52,7 +52,7 @@ for metric_name in ${list_metrics_name[@]}; do
     _log "   ├⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}${C_END}" ||
     _log "   └⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}${C_END}"
     
-    snake_metric_name=$(_camel_to_snake_case ${metric_name}})
+    snake_metric_name=$(_camel_to_snake_case ${metric_name})
     ## Exporting for Comment
     echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
 done
