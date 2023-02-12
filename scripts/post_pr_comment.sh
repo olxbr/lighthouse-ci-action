@@ -15,6 +15,7 @@ export SEO_EMOJI=$(_summary_emoji ${LIGHTHOUSE_SEO})
 export PWA_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PWA})
 
 # Metrics
+export U_TIME=${unit_time:='-'}
 export LIGHTHOUSE_PWA=${avg_pwa:='-'}
 export LIGHTHOUSE_FCP=${avg_first_contentful_paint:='-'}
 export LIGHTHOUSE_SI=${avg_speed_index:='-'}
