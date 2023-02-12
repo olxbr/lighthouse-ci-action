@@ -9,8 +9,8 @@ For full web report see [this page](${LIGHTHOUSE_URL_REPORT}).
 | Performance         | ${PERFORMANCE_EMOJI} ${LIGHTHOUSE_PERFORMANCE}   |
 | Acessibility        | ${ACESSIBILITY_EMOJI} ${LIGHTHOUSE_ACESSIBILITY} |
 | Best Practices      | ${BP_EMOJI} ${LIGHTHOUSE_BP}                     |
-| SEO                 | ${SEO_EMOJI} {LIGHTHOUSE_SEO}                    |
-| Progressive Web App | ${PWA_EMOJI} {LIGHTHOUSE_PWA}                    |
+| SEO                 | ${SEO_EMOJI} ${LIGHTHOUSE_SEO}                   |
+| Progressive Web App | ${PWA_EMOJI} ${LIGHTHOUSE_PWA}                   |
 
 ## Metrics
 
