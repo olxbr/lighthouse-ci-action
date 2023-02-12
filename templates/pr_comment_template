@@ -14,7 +14,7 @@ For full web report see [this page](${LIGHTHOUSE_URL_REPORT}).
 
 ## Metrics
 
-| Metric name              | Timing (seconds)  |
+| Metric name              | Timing ({$U_TIME})|
 |--------------------------|-------------------|
 | First Contentful Paint   | ${LIGHTHOUSE_FCP} |
 | Speed Index              | ${LIGHTHOUSE_SI}  |
