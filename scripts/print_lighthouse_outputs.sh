@@ -67,7 +67,7 @@ echo "avg_best_practices='$(_summary_color avg_best_practices)'" >> ${GITHUB_ENV
 echo "avg_seo='$(_summary_color avg_seo)'" >> ${GITHUB_ENV}
 echo "avg_pwa='$(_summary_color avg_pwa)'" >> ${GITHUB_ENV}
 
-echo "DEBUG: ${GITHUB_ENV}"
+echo "DEBUG: $(cat ${GITHUB_ENV})"
 
 ## Print summary to action
 
