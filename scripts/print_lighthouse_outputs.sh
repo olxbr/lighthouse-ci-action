@@ -44,7 +44,7 @@ unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
     metric_unit="ms" ||
     metric_unit="s"
 
-echo "unit_time=$unit_time" >> ${GITHUB_ENV}
+echo "unit_time=${metric_unit}" >> ${GITHUB_ENV}
 
 for metric_name in ${list_metrics_name[@]}; do
     let idx+=1
