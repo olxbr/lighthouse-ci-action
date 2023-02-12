@@ -28,19 +28,19 @@ function _log() {
 function _summary_color() {
     ! [[ $1 =~ ^[0-9] ]] && printf "${C_RED}${1}${C_END}" && return ## not a number
 
-    [[ $(bc <<< "$1>=90") == 1 && $(bc <<< "$1<=99") == 1 ]] &&
-        printf "${E_GRE} ${C_GRE}%.1f%%${C_END}" $1 &&
+    [[ $1 >= 90 && $1 <= 99 ]] &&
+        printf "${E_GRE} ${C_GRE}$1%%${C_END}" &&
         return
 
-    [[ $(bc <<< "$1<=89") == 1 && $(bc <<< "$1>=50") == 1 ]] &&
-        printf "${E_YEL} ${C_YEL}%.1f%%${C_END}" $1 &&
+    [[ $1 <= 89 && $1 >= 50 ]] &&
+        printf "${E_YEL} ${C_YEL}$1f%%${C_END}" &&
         return
 
-    [[ $(bc <<< "$1==100") == 1 ]] &&
-        printf "${E_TRO} ${C_GRE}%.1f%%${C_END}" $1 &&
+    [[ $1 == 100 ]] &&
+        printf "${E_TRO} ${C_GRE}$1%%${C_END}" &&
         return
 
-    printf "${E_RED} ${C_RED}%.1f%%${C_END}" $1
+    printf "${E_RED} ${C_RED}$1%%${C_END}"
 }
 
 function _summary_emoji() {
