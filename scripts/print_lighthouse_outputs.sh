@@ -7,7 +7,7 @@ source scripts/utils.sh
 JSON=${JSON}
 RUNS=${RUNS}
 
-awk_calc_avg="awk { sum+=\$1; qtd+=1 } END {print (sum/qtd)*$multiplier}"
+awk_calc_avg="awk '{ sum+=\$1; qtd+=1 } END {print (sum/qtd)*$multiplier}'"
 
 _log "#########################"
 _log "### Average of ${C_WHT}${RUNS}${C_END} runs ###"
