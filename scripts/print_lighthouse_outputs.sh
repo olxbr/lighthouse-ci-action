@@ -44,6 +44,8 @@ unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
     metric_unit="ms" ||
     metric_unit="s"
 
+echo "unit_time=$unit_time" >> ${GITHUB_ENV}
+
 for metric_name in ${list_metrics_name[@]}; do
     let idx+=1
     avg=$(jq -r ".audits.metrics.details.items[].${metric_name} | select (.!=null)" <<< $(cat ${list_json_path}) | awk "${awk_calc_avg}")
