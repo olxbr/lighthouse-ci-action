@@ -127,12 +127,12 @@ Github token for commenting results in Pull Request. It's possible to use the to
 gh_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-#### `comment_on_pr`
+#### `comment_on_pr` (default: true)
 
 Boolean to define if will comment on PR or not.
 
 ```yml
-comment_on_pr: false # default true
+comment_on_pr: false
 ```
 
 #### `serverBaseUrl`
