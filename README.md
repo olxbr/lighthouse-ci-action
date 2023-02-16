@@ -1,4 +1,6 @@
 # lighthouse-ci-action
+[![](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
 This composite action uses the [treosh/lighthouse-ci-action](https://github.com/treosh/lighthouse-ci-action) to collect **Core Web Vitals metrics** from frontend projects and then posts a comment on the corresponding Pull Request that ran the workflow, reporting these metrics.
 
 ## Features
