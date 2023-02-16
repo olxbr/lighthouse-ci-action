@@ -34,7 +34,8 @@ Before using this action, please ensure the following:
             http://localhost/
           runs: 3
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
-          configPath: ./.lighthouserc.yml # 
+          configPath: ./.lighthouserc.yml
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## Recommendations
@@ -123,7 +124,7 @@ artifactName: lighthouse-results
 Github token for commenting results in Pull Request. It's possible to use the token `secrets.GITHUB_TOKEN` available in the secrets of workflow, or [generate a Personal Access Token (PAT)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ```yml
-github_token: ${{ secrets.GITHUB_TOKEN }}
+gh_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 #### `comment_on_pr`
