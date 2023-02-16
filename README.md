@@ -110,6 +110,30 @@ configPath: ./lighthouserc.json
 
 If some configurations aren't set using action parameters, the settings are fetched from the config file provided here.
 
+#### `artifactName`
+
+Name of the artifact group if using uploadArtifacts. default: lighthouse-results.
+
+```yml
+artifactName: lighthouse-results
+```
+
+#### `gh_token`
+
+Github token for commenting results in Pull Request. It's possible to use the token `secrets.GITHUB_TOKEN` available in the secrets of workflow, or [generate a Personal Access Token (PAT)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+
+```yml
+github_token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+#### `comment_on_pr`
+
+Boolean to define if will comment on PR or not.
+
+```yml
+comment_on_pr: false # default true
+```
+
 #### `serverBaseUrl`
 
 Upload Lighthouse results to a private [LHCI server](https://github.com/GoogleChrome/lighthouse-ci) by specifying both `serverBaseUrl` and `serverToken`.
