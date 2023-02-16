@@ -4,15 +4,17 @@
 This composite action uses the [treosh/lighthouse-ci-action](https://github.com/treosh/lighthouse-ci-action) to collect **Core Web Vitals metrics** from frontend projects and then posts a comment on the corresponding Pull Request that ran the workflow, reporting these metrics.
 
 ## Features
-- All the features by [treosh/lighthouse-ci-action](https://github.com/treosh/lighthouse-ci-action)
-- Print beautiful results in workflow summary
-- Comment results in Pull Request
+- ✨ All the features by [treosh/lighthouse-ci-action](https://github.com/treosh/lighthouse-ci-action)
+- 🌈 Print beautiful results in workflow summary
+- 🏆 Comment results in Pull Request
 
 
-**Workflow Summary**
+#### Workflow Summary
+
 ![workflow-summary](https://user-images.githubusercontent.com/4138825/218758369-6e655782-75d9-42de-ae3a-e0724c4ba16b.png)
 
-**Pull Request Comment**
+#### Pull Request Comment
+
 ![pull-request-comment](https://user-images.githubusercontent.com/4138825/218758644-96ada0aa-bb2b-4392-acab-9ed875560d4e.png)
 
 ## Prerequisites
