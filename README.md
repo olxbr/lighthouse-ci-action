@@ -21,7 +21,7 @@ This composite action uses the [treosh/lighthouse-ci-action](https://github.com/
 Before using this action, please ensure the following:
 
 - Your frontend project is set up and running, with an accessible URL that you can use to run Lighthouse-CI.
-- If you want to use a self-hosted runner, you need to [set up Chrome browser](https://github.com/browser-actions/setup-chrome) and set `--headless --disable-storage-reset --disable-dev-shm-usage` parameters.
+- If you want to use a self-hosted runner (using dind), you need to [set up Chrome browser](https://github.com/browser-actions/setup-chrome) and set `--headless --disable-storage-reset --disable-dev-shm-usage` parameters.
 
 ## Usage
 
