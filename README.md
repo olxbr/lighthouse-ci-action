@@ -162,9 +162,9 @@ basicAuthPassword: ${{ secrets.LHCI_SERVER_BASIC_AUTH_PASSWORD }}
 
 Use outputs to compose results of the LHCI Action with other Github Actions, like webhooks, notifications, or custom assertions.
 
-### `agregatedSumary`
+### `aggregatedSumary`
 
-A JSON string with the agregated result of all runs for summary report:
+A JSON string with the aggregated result of all runs for summary report:
 
 ```json
 {
@@ -176,9 +176,9 @@ A JSON string with the agregated result of all runs for summary report:
 }
 ```
 
-### `agregatedMetrics`
+### `aggregatedMetrics`
 
-A JSON string with the agregated result of all runs for metrics report:
+A JSON string with the aggregated result of all runs for metrics report:
 
 ```json
 {

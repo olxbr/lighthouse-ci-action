@@ -17,7 +17,7 @@ _log "#########################"
 
 ## Summary (AVG)
 list_summary_name=(performance accessibility "best-practices" seo pwa)
-agregatedSumary=$(echo "{}")
+aggregatedSumary=$(echo "{}")
 re='^[0-9]+$'
 
 _log "🅢 Summary"
@@ -35,8 +35,8 @@ for metric_name in ${list_summary_name[@]}; do
 
     ## Agregate metric to output
     [[ ${avg} =~ ${re} ]] && 
-    agregatedSumary=$(jq ". += { \"${metric_name}\": ${avg} }" <<< "${agregatedSumary}") ||
-    agregatedSumary=$(jq ". += { \"${metric_name}\": \"${avg}\" }" <<< "${agregatedSumary}")
+    aggregatedSumary=$(jq ". += { \"${metric_name}\": ${avg} }" <<< "${aggregatedSumary}") ||
+    aggregatedSumary=$(jq ". += { \"${metric_name}\": \"${avg}\" }" <<< "${aggregatedSumary}")
 
     [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
     _log "   ├⎯⎯$(_snake_case_to_hr ${snake_metric_name}): $(_summary_color ${avg})" ||
@@ -46,7 +46,7 @@ done
 ## Metrics (AVG)
 list_json_path=$(jq -r '.[].jsonPath' <<< ${JSON})
 list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
-agregatedMetrics=$(echo "{}")
+aggregatedMetrics=$(echo "{}")
     
 _log "🅜 Metrics"
 
@@ -71,7 +71,7 @@ for metric_name in ${list_metrics_name[@]}; do
     _log "   └⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}${C_END}"
     
     ## Agregate metric to output
-    agregatedMetrics=$(jq ". += { ${metric_name}: ${avg} }" <<< "${agregatedMetrics}")
+    aggregatedMetrics=$(jq ". += { ${metric_name}: ${avg} }" <<< "${aggregatedMetrics}")
 
     ## Exporting to pr comment and summary
     snake_metric_name=$(_camel_to_snake_case ${metric_name})
@@ -91,10 +91,10 @@ echo "avg_pwa=$avg_pwa" >> ${GITHUB_ENV}
 
 ## Export json output
 _log info "Generating output of this action"
-_log info "agregatedSumary='${agregatedSumary}'"
-_log info "agregatedMetrics='${agregatedMetrics}'"
-echo "agregatedSumary='$(jq -c <<< ${agregatedSumary})'" >> "$GITHUB_OUTPUT"
-echo "agregatedMetrics='$(jq -c <<< ${agregatedMetrics})'" >> "$GITHUB_OUTPUT"
+_log info "aggregatedSumary='${aggregatedSumary}'"
+_log info "aggregatedMetrics='${aggregatedMetrics}'"
+echo "aggregatedSumary='$(jq -c <<< ${aggregatedSumary})'" >> "$GITHUB_OUTPUT"
+echo "aggregatedMetrics='$(jq -c <<< ${aggregatedMetrics})'" >> "$GITHUB_OUTPUT"
 
 
 ## Print summary to action
