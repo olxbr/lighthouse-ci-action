@@ -16,7 +16,7 @@ _log "### Average of ${C_WHT}${RUNS}${C_END} runs ###"
 _log "#########################"
 
 ## Summary (AVG)
-list_summary_name=(performance accessibility best-practices seo pwa)
+list_summary_name=(performance accessibility "best-practices" seo pwa)
 agregatedSumary=$(echo "{}")
 
 _log "🅢 Summary"
@@ -32,11 +32,13 @@ for metric_name in ${list_summary_name[@]}; do
     emoji=$(_summary_emoji ${avg})
 
     ## Agregate metric to output
-    agregatedSumary=$(jq ". += { ${metric_name}: ${avg} }" <<< "${agregatedSumary}")
+    [[ ${avg} -eq '-' ]] && 
+    agregatedSumary=$(jq ". += { \"${metric_name}\": \"${avg}\" }" <<< "${agregatedSumary}") ||
+    agregatedSumary=$(jq ". += { \"${metric_name}\": ${avg} }" <<< "${agregatedSumary}")
 
     [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
-    _log "   ├⎯⎯$(_snake_case_to_hr ${metric_name}): ${emoji} $(_summary_color ${avg})" ||
-    _log "   └⎯⎯$(_snake_case_to_hr ${metric_name}): ${emoji} $(_summary_color ${avg})"
+    _log "   ├⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})" ||
+    _log "   └⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})"
 done
 
 ## Metrics (AVG)
@@ -54,6 +56,7 @@ unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
 echo "unit_time=${metric_unit}" >> ${GITHUB_ENV}
 
 
+let idx=0
 for metric_name in ${list_metrics_name[@]}; do
     let idx+=1
 
