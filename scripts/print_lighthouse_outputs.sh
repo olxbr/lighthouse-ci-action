@@ -18,6 +18,7 @@ _log "#########################"
 ## Summary (AVG)
 list_summary_name=(performance accessibility "best-practices" seo pwa)
 agregatedSumary=$(echo "{}")
+re='^[0-9]+$'
 
 _log "🅢 Summary"
 
@@ -29,16 +30,17 @@ for metric_name in ${list_summary_name[@]}; do
 
     snake_metric_name=$(_camel_to_snake_case ${metric_name})
     echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
-    emoji=$(_summary_emoji ${avg})
+    export "avg_${snake_metric_name}=${avg}"
+    export "emoji_${snake_metric_name}=$(_summary_emoji ${avg})"
 
     ## Agregate metric to output
-    [[ ${avg} =~ '^[0-9]+$' ]] && 
+    [[ ${avg} =~ ${re} ]] && 
     agregatedSumary=$(jq ". += { \"${metric_name}\": ${avg} }" <<< "${agregatedSumary}") ||
     agregatedSumary=$(jq ". += { \"${metric_name}\": \"${avg}\" }" <<< "${agregatedSumary}")
 
     [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
-    _log "   ├⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})" ||
-    _log "   └⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})"
+    _log "   ├⎯⎯$(_snake_case_to_hr ${snake_metric_name}): $(_summary_color ${avg})" ||
+    _log "   └⎯⎯$(_snake_case_to_hr ${snake_metric_name}): $(_summary_color ${avg})"
 done
 
 ## Metrics (AVG)
@@ -88,9 +90,11 @@ echo "avg_pwa=$avg_pwa" >> ${GITHUB_ENV}
 
 
 ## Export json output
-
-echo 'agregatedSumary="'"${agregatedSumary}"'"' >> "$GITHUB_OUTPUT"
-echo 'agregatedMetrics="'"${agregatedMetrics}"'"' >> "$GITHUB_OUTPUT"
+_log info "Generating output of this action"
+_log info "agregatedSumary='${agregatedSumary}'"
+_log info "agregatedMetrics='${agregatedMetrics}'"
+echo "agregatedSumary='$(jq -c <<< ${agregatedSumary})'" >> "$GITHUB_OUTPUT"
+echo "agregatedMetrics='$(jq -c <<< ${agregatedMetrics})'" >> "$GITHUB_OUTPUT"
 
 
 ## Print summary to action
