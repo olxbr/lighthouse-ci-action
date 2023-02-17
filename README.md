@@ -162,6 +162,35 @@ basicAuthPassword: ${{ secrets.LHCI_SERVER_BASIC_AUTH_PASSWORD }}
 
 Use outputs to compose results of the LHCI Action with other Github Actions, like webhooks, notifications, or custom assertions.
 
+### `agregatedSumary`
+
+A JSON string with the agregated result of all runs for summary report:
+
+```json
+{
+    "performance": 100,
+    "accessibility": 71,
+    "best-practices": 92,
+    "seo": 60,
+    "pwa": 0
+}
+```
+
+### `agregatedMetrics`
+
+A JSON string with the agregated result of all runs for metrics report:
+
+```json
+{
+    "firstContentfulPaint": 193,
+    "largestContentfulPaint": 193,
+    "interactive": 193,
+    "speedIndex": 193,
+    "totalBlockingTime": 0,
+    "totalCumulativeLayoutShift": 0
+}
+```
+
 ### `resultsPath`
 
 A path to `.lighthouseci` results folder:
