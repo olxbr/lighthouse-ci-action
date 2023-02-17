@@ -16,27 +16,33 @@ _log "### Average of ${C_WHT}${RUNS}${C_END} runs ###"
 _log "#########################"
 
 ## Summary (AVG)
-export avg_performance=$(jq -r '.[].summary.performance'         <<< $JSON | awk "$awk_calc_avg_in_percentage" || echo '-')
-export emoji_performance=$(_summary_emoji ${avg_performance})
-export avg_accessibility=$(jq -r '.[].summary.accessibility'     <<< $JSON | awk "$awk_calc_avg_in_percentage" || echo '-')
-export emoji_accessibility=$(_summary_emoji ${avg_accessibility})
-export avg_best_practices=$(jq -r '.[].summary."best-practices"' <<< $JSON | awk "$awk_calc_avg_in_percentage" || echo '-')
-export emoji_best_practices=$(_summary_emoji ${avg_best_practices})
-export avg_seo=$(jq -r '.[].summary.seo'                         <<< $JSON | awk "$awk_calc_avg_in_percentage" || echo '-')
-export emoji_seo=$(_summary_emoji ${avg_seo})
-export avg_pwa=$(jq -r '.[].summary.pwa'                         <<< $JSON | awk "$awk_calc_avg_in_percentage" || echo '-')
-export emoji_pwa=$(_summary_emoji ${avg_pwa})
+list_summary_name=(performance accessibility best-practices seo pwa)
+agregatedSumary=$(echo "{}")
 
 _log "🅢 Summary"
-_log "   ├⎯⎯Performance: $(_summary_color ${avg_performance})"
-_log "   ├⎯⎯Accessibility: $(_summary_color ${avg_accessibility})"
-_log "   ├⎯⎯Best practices: $(_summary_color ${avg_best_practices})"
-_log "   ├⎯⎯SEO: $(_summary_color ${avg_seo})"
-_log "   └⎯⎯PWA: $(_summary_color ${avg_pwa})"
+
+for metric_name in ${list_summary_name[@]}; do
+    let idx+=1
+
+    ## Acquire metric
+    avg=$(jq -r ".[].summary.${metric_name}" <<< $JSON | awk "$awk_calc_avg_in_percentage" || echo '-')
+
+    snake_metric_name=$(_camel_to_snake_case ${metric_name})
+    echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
+    emoji=$(_summary_emoji ${avg})
+
+    ## Agregate metric to output
+    agregatedSumary=$(jq ". += { ${metric_name}: ${avg} }" <<< "${agregatedSumary}")
+
+    [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
+    _log "   ├⎯⎯$(_snake_case_to_hr ${metric_name}): ${emoji} $(_summary_color ${avg})" ||
+    _log "   └⎯⎯$(_snake_case_to_hr ${metric_name}): ${emoji} $(_summary_color ${avg})"
+done
 
 ## Metrics (AVG)
 list_json_path=$(jq -r '.[].jsonPath' <<< ${JSON})
 list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
+agregatedMetrics=$(echo "{}")
     
 _log "🅜 Metrics"
 
@@ -45,19 +51,25 @@ unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
 [[ "${unit_time}" =~ milli ]] && 
     metric_unit="ms" ||
     metric_unit="s"
-
 echo "unit_time=${metric_unit}" >> ${GITHUB_ENV}
+
 
 for metric_name in ${list_metrics_name[@]}; do
     let idx+=1
+
+    ## Acquire metric
     avg=$(jq -r ".audits.metrics.details.items[].${metric_name} | select (.!=null)" <<< $(cat ${list_json_path}) | awk "${awk_calc_avg}")
 
+    ## Print output
     [[ ${idx} -lt ${#list_metrics_name[@]} ]] &&
     _log "   ├⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}${C_END}" ||
     _log "   └⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}${C_END}"
     
+    ## Agregate metric to output
+    agregatedMetrics=$(jq ". += { ${metric_name}: ${avg} }" <<< "${agregatedMetrics}")
+
+    ## Exporting to pr comment and summary
     snake_metric_name=$(_camel_to_snake_case ${metric_name})
-    ## Exporting for Comment
     echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
 done
 
@@ -70,6 +82,12 @@ echo "avg_accessibility=$avg_accessibility" >> ${GITHUB_ENV}
 echo "avg_best_practices=$avg_best_practices" >> ${GITHUB_ENV}
 echo "avg_seo=$avg_seo" >> ${GITHUB_ENV}
 echo "avg_pwa=$avg_pwa" >> ${GITHUB_ENV}
+
+
+## Export json output
+
+echo "agregatedSumary=${agregatedSumary}" >> "$GITHUB_OUTPUT"
+echo "agregatedMetrics=${agregatedMetrics}" >> "$GITHUB_OUTPUT"
 
 
 ## Print summary to action
