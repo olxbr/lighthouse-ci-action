@@ -25,16 +25,16 @@ for metric_name in ${list_summary_name[@]}; do
     let idx+=1
 
     ## Acquire metric
-    avg=$(jq -r ".[].summary.${metric_name}" <<< $JSON | awk "$awk_calc_avg_in_percentage" || echo '-')
+    avg=$(jq -r ".[].summary.\"${metric_name}\"" <<< $JSON | awk "$awk_calc_avg_in_percentage" || echo '-')
 
     snake_metric_name=$(_camel_to_snake_case ${metric_name})
     echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
     emoji=$(_summary_emoji ${avg})
 
     ## Agregate metric to output
-    [[ ${avg} -eq '-' ]] && 
-    agregatedSumary=$(jq ". += { \"${metric_name}\": \"${avg}\" }" <<< "${agregatedSumary}") ||
-    agregatedSumary=$(jq ". += { \"${metric_name}\": ${avg} }" <<< "${agregatedSumary}")
+    [[ ${avg} =~ '^[0-9]+$' ]] && 
+    agregatedSumary=$(jq ". += { \"${metric_name}\": ${avg} }" <<< "${agregatedSumary}") ||
+    agregatedSumary=$(jq ". += { \"${metric_name}\": \"${avg}\" }" <<< "${agregatedSumary}")
 
     [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
     _log "   ├⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})" ||
