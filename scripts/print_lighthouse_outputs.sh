@@ -89,8 +89,8 @@ echo "avg_pwa=$avg_pwa" >> ${GITHUB_ENV}
 
 ## Export json output
 
-echo "agregatedSumary=${agregatedSumary}" >> "$GITHUB_OUTPUT"
-echo "agregatedMetrics=${agregatedMetrics}" >> "$GITHUB_OUTPUT"
+echo 'agregatedSumary="'"${agregatedSumary}"'"' >> "$GITHUB_OUTPUT"
+echo 'agregatedMetrics="'"${agregatedMetrics}"'"' >> "$GITHUB_OUTPUT"
 
 
 ## Print summary to action
