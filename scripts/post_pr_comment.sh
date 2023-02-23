@@ -22,7 +22,7 @@ export LIGHTHOUSE_SI=${avg_speed_index:='-'}
 export LIGHTHOUSE_LCP=${avg_largest_contentful_paint:='-'}
 export LIGHTHOUSE_TBT=${avg_total_blocking_time:='-'}
 export LIGHTHOUSE_CLS=${avg_total_cumulative_layout_shift:='-'}
-export LIGHTHOUSE_TI=${avg_time_to_interactive:='-'}
+export LIGHTHOUSE_TI=${avg_interactive:='-'}
 #PR_NUMBER
 #GH_TOKEN
 
