@@ -39,6 +39,12 @@ outputs:
   assertionResults:
     description: "Assertion results (content of assertion-results.json)"
     value: ${{ steps.treosh-lhci-action.outputs.assertionResults }}
+  agregatedSumary:
+    description: "Json containing all agregated summary from runs"
+    value: ${{ steps.print.outputs.assertionResults }}
+  agregatedMetrics:
+    description: "Json containing all agregated metrics from runs"
+    value: ${{ steps.print.outputs.assertionResults }}
 runs:
   using: "composite"
   steps:
@@ -59,6 +65,7 @@ runs:
         basicAuthPassword: ${{ inputs.basicAuthPassword }}
     - name: Print outputs
       shell: bash
+      id: print
       env:
         JSON: ${{ steps.treosh-lhci-action.outputs.manifest }}
         RUNS: ${{ inputs.runs }}
@@ -70,11 +77,12 @@ runs:
 
     - name: Comment on PR
       if: ${{ inputs.comment_on_pr }}
+      id: comment
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
         PR_NUMBER: ${{ github.event.number }}
       run: |
         ## Comment on PR if necessary
-        cd ${{github.action_path}}
+        cd ${{ github.action_path }}
         bash scripts/post_pr_comment.sh
