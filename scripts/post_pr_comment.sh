@@ -37,7 +37,7 @@ function _check_for_comments () {
     LAST_COMMENT_ID=$(jq -c '.[] | select(.body | test("'"^${HEADER}"'")) | select(.user.login == "olxbr-bot") .id' <<< ${COMMENTS} | tail -n1)
     if [ -n "${LAST_COMMENT_ID}" ];
     then
-        _log info "Found past comments, deleting... ${LAST_COMMENT_ID}"
+        _log info "Found past comments, deleting it..."
         curl --location --request DELETE "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/comments/${LAST_COMMENT_ID}" \
             --header "Authorization: token ${GH_TOKEN}" \
             --silent -o /dev/null || _log warn "Got an error during deletion of ${LAST_COMMENT_ID}! This may be a Token issue!"

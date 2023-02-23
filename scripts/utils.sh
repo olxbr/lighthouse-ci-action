@@ -62,5 +62,11 @@ function _summary_emoji() {
 }
 
 function _camel_to_snake_case () {
-    echo $1 | sed -E 's,([A-Z]),_\1,g' | tr '[:upper:]' '[:lower:]'
+    echo $1 | sed -E 's,([A-Z]),_\1,g' | sed -E 's,(\-),_,g' | tr '[:upper:]' '[:lower:]'
+}
+
+function _snake_case_to_hr () {
+    size=$(expr "$1" : '.*')
+    [[ $size -le 3 ]] && tr '[:lower:]' '[:upper:]' <<< "$1" && return
+    echo $1 | sed -E 's,(\_), ,g' | awk '{for(i=1;i<=NF;i++){ $i=toupper(substr($i,1,1)) substr($i,2) }}1'
 }
