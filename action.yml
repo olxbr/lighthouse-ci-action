@@ -50,6 +50,14 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Set LHCI env vars
+      id: set-lhci-env-vars
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.collect_preset }}" ]; then
+          echo "LHCI_COLLECT__SETTINGS__PRESET=${{ inputs.collect_preset }}" >> ${GITHUB_ENV}
+        fi
+        
     - name: Treosh Lighthouse CI Action
       id: treosh-lhci-action
       uses: treosh/lighthouse-ci-action@v9
@@ -65,8 +73,6 @@ runs:
         serverToken: ${{ inputs.serverToken }}
         basicAuthUsername: ${{ inputs.basicAuthUsername }}
         basicAuthPassword: ${{ inputs.basicAuthPassword }}
-      env:
-        LHCI_COLLECT__SETTINGS__PRESET: ${{ inputs.collect_preset }}
     - name: Print outputs
       shell: bash
       id: print
