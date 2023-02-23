@@ -1,6 +1,6 @@
-# Lighthouse report
+# Web Vitals Report
 
-For full web report see [this page](${LIGHTHOUSE_URL_REPORT}).
+> _For full web report see [this page](${LIGHTHOUSE_URL_REPORT})._
 
 ## General Performance
 
@@ -14,11 +14,11 @@ For full web report see [this page](${LIGHTHOUSE_URL_REPORT}).
 
 ## Metrics
 
-| Metric name              | Timing (${U_TIME})|
-|--------------------------|-------------------|
-| First Contentful Paint   | ${LIGHTHOUSE_FCP} |
-| Speed Index              | ${LIGHTHOUSE_SI}  |
-| Largest Contentful Paint | ${LIGHTHOUSE_LCP} |
-| Total Blocking Time      | ${LIGHTHOUSE_TBT} |
-| Cumulative Layout Shift  | ${LIGHTHOUSE_CLS} |
-| Time to Interactive      | ${LIGHTHOUSE_TI}  |
+| Metric name                    | Timing (${U_TIME})|
+|--------------------------------|-------------------|
+| First Contentful Paint (FCP)   | ${LIGHTHOUSE_FCP} |
+| Speed Index (SI)               | ${LIGHTHOUSE_SI}  |
+| Largest Contentful Paint (LCP) | ${LIGHTHOUSE_LCP} |
+| Time to Interactive (TTI)      | ${LIGHTHOUSE_TI}  |
+| Total Blocking Time (TBT)      | ${LIGHTHOUSE_TBT} |
+| Cumulative Layout Shift (CLS)  | ${LIGHTHOUSE_CLS} |
