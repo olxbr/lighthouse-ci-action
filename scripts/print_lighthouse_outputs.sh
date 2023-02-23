@@ -7,9 +7,8 @@ source scripts/utils.sh
 JSON=${JSON}
 RUNS=${RUNS}
 
-calc_avg='{ sum+=$1; qtd+=1 } END { print (sum/qtd)$multiplier }'
-awk_calc_avg=$(multiplier=*1 envsubst <<< $calc_avg)
-awk_calc_avg_in_percentage=$(multiplier=*100 envsubst <<< $calc_avg)
+calc_avg='{ sum+=${1}; qtd+=1 } END { printf("%.${round}f", ((sum/qtd)${multiplier}) }'
+awk_calc_avg_in_percentage=$(multiplier=*100 round=0 envsubst <<< $calc_avg)
 
 _log "#########################"
 _log "### Average of ${C_WHT}${RUNS}${C_END} runs ###"
@@ -43,10 +42,12 @@ _log "🅜 Metrics"
 ## Get unit time
 unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
 [[ "${unit_time}" =~ milli ]] && 
-    metric_unit="ms" ||
-    metric_unit="s"
+    metric_unit="ms" && export round=0 ||
+    metric_unit="s" && export round=2
 
 echo "unit_time=${metric_unit}" >> ${GITHUB_ENV}
+
+awk_calc_avg=$(multiplier=*1 round=${round} envsubst <<< $calc_avg)
 
 for metric_name in ${list_metrics_name[@]}; do
     let idx+=1
