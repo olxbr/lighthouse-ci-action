@@ -42,8 +42,8 @@ _log "🅜 Metrics"
 ## Get unit time
 unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
 [[ "${unit_time}" =~ milli ]] && 
-    metric_unit="ms" && export round=0 ||
-    metric_unit="s" && export round=2
+    export metric_unit="ms" round=0 ||
+    export metric_unit="s"  round=2
 
 echo "unit_time=${metric_unit}" >> ${GITHUB_ENV}
 
