@@ -1,4 +1,4 @@
-# Web Vitals Report (${LHCI_COLLECT__SETTINGS__PRESET:-mobile})
+# Web Vitals Report (${COLLECT_PRESET})
 
 > _For full web report see [this page](${LIGHTHOUSE_URL_REPORT})._
 

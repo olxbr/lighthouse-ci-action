@@ -2,6 +2,9 @@
 
 source scripts/utils.sh
 
+# Lhci Configs
+export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
+
 # Summary
 export LIGHTHOUSE_URL_REPORT=${lighthouse_link:='https://github.com/olxbr/lighthouse-ci-action'}
 export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}
