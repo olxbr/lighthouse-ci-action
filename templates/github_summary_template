@@ -1,4 +1,4 @@
-# Web Vitals Report
+# Web Vitals Report (${COLLECT_PRESET})
 
 🅢 Sumary 
 
@@ -9,3 +9,4 @@
 | Best Practices      | ${emoji_best_practices} ${avg_best_practices}%|
 | SEO                 | ${emoji_seo} ${avg_seo}%                      |
 | Progressive Web App | ${emoji_pwa} ${avg_pwa}%                      |
+
