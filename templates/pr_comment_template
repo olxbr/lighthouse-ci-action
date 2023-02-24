@@ -1,4 +1,4 @@
-# Web Vitals Report (${COLLECT_PRESET})
+# Web Vitals Report \(${COLLECT_PRESET}\)
 
 > _For full web report see [this page](${LIGHTHOUSE_URL_REPORT})._
 
