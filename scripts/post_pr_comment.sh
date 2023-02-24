@@ -61,7 +61,7 @@ function _post_comment () {
 _log info "Loading template"
 COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
 
-## Getting header after variable substitution
+## Getting header after variable substitution, escaping the parenthesis
 HEADER=$(echo "${COMMENT}" | head -n1 | sed 's/[\(\)]/\\\\&/g')
 
 COMMENT="${COMMENT@Q}"
