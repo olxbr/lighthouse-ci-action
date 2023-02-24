@@ -62,7 +62,7 @@ _log info "Loading template"
 COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
 
 ## Getting header after variable substitution
-HEADER=$(echo "${COMMENT}" | head -n1)
+HEADER=$(echo "${COMMENT}" | head -n1 | sed 's/[\(\)]/\\\\&/g')
 
 COMMENT="${COMMENT@Q}"
 COMMENT="${COMMENT#\$\'}"
