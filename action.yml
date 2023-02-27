@@ -53,10 +53,7 @@ runs:
     - name: Set LHCI env vars
       id: set-lhci-env-vars
       shell: bash
-      run: |
-        echo ### debug ###
-        echo "${{ inputs.urls }}"
-        
+      run: |        
         cd ${{github.action_path}}
         source scripts/utils.sh
         _set_up_lhci_env_vars ${{ inputs.collect_preset }}
