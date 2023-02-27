@@ -65,7 +65,7 @@ runs:
       id: treosh-lhci-action
       uses: treosh/lighthouse-ci-action@v9
       with:
-        urls: "['http://localhost/', 'http://localhost/health']"
+        urls: 'http://localhost/ http://localhost/health'
         budgetPath: ${{ inputs.budgetPath }}
         configPath: ${{ inputs.configPath }}
         uploadArtifacts: ${{ inputs.uploadArtifacts }}
