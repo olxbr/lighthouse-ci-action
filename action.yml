@@ -62,7 +62,8 @@ runs:
       id: treosh-lhci-action
       uses: treosh/lighthouse-ci-action@v9
       with:
-        urls: ${{ inputs.urls }}
+        urls: |
+          ${{ inputs.urls }}
         budgetPath: ${{ inputs.budgetPath }}
         configPath: ${{ inputs.configPath }}
         uploadArtifacts: ${{ inputs.uploadArtifacts }}
