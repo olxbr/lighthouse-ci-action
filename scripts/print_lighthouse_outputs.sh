@@ -3,6 +3,9 @@
 ## Load common functions
 source scripts/utils.sh
 
+# Lhci Configs
+export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
+
 ## Declare env variables
 JSON=${JSON}
 RUNS=${RUNS}

@@ -70,3 +70,10 @@ function _snake_case_to_hr () {
     [[ $size -le 3 ]] && tr '[:lower:]' '[:upper:]' <<< "$1" && return
     echo $1 | sed -E 's,(\_), ,g' | awk '{for(i=1;i<=NF;i++){ $i=toupper(substr($i,1,1)) substr($i,2) }}1'
 }
+
+function _set_up_lhci_env_vars() {
+    ## input.collect_preset
+    if [ -n "${1}" ]; then
+        echo "LHCI_COLLECT__SETTINGS__PRESET=${1}" >> ${GITHUB_ENV}
+    fi
+}

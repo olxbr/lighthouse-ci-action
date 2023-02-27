@@ -2,6 +2,9 @@
 
 source scripts/utils.sh
 
+# Lhci Configs
+export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
+
 # Summary
 export LIGHTHOUSE_URL_REPORT=${lighthouse_link:='https://github.com/olxbr/lighthouse-ci-action'}
 export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}
@@ -30,7 +33,6 @@ TEMPLATE="templates/pr_comment_template"
 
 function _check_for_comments () {
     _log info "Checking for past comments"
-    HEADER=$(cat ${TEMPLATE} | head -n1)
     COMMENTS=$(curl --location --request GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" \
             --header "Authorization: token ${GH_TOKEN}" \
             --silent)
@@ -58,6 +60,10 @@ function _post_comment () {
 ## Use teplate and convert
 _log info "Loading template"
 COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
+
+## Getting header after variable substitution, escaping the parenthesis
+HEADER=$(echo "${COMMENT}" | head -n1 | sed 's/[\(\)]/\\\\&/g')
+
 COMMENT="${COMMENT@Q}"
 COMMENT="${COMMENT#\$\'}"
 COMMENT="${COMMENT%\'}"

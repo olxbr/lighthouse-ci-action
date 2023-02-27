@@ -10,7 +10,7 @@ inputs:
   uploadArtifacts:
     description: "Opt-out of saving Lighthouse results as an action artifacts"
   artifactName:
-    description: "Name of the artifact group if using uploadArtifacts. default: lighthouse-results"
+    description: "Name of the artifact group if using uploadArtifacts. Default: lighthouse-results"
     default: lighthouse-results
   temporaryPublicStorage:
     description: "Opt-in to saving Lighthouse results to temporary public storage"
@@ -29,6 +29,8 @@ inputs:
   comment_on_pr:
     default: true
     description: "Boolean to define if will comment on PR or not"
+  collect_preset:
+    description: "Set the collect preset: perf, experimental or desktop. Default: mobile"
 outputs:
   resultsPath:
     description: "Path to the folder with LHCI results"
@@ -48,6 +50,14 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Set LHCI env vars
+      id: set-lhci-env-vars
+      shell: bash
+      run: |        
+        cd ${{github.action_path}}
+        source scripts/utils.sh
+        _set_up_lhci_env_vars ${{ inputs.collect_preset }}
+
     - name: Treosh Lighthouse CI Action
       id: treosh-lhci-action
       uses: treosh/lighthouse-ci-action@v9
@@ -63,6 +73,7 @@ runs:
         serverToken: ${{ inputs.serverToken }}
         basicAuthUsername: ${{ inputs.basicAuthUsername }}
         basicAuthPassword: ${{ inputs.basicAuthPassword }}
+
     - name: Print outputs
       shell: bash
       id: print
