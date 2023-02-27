@@ -67,7 +67,7 @@ runs:
       with:
         urls: |
           http://localhost/
-            http://localhost/health
+              http://localhost/health
         budgetPath: ${{ inputs.budgetPath }}
         configPath: ${{ inputs.configPath }}
         uploadArtifacts: ${{ inputs.uploadArtifacts }}
