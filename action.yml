@@ -86,6 +86,10 @@ runs:
         cd ${{github.action_path}}
         bash scripts/print_lighthouse_outputs.sh
 
+    - name: Setup tmate session
+      if: always()
+      uses: mxschmitt/action-tmate@v3
+
     - name: Comment on PR
       if: ${{ inputs.comment_on_pr }}
       id: comment
@@ -97,3 +101,7 @@ runs:
         ## Comment on PR if necessary
         cd ${{ github.action_path }}
         bash scripts/post_pr_comment.sh
+
+    - name: Setup tmate session
+      if: always()
+      uses: mxschmitt/action-tmate@v3
