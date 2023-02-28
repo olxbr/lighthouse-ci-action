@@ -97,8 +97,8 @@ echo "avg_pwa=$avg_pwa" >> ${GITHUB_ENV}
 _log info "Generating output of this action"
 _log info "aggregatedSumary='${aggregatedSumary}'"
 _log info "aggregatedMetrics='${aggregatedMetrics}'"
-echo "aggregatedSumary='$(jq -c <<< ${aggregatedSumary})'" >> "$GITHUB_OUTPUT"
-echo "aggregatedMetrics='$(jq -c <<< ${aggregatedMetrics})'" >> "$GITHUB_OUTPUT"
+# echo "aggregatedSumary='$(jq -c <<< ${aggregatedSumary})'" >> "$GITHUB_OUTPUT"
+# echo "aggregatedMetrics='$(jq -c <<< ${aggregatedMetrics})'" >> "$GITHUB_OUTPUT"
 
 
 ## Print summary to action
