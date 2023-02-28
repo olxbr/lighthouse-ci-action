@@ -84,8 +84,8 @@ done
 
 
 ## Exporting variables
-lighthouse_link=$(jq -r '.[]' <<< ${LINKS})
-echo "lighthouse_link=$lighthouse_link" >> ${GITHUB_ENV}
+# lighthouse_link=$(jq -r '.[]' <<< ${LINKS})
+# echo "lighthouse_link=$lighthouse_link" >> ${GITHUB_ENV}
 echo "avg_performance=$avg_performance" >> ${GITHUB_ENV}
 echo "avg_accessibility=$avg_accessibility" >> ${GITHUB_ENV}
 echo "avg_best_practices=$avg_best_practices" >> ${GITHUB_ENV}
