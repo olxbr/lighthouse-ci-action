@@ -102,9 +102,9 @@ echo "aggregatedMetrics='$(jq -c <<< ${aggregatedMetrics})'" >> "$GITHUB_OUTPUT"
 
 
 ## Print summary to action
-TEMPLATE="templates/github_summary_template"
-SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
-SUMMARY="${SUMMARY@Q}"
-SUMMARY="${SUMMARY#\$\'}"
-SUMMARY="${SUMMARY%\'}"
-echo -e ${SUMMARY} >> $GITHUB_STEP_SUMMARY
+# TEMPLATE="templates/github_summary_template"
+# SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
+# SUMMARY="${SUMMARY@Q}"
+# SUMMARY="${SUMMARY#\$\'}"
+# SUMMARY="${SUMMARY%\'}"
+# echo -e ${SUMMARY} >> $GITHUB_STEP_SUMMARY
