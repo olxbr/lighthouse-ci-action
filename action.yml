@@ -90,14 +90,14 @@ runs:
     #   if: always()
     #   uses: mxschmitt/action-tmate@v3
 
-    - name: Comment on PR
-      if: ${{ inputs.comment_on_pr }}
-      id: comment
-      shell: bash
-      env:
-        GH_TOKEN: ${{ inputs.gh_token }}
-        PR_NUMBER: ${{ github.event.number }}
-      run: |
-        ## Comment on PR if necessary
-        cd ${{ github.action_path }}
-        bash scripts/post_pr_comment.sh
+    # - name: Comment on PR
+    #   if: ${{ inputs.comment_on_pr }}
+    #   id: comment
+    #   shell: bash
+    #   env:
+    #     GH_TOKEN: ${{ inputs.gh_token }}
+    #     PR_NUMBER: ${{ github.event.number }}
+    #   run: |
+    #     ## Comment on PR if necessary
+    #     cd ${{ github.action_path }}
+    #     bash scripts/post_pr_comment.sh
