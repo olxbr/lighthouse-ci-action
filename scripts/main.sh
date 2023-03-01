@@ -17,7 +17,7 @@ _log "╚═══════════════════════�
 
 ## Summary (AVG)
 list_summary_name=(performance accessibility "best-practices" seo pwa)
-aggregatedSumary=$(echo "{}")
+aggregatedSumary='{}'
 re='^[0-9]+$'
 
 #Convert lenght to index to count from 0 in for
