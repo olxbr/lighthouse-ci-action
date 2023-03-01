@@ -12,20 +12,22 @@ RUNS=${RUNS}
 
 calc_avg='{ sum+=$1; qtd+=1 } END { printf("%.${round}f", (sum/qtd)${multiplier} ) }'
 awk_calc_avg_in_percentage=$(multiplier=*100 round=0 envsubst <<< $calc_avg)
+json_length=$(jq -r '. | length' <<< ${JSON})
 
-_log "#########################"
-_log "### Average of ${C_WHT}${RUNS}${C_END} runs ###"
-_log "#########################"
+_log "####################################"
+_log "### Average of ${C_WHT}${RUNS}${C_END} RUNS and ${C_WHT}${json_length}${C_END} URLs ###"
+_log "####################################"
 
 ## Summary (AVG)
 list_summary_name=(performance accessibility "best-practices" seo pwa)
 aggregatedSumary=$(echo "{}")
 re='^[0-9]+$'
 
-json_array=($(echo "$JSON" | jq -c '.[]'))
+#Convert lenght to index to count from 0 in for
+max_idx=$((${json_length}-1))
 
-for i in "${!json_array[@]}"; do 
-    export url=$(jq -r ".[${i}].url" <<< $JSON)
+for i in $(seq 0 $max_idx); do 
+    url=$(jq -r ".[${i}].url" <<< $JSON)
 
     _log "🅢 Summary - ${url}"
 
@@ -91,8 +93,32 @@ for i in "${!json_array[@]}"; do
 
     ## Exporting variables
     export lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
+    export URL=${url:="https://github.com/olxbr/lighthouse-ci-action"}
+    export TEMPLATE="templates/metrics_result_template"
 
-    ## Export json output
+    # Summary
+    export LIGHTHOUSE_URL_REPORT=${lighthouse_link:='https://github.com/olxbr/lighthouse-ci-action'}
+    export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}
+    export LIGHTHOUSE_ACESSIBILITY=${avg_accessibility:='-'}
+    export LIGHTHOUSE_BP=${avg_best_practices:='-'}
+    export LIGHTHOUSE_SEO=${avg_seo:='-'}
+    export PERFORMANCE_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PERFORMANCE})
+    export ACESSIBILITY_EMOJI=$(_summary_emoji ${LIGHTHOUSE_ACESSIBILITY})
+    export BP_EMOJI=$(_summary_emoji ${LIGHTHOUSE_BP})
+    export SEO_EMOJI=$(_summary_emoji ${LIGHTHOUSE_SEO})
+    export PWA_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PWA})
+
+    # Metrics
+    export U_TIME=${unit_time:='-'}
+    export LIGHTHOUSE_PWA=${avg_pwa:='-'}
+    export LIGHTHOUSE_FCP=${avg_first_contentful_paint:='-'}
+    export LIGHTHOUSE_SI=${avg_speed_index:='-'}
+    export LIGHTHOUSE_LCP=${avg_largest_contentful_paint:='-'}
+    export LIGHTHOUSE_TBT=${avg_total_blocking_time:='-'}
+    export LIGHTHOUSE_CLS=${avg_total_cumulative_layout_shift:='-'}
+    export LIGHTHOUSE_TI=${avg_interactive:='-'}
+
+      ## Export json output
     _log info "Generating output of this action"
     _log info "aggregatedSumary='${aggregatedSumary}'"
     _log info "aggregatedMetrics='${aggregatedMetrics}'"
@@ -101,7 +127,6 @@ for i in "${!json_array[@]}"; do
 
 
     ## Print summary to action
-    TEMPLATE="templates/github_summary_template"
     SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
     SUMMARY="${SUMMARY@Q}"
     SUMMARY="${SUMMARY#\$\'}"
