@@ -32,7 +32,7 @@ for i in $((${json_length}-1)); do
         let idx+=1
 
         ## Acquire metric
-        avg=$(jq -r ".[\"${i}\"].summary.\"${metric_name}\"" <<< $JSON | awk "$awk_calc_avg_in_percentage" || echo '-')
+        avg=$(jq -r ".[${i}].summary.\"${metric_name}\"" <<< $JSON | awk "$awk_calc_avg_in_percentage" || echo '-')
 
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
         echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
@@ -50,7 +50,7 @@ for i in $((${json_length}-1)); do
     done
 
     ## Metrics (AVG)
-    list_json_path=$(jq -r ".[\"${i}\"].jsonPath" <<< ${JSON})
+    list_json_path=$(jq -r ".[${i}].jsonPath" <<< ${JSON})
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregatedMetrics=$(echo "{}")
         
@@ -88,7 +88,7 @@ for i in $((${json_length}-1)); do
 
 
     ## Exporting variables
-    lighthouse_link=$(jq -r "to_entries | .[\"${i}\"].value" <<< ${LINKS})
+    lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
     echo "lighthouse_link=$lighthouse_link" >> ${GITHUB_ENV}
     echo "avg_performance=$avg_performance" >> ${GITHUB_ENV}
     echo "avg_accessibility=$avg_accessibility" >> ${GITHUB_ENV}
