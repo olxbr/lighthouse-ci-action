@@ -1,5 +1,8 @@
 #/bin/bash
 
+## Load common functions
+source scripts/utils.sh
+
 function _check_for_comments () {
     _log info "Checking for past comments"
     COMMENTS=$(curl --location --request GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" \
