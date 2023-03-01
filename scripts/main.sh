@@ -94,6 +94,12 @@ for i in $(seq 0 $max_idx); do
     ## Exporting variables
     export lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
 
+    export PERFORMANCE_COLOR=$(_badge_color ${LIGHTHOUSE_PERFORMANCE})
+    export ACESSIBILITY_COLOR=$(_badge_color ${LIGHTHOUSE_ACESSIBILITY})
+    export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
+    export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
+    export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
+
       ## Export json output
     _log info "Generating output of this action"
     _log info "aggregatedSumary='${aggregatedSumary}'"
