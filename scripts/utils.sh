@@ -43,6 +43,24 @@ function _summary_color() {
     printf "${E_RED} ${C_RED}$1%%${C_END}"
 }
 
+function _badge_color() {
+    ! [[ $1 =~ ^[0-9] ]] && printf "red" && return ## not a number
+
+    [[ $1 -ge 90 && $1 -le 99 ]] &&
+        printf "green" &&
+        return
+
+    [[ $1 -le 89 && $1 -ge 50 ]] &&
+        printf "yellow" &&
+        return
+
+    [[ $1 -eq 100 ]] &&
+        printf "green" &&
+        return
+
+    printf "red"
+}
+
 function _summary_emoji() {
     ! [[ $1 =~ ^[0-9] ]] && printf "" && return ## not a number
 
