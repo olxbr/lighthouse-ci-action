@@ -113,8 +113,9 @@ for i in $(seq 0 $((${json_length}-1))); do
     SUMMARY="${SUMMARY#\$\'}"
     SUMMARY="${SUMMARY%\'}"
     echo -e ${SUMMARY} >> $GITHUB_STEP_SUMMARY
+
+    # Run Post PR Comment for each URL
+    if ${COMMENT_ON_PR}; then
+        bash scripts/post_pr_comment.sh
+    fi
 done
-
-
-
-
