@@ -11,9 +11,9 @@ calc_avg='{ sum+=$1; qtd+=1 } END { printf("%.${round}f", (sum/qtd)${multiplier}
 awk_calc_avg_in_percentage=$(multiplier=*100 round=0 envsubst <<< $calc_avg)
 json_length=$(jq -r '. | length' <<< ${JSON})
 
-_log "╔═══════════════════════════════╗"
+_log "╔══════════════════════════════╗"
 _log "║ Average of ${C_WHT}${RUNS}${C_END} RUNS and ${C_WHT}${json_length}${C_END} URLs ║"
-_log "╚═══════════════════════════════╝"
+_log "╚══════════════════════════════╝"
 
 ## Summary (AVG)
 list_summary_name=(performance accessibility "best-practices" seo pwa)
