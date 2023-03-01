@@ -63,7 +63,7 @@ for i in "${!json_array[@]}"; do
         export metric_unit="ms" round=0 ||
         export metric_unit="s"  round=2
 
-    echo "unit_time=${metric_unit}" >> ${GITHUB_ENV}
+    export unit_time=${metric_unit}
 
     awk_calc_avg=$(multiplier=*1 round=${round} envsubst <<< $calc_avg)
 
