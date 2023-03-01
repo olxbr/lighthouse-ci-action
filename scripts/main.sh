@@ -94,7 +94,6 @@ for i in $(seq 0 $max_idx); do
     ## Exporting variables
     export lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
     export URL=${url:="https://github.com/olxbr/lighthouse-ci-action"}
-    export TEMPLATE="templates/metrics_result_template"
 
     # Summary
     export LIGHTHOUSE_URL_REPORT=${lighthouse_link:='https://github.com/olxbr/lighthouse-ci-action'}
@@ -132,6 +131,7 @@ for i in $(seq 0 $max_idx); do
 
 
     ## Print summary to action
+    TEMPLATE="templates/github_summary_template"
     SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
     SUMMARY="${SUMMARY@Q}"
     SUMMARY="${SUMMARY#\$\'}"

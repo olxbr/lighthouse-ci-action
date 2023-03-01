@@ -31,6 +31,7 @@ function _post_comment () {
 
 ## Use teplate and convert
 _log info "Loading template"
+TEMPLATE="templates/pr_comment_template"
 COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
 
 ## Getting header after variable substitution, escaping the parenthesis
