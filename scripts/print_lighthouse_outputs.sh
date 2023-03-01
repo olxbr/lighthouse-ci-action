@@ -22,11 +22,12 @@ list_summary_name=(performance accessibility "best-practices" seo pwa)
 aggregatedSumary=$(echo "{}")
 re='^[0-9]+$'
 
-json_urls=$(jq -r '.[].url' <<< ${JSON})
+json_array=($(echo "$JSON" | jq -c '.[]'))
 
-for i in "${!json_urls[@]}"; do 
+for i in "${!json_array[@]}"; do 
+    export url=$(jq -r ".[${i}].url" <<< $JSON)
 
-    _log "🅢 Summary - ${json_urls[$i]}"
+    _log "🅢 Summary - ${url}"
 
     for metric_name in ${list_summary_name[@]}; do
         let idx+=1
@@ -54,7 +55,7 @@ for i in "${!json_urls[@]}"; do
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregatedMetrics=$(echo "{}")
         
-    _log "🅜 Metrics - ${json_urls[$i]}"
+    _log "🅜 Metrics - ${url}"
 
     ## Get unit time
     unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
@@ -90,7 +91,6 @@ for i in "${!json_urls[@]}"; do
 
     ## Exporting variables
     export lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
-    export url="${json_urls[$i]}"
 
     ## Export json output
     _log info "Generating output of this action"
