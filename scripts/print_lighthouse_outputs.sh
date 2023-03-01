@@ -22,12 +22,11 @@ list_summary_name=(performance accessibility "best-practices" seo pwa)
 aggregatedSumary=$(echo "{}")
 re='^[0-9]+$'
 
-json_length=$(jq -r '. | length' <<< ${JSON})
-_log "json_length: $json_length"
+json_urls=$(jq -r '.[].url]' <<< ${JSON})
 
-for i in $(seq 0 $((${json_length}-1))); do 
+for i in "${!json_urls[@]}"; do 
 
-    _log "🅢 Summary"
+    _log "🅢 Summary - ${json_urls[$i]}"
 
     for metric_name in ${list_summary_name[@]}; do
         let idx+=1
@@ -55,7 +54,7 @@ for i in $(seq 0 $((${json_length}-1))); do
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregatedMetrics=$(echo "{}")
         
-    _log "🅜 Metrics"
+    _log "🅜 Metrics - ${json_urls[$i]}"
 
     ## Get unit time
     unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
@@ -90,14 +89,8 @@ for i in $(seq 0 $((${json_length}-1))); do
 
 
     ## Exporting variables
-    lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
-    echo "lighthouse_link=$lighthouse_link" >> ${GITHUB_ENV}
-    # echo "avg_performance=$avg_performance" >> ${GITHUB_ENV}
-    # echo "avg_accessibility=$avg_accessibility" >> ${GITHUB_ENV}
-    # echo "avg_best_practices=$avg_best_practices" >> ${GITHUB_ENV}
-    # echo "avg_seo=$avg_seo" >> ${GITHUB_ENV}
-    # echo "avg_pwa=$avg_pwa" >> ${GITHUB_ENV}
-
+    export lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
+    export url="${json_urls[$i]}"
 
     ## Export json output
     _log info "Generating output of this action"
