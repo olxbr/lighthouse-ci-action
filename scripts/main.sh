@@ -3,9 +3,6 @@
 ## Load common functions
 source scripts/utils.sh
 
-# Lhci Configs
-export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
-
 ## Declare env variables
 JSON=${JSON}
 RUNS=${RUNS}
@@ -93,12 +90,37 @@ for i in $(seq 0 $max_idx); do
 
     ## Exporting variables
     export lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
+    export URL=${url:="https://github.com/olxbr/lighthouse-ci-action"}
 
+    # Lhci Configs
+    export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
+
+    # Summary
+    export LIGHTHOUSE_URL_REPORT=${lighthouse_link:='https://github.com/olxbr/lighthouse-ci-action'}
+    export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}
+    export LIGHTHOUSE_ACESSIBILITY=${avg_accessibility:='-'}
+    export LIGHTHOUSE_BP=${avg_best_practices:='-'}
+    export LIGHTHOUSE_SEO=${avg_seo:='-'}
+    export PERFORMANCE_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PERFORMANCE})
+    export ACESSIBILITY_EMOJI=$(_summary_emoji ${LIGHTHOUSE_ACESSIBILITY})
+    export BP_EMOJI=$(_summary_emoji ${LIGHTHOUSE_BP})
+    export SEO_EMOJI=$(_summary_emoji ${LIGHTHOUSE_SEO})
+    export PWA_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PWA})
     export PERFORMANCE_COLOR=$(_badge_color ${LIGHTHOUSE_PERFORMANCE})
     export ACESSIBILITY_COLOR=$(_badge_color ${LIGHTHOUSE_ACESSIBILITY})
     export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
     export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
     export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
+
+    # Metrics
+    export U_TIME=${unit_time:='-'}
+    export LIGHTHOUSE_PWA=${avg_pwa:='-'}
+    export LIGHTHOUSE_FCP=${avg_first_contentful_paint:='-'}
+    export LIGHTHOUSE_SI=${avg_speed_index:='-'}
+    export LIGHTHOUSE_LCP=${avg_largest_contentful_paint:='-'}
+    export LIGHTHOUSE_TBT=${avg_total_blocking_time:='-'}
+    export LIGHTHOUSE_CLS=${avg_total_cumulative_layout_shift:='-'}
+    export LIGHTHOUSE_TI=${avg_interactive:='-'}
 
       ## Export json output
     _log info "Generating output of this action"

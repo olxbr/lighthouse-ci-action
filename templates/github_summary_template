@@ -1,4 +1,4 @@
-# Web Vitals Report (${COLLECT_PRESET}) - (${url})
+# Web Vitals Report (${COLLECT_PRESET}) - (${URL})
 ![Performance](https://img.shields.io/badge/Performance-${LIGHTHOUSE_PERFORMANCE}%25-${PERFORMANCE_COLOR}?style=flat-square) ![Accessibility](https://img.shields.io/badge/Accessibility-${LIGHTHOUSE_ACESSIBILITY}%25-${ACESSIBILITY_COLOR}?style=flat-square) ![Best Practices](https://img.shields.io/badge/Best%20Practices-${LIGHTHOUSE_BP}%25-${BP_COLOR}?style=flat-square) ![SEO](https://img.shields.io/badge/SEO-${LIGHTHOUSE_SEO}%25-${SEO_COLOR}?style=flat-square) ![Progressive Web App](https://img.shields.io/badge/Progressive%20Web%20App-${LIGHTHOUSE_PWA}%25-${PWA_COLOR}?style=flat-square)
 
 > _For full web report see [this page](${LIGHTHOUSE_URL_REPORT})._
