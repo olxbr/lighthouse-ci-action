@@ -23,8 +23,9 @@ aggregatedSumary=$(echo "{}")
 re='^[0-9]+$'
 
 json_length=$(jq -r '. | length' <<< ${JSON})
+_log "json_length: $json_length"
 
-for i in $((${json_length}-1)); do 
+for i in $(seq 0 $((${json_length}-1))); do 
 
     _log "🅢 Summary"
 
