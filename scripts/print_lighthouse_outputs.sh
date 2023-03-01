@@ -22,7 +22,7 @@ list_summary_name=(performance accessibility "best-practices" seo pwa)
 aggregatedSumary=$(echo "{}")
 re='^[0-9]+$'
 
-json_urls=$(jq -r '.[].url]' <<< ${JSON})
+json_urls=$(jq -r '.[].url' <<< ${JSON})
 
 for i in "${!json_urls[@]}"; do 
 
