@@ -1,12 +1,11 @@
-# Web Vitals Report (${COLLECT_PRESET})
+# Web Vitals Report (${COLLECT_PRESET}) - (${URL})
 
-🅢 Sumary 
+🅢 Sumary 	
 
-| Category            | Score                                         |
-|---------------------|-----------------------------------------------|
-| Performance         | ${emoji_performance} ${avg_performance}%      |
-| Acessibility        | ${emoji_accessibility} ${avg_accessibility}%  |
-| Best Practices      | ${emoji_best_practices} ${avg_best_practices}%|
-| SEO                 | ${emoji_seo} ${avg_seo}%                      |
+| Category            | Score                                         |	
+|---------------------|-----------------------------------------------|	
+| Performance         | ${emoji_performance} ${avg_performance}%      |	
+| Acessibility        | ${emoji_accessibility} ${avg_accessibility}%  |	
+| Best Practices      | ${emoji_best_practices} ${avg_best_practices}%|	
+| SEO                 | ${emoji_seo} ${avg_seo}%                      |	
 | Progressive Web App | ${emoji_pwa} ${avg_pwa}%                      |
-

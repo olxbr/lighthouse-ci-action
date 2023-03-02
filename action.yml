@@ -78,22 +78,13 @@ runs:
       shell: bash
       id: print
       env:
-        JSON: ${{ steps.treosh-lhci-action.outputs.manifest }}
-        RUNS: ${{ inputs.runs }}
-        LINKS: ${{ steps.treosh-lhci-action.outputs.links }}
-      run: |
-        ## Print outputs
-        cd ${{github.action_path}}
-        bash scripts/print_lighthouse_outputs.sh
-
-    - name: Comment on PR
-      if: ${{ inputs.comment_on_pr }}
-      id: comment
-      shell: bash
-      env:
+        COMMENT_ON_PR: ${{ inputs.comment_on_pr }}
         GH_TOKEN: ${{ inputs.gh_token }}
         PR_NUMBER: ${{ github.event.number }}
+        RUNS: ${{ inputs.runs }}
+        JSON: ${{ steps.treosh-lhci-action.outputs.manifest }}
+        LINKS: ${{ steps.treosh-lhci-action.outputs.links }}
       run: |
-        ## Comment on PR if necessary
-        cd ${{ github.action_path }}
-        bash scripts/post_pr_comment.sh
+        ## Print outputs | summary | pr comment
+        cd ${{github.action_path}}
+        bash scripts/main.sh

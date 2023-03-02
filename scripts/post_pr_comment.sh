@@ -1,35 +1,7 @@
 #/bin/bash
 
+## Load common functions
 source scripts/utils.sh
-
-# Lhci Configs
-export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
-
-# Summary
-export LIGHTHOUSE_URL_REPORT=${lighthouse_link:='https://github.com/olxbr/lighthouse-ci-action'}
-export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}
-export LIGHTHOUSE_ACESSIBILITY=${avg_accessibility:='-'}
-export LIGHTHOUSE_BP=${avg_best_practices:='-'}
-export LIGHTHOUSE_SEO=${avg_seo:='-'}
-export PERFORMANCE_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PERFORMANCE})
-export ACESSIBILITY_EMOJI=$(_summary_emoji ${LIGHTHOUSE_ACESSIBILITY})
-export BP_EMOJI=$(_summary_emoji ${LIGHTHOUSE_BP})
-export SEO_EMOJI=$(_summary_emoji ${LIGHTHOUSE_SEO})
-export PWA_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PWA})
-
-# Metrics
-export U_TIME=${unit_time:='-'}
-export LIGHTHOUSE_PWA=${avg_pwa:='-'}
-export LIGHTHOUSE_FCP=${avg_first_contentful_paint:='-'}
-export LIGHTHOUSE_SI=${avg_speed_index:='-'}
-export LIGHTHOUSE_LCP=${avg_largest_contentful_paint:='-'}
-export LIGHTHOUSE_TBT=${avg_total_blocking_time:='-'}
-export LIGHTHOUSE_CLS=${avg_total_cumulative_layout_shift:='-'}
-export LIGHTHOUSE_TI=${avg_interactive:='-'}
-#PR_NUMBER
-#GH_TOKEN
-
-TEMPLATE="templates/pr_comment_template"
 
 function _check_for_comments () {
     _log info "Checking for past comments"
@@ -59,6 +31,7 @@ function _post_comment () {
 
 ## Use teplate and convert
 _log info "Loading template"
+TEMPLATE="templates/pr_comment_template"
 COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
 
 ## Getting header after variable substitution, escaping the parenthesis
