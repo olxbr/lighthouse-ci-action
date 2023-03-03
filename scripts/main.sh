@@ -21,13 +21,16 @@ max_idx=$((${json_length}-1))
 
 for i in $(seq 0 $max_idx); do 
     url=$(jq -r ".[${i}].url" <<< $JSON)
+    lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
+
+    _log "🔗 ${url}"
 
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
     aggregate_summary='{}'
     re='^[0-9]+$'
 
-    _log "🅢 Summary - ${url}"
+    _log "🅢 Summary"
 
     for metric_name in ${list_summary_name[@]}; do
         let idx+=1
@@ -41,9 +44,10 @@ for i in $(seq 0 $max_idx); do
         export "emoji_${snake_metric_name}=$(_summary_emoji ${avg})"
 
         ## Agregate metric to output
+        camel_metric_name=$(_snake_to_camel_case ${metric_name})
         [[ ${avg} =~ ${re} ]] && 
-        aggregate_summary=$(jq ". += { \"${metric_name}\": ${avg} }" <<< "${aggregate_summary}") ||
-        aggregate_summary=$(jq ". += { \"${metric_name}\": \"${avg}\" }" <<< "${aggregate_summary}")
+        aggregate_summary=$(jq ". += { \"${camel_metric_name}\": ${avg} }" <<< "${aggregate_summary}") ||
+        aggregate_summary=$(jq ". += { \"${camel_metric_name}\": \"${avg}\" }" <<< "${aggregate_summary}")
 
         [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
         _log "   ├⎯⎯$(_snake_case_to_hr ${snake_metric_name}): $(_summary_color ${avg})" ||
@@ -55,7 +59,7 @@ for i in $(seq 0 $max_idx); do
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
         
-    _log "🅜 Metrics - ${url}"
+    _log "🅜 Metrics"
 
     ## Get unit time
     unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
@@ -89,20 +93,18 @@ for i in $(seq 0 $max_idx); do
     done
 
     # Build aggregate results
-    _log info "Building aggregate results"
-    _log info "url=${url}"
     result='{}'
-    result=$(jq ". += {\"url\": \"${url}\", \"summary\": ${aggregate_summary}, \"metrics\": ${aggregate_metrics}}" <<< ${result})
-    
-    _log info "result=${result}"
+    result=$(jq ". += {\"url\": \"${url}\"}" <<< ${result})
+
+    if [ -n "$lighthouse_link" ]; then
+        result=$(jq ". += {\"link\": \"${lighthouse_link}\"}" <<< ${result})
+    fi
+
+    result=$(jq ". += {\"summary\": ${aggregate_summary}, \"metrics\": ${aggregate_metrics}}" <<< ${result})
     aggregate_results=$(jq ". += [${result}]" <<< ${aggregate_results})
 
-    ## Exporting variables
-    export lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
-    export URL=${url:="https://github.com/olxbr/lighthouse-ci-action"}
-    
     # Only put URL information when has more than one URLs in json
-    export evaluated_url=$([ "$json_length" -gt "1" ] && echo " - (${URL})" || echo "")
+    export evaluated_url=$([ "$json_length" -gt "1" ] && echo " - (${url})" || echo "")
 
     # Lhci Configs
     export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
@@ -149,6 +151,4 @@ for i in $(seq 0 $max_idx); do
 done
 
 # Export Aggregate Results to Output
-_log info "Set aggregate_results outputs"
-_log info "aggregate_results=${aggregate_results}"
 echo "aggregateResults='$(jq -c <<< ${aggregate_results})'" >> "$GITHUB_OUTPUT"

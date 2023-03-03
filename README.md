@@ -176,10 +176,11 @@ Json containing all aggregate summary and metrics from runs:
 [
   {
     "url": "http://localhost/",
+    "link": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1677856612943-31825.report.html",
     "summary": {
       "performance": 100,
       "accessibility": 86,
-      "best-practices": 100,
+      "bestPractices": 100,
       "seo": 58,
       "pwa": 0
     },
@@ -209,7 +210,7 @@ A JSON string with a links to uploaded results:
 
 ```js
 {
-  'http://localhost/': 'https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1676382590922-16051.report.html'
+  'http://localhost/': 'https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1677856612943-31825.report.html'
   ...
 }
 ```
