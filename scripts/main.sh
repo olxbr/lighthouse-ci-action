@@ -28,7 +28,7 @@ for i in $(seq 0 $max_idx); do
     aggregate_summary='{}'
     re='^[0-9]+$'
 
-    _log "🅢 Summary (${url})"
+    _log "${C_WHT}🅢 Summary (${url})${C_ENC}"
 
     for metric_name in ${list_summary_name[@]}; do
         let idx+=1
@@ -57,7 +57,7 @@ for i in $(seq 0 $max_idx); do
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
         
-    _log "🅜 Metrics (${url})"
+    _log "${C_WHT}🅜 Metrics (${url})${C_END}"
 
     ## Get unit time
     unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
@@ -149,6 +149,5 @@ for i in $(seq 0 $max_idx); do
 done
 
 # Export Aggregate Results to Output
-_log "aggregateResults:"
-_log "$(jq <<< ${aggregate_results})"
+_log "aggregateResults: ${aggregate_results}"
 echo "aggregateResults='$(jq -c <<< ${aggregate_results})'" >> "$GITHUB_OUTPUT"
