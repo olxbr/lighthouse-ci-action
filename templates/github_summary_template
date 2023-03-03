@@ -1,4 +1,4 @@
-# Web Vitals Report (${COLLECT_PRESET}) - (${URL})
+# Web Vitals Report (${COLLECT_PRESET})${evaluated_url}
 
 🅢 Sumary 	
 

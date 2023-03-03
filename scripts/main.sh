@@ -91,6 +91,9 @@ for i in $(seq 0 $max_idx); do
     ## Exporting variables
     export lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
     export URL=${url:="https://github.com/olxbr/lighthouse-ci-action"}
+    
+    # Only put URL information when has more than one URLs in json
+    export evaluated_url=$([ "$json_length" -gt "1" ] && echo " - (${URL})" || echo "")
 
     # Lhci Configs
     export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
