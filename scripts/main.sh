@@ -101,14 +101,14 @@ for i in $(seq 0 $max_idx); do
     result=$(jq ". += {\"summary\": ${aggregate_summary}, \"metrics\": ${aggregate_metrics}}" <<< ${result})
     aggregate_results=$(jq ". += [${result}]" <<< ${aggregate_results})
 
-    # Only put URL information when has more than one URLs in json
-    export evaluated_url=$([ "$json_length" -gt "1" ] && echo " - (${url})" || echo "")
+    # Evaluating env vars to use in templates
+    export EVALUATED_URL=$([ "$json_length" -gt "1" ] && echo " - (${url})" || echo "")
+    export EVALUATED_LIGHTHOUSE_LINK=$([ -n "$lighthouse_link" ] && echo "> _For full web report see [this page](${lighthouse_link})._")
 
     # Lhci Configs
     export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
 
     # Summary
-    export LIGHTHOUSE_URL_REPORT=${lighthouse_link:='https://github.com/olxbr/lighthouse-ci-action'}
     export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}
     export LIGHTHOUSE_ACESSIBILITY=${avg_accessibility:='-'}
     export LIGHTHOUSE_BP=${avg_best_practices:='-'}
