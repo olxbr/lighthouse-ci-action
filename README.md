@@ -7,15 +7,17 @@ This composite action uses the [treosh/lighthouse-ci-action](https://github.com/
 - ✨ All the features by [treosh/lighthouse-ci-action](https://github.com/treosh/lighthouse-ci-action)
 - 🌈 Print beautiful results in workflow summary
 - 🏆 Comment results in Pull Request
+- 🚀 Aggregate metrics output
 
 
 #### Workflow Summary
 
-![workflow-summary](https://user-images.githubusercontent.com/4138825/218758369-6e655782-75d9-42de-ae3a-e0724c4ba16b.png)
+![workflow-summary](https://user-images.githubusercontent.com/4138825/222737429-c6b21999-8bac-458d-bf8d-a5fdcbce3bb4.png)
 
 #### Pull Request Comment
 
-![pull-request-comment](https://user-images.githubusercontent.com/4138825/218758644-96ada0aa-bb2b-4392-acab-9ed875560d4e.png)
+![pull-request-comment](https://user-images.githubusercontent.com/4138825/222736726-1eec5acc-df72-47d9-a8a1-258c43061751.png)
+
 
 ## Prerequisites
 Before using this action, please ensure the following:
@@ -41,7 +43,7 @@ Before using this action, please ensure the following:
 ## Recommendations
 
 - Collect the metrics at least 3 times for each URL using the `runs: 3` option in order to have a better precision in the result, since it will be an average of the executions.
-- Create a customized lhci configuration file according to the project and use the `configPath: ./.lighthouserc.yml` option to indicate its location for the action.
+- Create a customized lhci configuration file according to the project and use the `configPath: ./.lighthouserc.yml` option to indicate its location for the action, more details in the official [lighthouse-ci/configuration docs](https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/configuration.md).
 - Use the `temporaryPublicStorage: true` option which will generate a url with the detailed result of the metrics collection.
 - If you want to know the difference between the metrics in relation to the current code, in the CI pipeline run the action with the current version, which can be a `tag` or the `main` branch and then with the modified version in the Pull Request.
 
@@ -58,6 +60,10 @@ urls: |
   https://example.com/blog
   https://example.com/pricing
 ````
+
+#### `collect_preset` (default: mobile)
+
+Set the collect preset: perf, experimental or desktop.
 
 #### `uploadArtifacts` (default: false)
 
