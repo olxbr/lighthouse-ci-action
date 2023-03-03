@@ -89,8 +89,12 @@ for i in $(seq 0 $max_idx); do
     done
 
     # Build aggregate results
+    _log info "Building aggregate results"
+    _log info "url=${url}"
     result='{}'
     result=$(jq ". += {\"url\": \"${url}\", \"summary\": ${aggregate_summary}, \"metrics\": ${aggregate_metrics}}" <<< ${result})
+    
+    _log info "result=${result}"
     aggregate_results=$(jq ". += [${result}]" <<< ${aggregate_results})
 
     ## Exporting variables
@@ -145,4 +149,6 @@ for i in $(seq 0 $max_idx); do
 done
 
 # Export Aggregate Results to Output
+_log info "Set aggregate_results outputs"
+_log info "agregateResults=${agregateResults}"
 echo "agregateResults='$(jq -c <<< ${aggregate_results})'" >> "$GITHUB_OUTPUT"
