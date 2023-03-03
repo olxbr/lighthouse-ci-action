@@ -43,7 +43,7 @@ outputs:
     value: ${{ steps.treosh-lhci-action.outputs.assertionResults }}
   aggregateResults:
     description: "Json containing all agregate summary and metrics from runs"
-    value: ${{ steps.print.outputs.agregateResults }}
+    value: ${{ steps.print.outputs.aggregateResults }}
 runs:
   using: "composite"
   steps:
