@@ -10,21 +10,22 @@ RUNS=${RUNS}
 calc_avg='{ sum+=$1; qtd+=1 } END { printf("%.${round}f", (sum/qtd)${multiplier} ) }'
 awk_calc_avg_in_percentage=$(multiplier=*100 round=0 envsubst <<< $calc_avg)
 json_length=$(jq -r '. | length' <<< ${JSON})
+aggregate_results='[]'
 
 _log "╔══════════════════════════════╗"
 _log "║ Average of ${C_WHT}${RUNS}${C_END} RUNS and ${C_WHT}${json_length}${C_END} URLs ║"
 _log "╚══════════════════════════════╝"
-
-## Summary (AVG)
-list_summary_name=(performance accessibility "best-practices" seo pwa)
-aggregatedSumary='{}'
-re='^[0-9]+$'
 
 #Convert lenght to index to count from 0 in for
 max_idx=$((${json_length}-1))
 
 for i in $(seq 0 $max_idx); do 
     url=$(jq -r ".[${i}].url" <<< $JSON)
+
+    ## Summary (AVG)
+    list_summary_name=(performance accessibility "best-practices" seo pwa)
+    aggregate_summary='{}'
+    re='^[0-9]+$'
 
     _log "🅢 Summary - ${url}"
 
@@ -41,8 +42,8 @@ for i in $(seq 0 $max_idx); do
 
         ## Agregate metric to output
         [[ ${avg} =~ ${re} ]] && 
-        aggregatedSumary=$(jq ". += { \"${metric_name}\": ${avg} }" <<< "${aggregatedSumary}") ||
-        aggregatedSumary=$(jq ". += { \"${metric_name}\": \"${avg}\" }" <<< "${aggregatedSumary}")
+        aggregate_summary=$(jq ". += { \"${metric_name}\": ${avg} }" <<< "${aggregate_summary}") ||
+        aggregate_summary=$(jq ". += { \"${metric_name}\": \"${avg}\" }" <<< "${aggregate_summary}")
 
         [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
         _log "   ├⎯⎯$(_snake_case_to_hr ${snake_metric_name}): $(_summary_color ${avg})" ||
@@ -52,7 +53,7 @@ for i in $(seq 0 $max_idx); do
     ## Metrics (AVG)
     list_json_path=$(jq -r ".[${i}].jsonPath" <<< ${JSON})
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
-    aggregatedMetrics=$(echo "{}")
+    aggregate_metrics='{}'
         
     _log "🅜 Metrics - ${url}"
 
@@ -79,7 +80,7 @@ for i in $(seq 0 $max_idx); do
         _log "   └⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}${C_END}"
         
         ## Agregate metric to output
-        aggregatedMetrics=$(jq ". += { ${metric_name}: ${avg} }" <<< "${aggregatedMetrics}")
+        aggregate_metrics=$(jq ". += { ${metric_name}: ${avg} }" <<< "${aggregate_metrics}")
 
         ## Exporting to pr comment and summary
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
@@ -87,6 +88,10 @@ for i in $(seq 0 $max_idx); do
         export "avg_${snake_metric_name}=${avg}"
     done
 
+    # Build aggregate results
+    result='{}'
+    result=$(jq ". += {\"url\": \"${url}\", \"summary\": ${aggregate_summary}, \"metrics\": ${aggregate_metrics}}" <<< ${result})
+    aggregate_results=$(jq ". += [${result}]" <<< ${aggregate_results})
 
     ## Exporting variables
     export lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
@@ -125,14 +130,6 @@ for i in $(seq 0 $max_idx); do
     export LIGHTHOUSE_CLS=${avg_total_cumulative_layout_shift:='-'}
     export LIGHTHOUSE_TI=${avg_interactive:='-'}
 
-      ## Export json output
-    _log info "Generating output of this action"
-    _log info "aggregatedSumary='${aggregatedSumary}'"
-    _log info "aggregatedMetrics='${aggregatedMetrics}'"
-    echo "aggregatedSumary='$(jq -c <<< ${aggregatedSumary})'" >> "$GITHUB_OUTPUT"
-    echo "aggregatedMetrics='$(jq -c <<< ${aggregatedMetrics})'" >> "$GITHUB_OUTPUT"
-
-
     ## Print summary to action
     TEMPLATE="templates/github_summary_template"
     SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
@@ -146,3 +143,6 @@ for i in $(seq 0 $max_idx); do
         bash scripts/post_pr_comment.sh
     fi
 done
+
+# Export Aggregate Results to Output
+echo "agregateResults='$(jq -c <<< ${aggregate_results})'" >> "$GITHUB_OUTPUT"
