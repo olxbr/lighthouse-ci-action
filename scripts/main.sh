@@ -150,5 +150,5 @@ done
 
 # Export Aggregate Results to Output
 _log info "Set aggregate_results outputs"
-_log info "agregateResults=${agregateResults}"
-echo "agregateResults='$(jq -c <<< ${aggregate_results})'" >> "$GITHUB_OUTPUT"
+_log info "aggregate_results=${aggregate_results}"
+echo "aggregateResults='$(jq -c <<< ${aggregate_results})'" >> "$GITHUB_OUTPUT"
