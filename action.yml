@@ -94,7 +94,7 @@ runs:
       shell: bash
       id: compare
       env:
-        BRANCH_TO_COMPARE: ${{ inputs.branch_to_compare }}
+        BRANCH_TO_COMPARE: ${{ inputs.branch_to_compare || 'none' }}
         ACTION_PATH: ${{ github.action_path }}
       run: |
         ## Should compare result
