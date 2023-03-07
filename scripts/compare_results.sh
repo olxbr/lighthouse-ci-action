@@ -1,7 +1,7 @@
 #/bin/bash
 
 ## Load common functions
-source scripts/utils.sh
+source ${ACTION_PATH}/scripts/utils.sh
 
 ## Declare env variables
 branch_to_compare=${BRANCH_TO_COMPARE}
