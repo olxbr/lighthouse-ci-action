@@ -81,6 +81,7 @@ runs:
         RUNS: ${{ inputs.runs }}
         JSON: ${{ steps.treosh-lhci-action.outputs.manifest }}
         LINKS: ${{ steps.treosh-lhci-action.outputs.links }}
+        URLS: ${{ inputs.urls }}
       run: |
         ## Print outputs | summary | pr comment
         cd ${{github.action_path}}
