@@ -7,6 +7,8 @@ source scripts/utils.sh
 JSON=${JSON}
 RUNS=${RUNS}
 
+_log "JSON: ${JSON}"
+
 calc_avg='{ sum+=$1; qtd+=1 } END { printf("%.${round}f", (sum/qtd)${multiplier} ) }'
 awk_calc_avg_in_percentage=$(multiplier=*100 round=0 envsubst <<< $calc_avg)
 json_length=$(jq -r '. | length' <<< ${JSON})
