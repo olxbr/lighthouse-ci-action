@@ -31,6 +31,9 @@ inputs:
     description: "Boolean to define if will comment on PR or not"
   collect_preset:
     description: "Set the collect preset: perf, experimental or desktop. Default: mobile"
+  branch_to_compare:
+    description: "Which branch should be used to campare results"
+    default: none
 outputs:
   resultsPath:
     description: "Path to the folder with LHCI results"
@@ -86,3 +89,12 @@ runs:
         ## Print outputs | summary | pr comment
         cd ${{github.action_path}}
         bash scripts/main.sh
+
+    - name: Compare result (When necessary)
+      shell: bash
+      id: compare
+      env:
+        BRANCH_TO_COMPARE: ${{ inputs.branch_to_compare }}
+      run: |
+        ## Should compare result
+        bash ${{github.action_path}}/scripts/compare_results.sh

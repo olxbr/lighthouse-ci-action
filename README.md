@@ -65,6 +65,14 @@ urls: |
 
 Set the collect preset: perf, experimental or desktop.
 
+#### `branch_to_compare` (default: none)
+
+Set a branch to compare the new results with specific version/branch
+
+```yml
+branch_to_compare: ${{ github.repository.default_branch }}
+```
+
 #### `uploadArtifacts` (default: false)
 
 Upload Lighthouse results as [action artifacts](https://help.github.com/en/actions/configuring-and-managing-workflows/persisting-workflow-data-using-artifacts) to persist results. Equivalent to using [`actions/upload-artifact`](https://github.com/actions/upload-artifact) to save the artifacts with additional action steps.
