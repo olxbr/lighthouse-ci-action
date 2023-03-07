@@ -6,22 +6,20 @@ source scripts/utils.sh
 ## Declare env variables
 JSON=${JSON}
 RUNS=${RUNS}
+LINKS=${LINKS}
+URLS=(${URLS})
 
 calc_avg='{ sum+=$1; qtd+=1 } END { printf("%.${round}f", (sum/qtd)${multiplier} ) }'
 awk_calc_avg_in_percentage=$(multiplier=*100 round=0 envsubst <<< $calc_avg)
-json_length=$(jq -r '. | length' <<< ${JSON})
+urls_length=${#URLS[@]}
 aggregate_results='[]'
 
 _log "╔══════════════════════════════╗"
-_log "║ Average of ${C_WHT}${RUNS}${C_END} RUNS and ${C_WHT}${json_length}${C_END} URLs ║"
+_log "║ Average of ${C_WHT}${RUNS}${C_END} RUNS and ${C_WHT}${urls_length}${C_END} URLs ║"
 _log "╚══════════════════════════════╝"
 
-#Convert lenght to index to count from 0 in for
-max_idx=$((${json_length}-1))
-
-for i in $(seq 0 $max_idx); do 
-    url=$(jq -r ".[${i}].url" <<< $JSON)
-    lighthouse_link=$(jq -r "to_entries | .[${i}].value" <<< ${LINKS})
+for url in ${URLS[@]}; do 
+    lighthouse_link=$(jq -r ".\"${url}\"" <<< ${LINKS})
 
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
@@ -34,7 +32,7 @@ for i in $(seq 0 $max_idx); do
         let idx+=1
 
         ## Acquire metric
-        avg=$(jq -r ".[${i}].summary.\"${metric_name}\"" <<< $JSON | awk "$awk_calc_avg_in_percentage" || echo '-')
+        avg=$(jq ".[] | select(.url==\"${url}\") | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '-')
 
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
         echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
@@ -53,7 +51,7 @@ for i in $(seq 0 $max_idx); do
     done
 
     ## Metrics (AVG)
-    list_json_path=$(jq -r ".[${i}].jsonPath" <<< ${JSON})
+    list_json_path=$(jq -r ".[] | select(.url==\"${url}\") | .jsonPath" <<< ${JSON})
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
         
@@ -102,7 +100,7 @@ for i in $(seq 0 $max_idx); do
     aggregate_results=$(jq ". += [${result}]" <<< ${aggregate_results})
 
     # Evaluating env vars to use in templates
-    export EVALUATED_URL=$([ "$json_length" -gt "1" ] && echo " - (${url})" || echo "")
+    export EVALUATED_URL=$([ "$urls_length" -gt "1" ] && echo " - (${url})" || echo "")
     export EVALUATED_LIGHTHOUSE_LINK=$([ -n "$lighthouse_link" ] && echo "> _For full web report see [this page](${lighthouse_link})._")
 
     # Lhci Configs
