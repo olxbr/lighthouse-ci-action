@@ -64,19 +64,15 @@ function _badge_color() {
 function _summary_emoji() {
     ! [[ $1 =~ ^[0-9] ]] && printf "" && return ## not a number
 
-    [[ $(bc <<< "$1>=90") == 1 && $(bc <<< "$1<=99") == 1 ]] &&
-        printf "${E_GRE}" $1 &&
-        return
-
-    [[ $(bc <<< "$1<=89") == 1 && $(bc <<< "$1>=50") == 1 ]] &&
-        printf "${E_YEL}" $1 &&
-        return
-
-    [[ $(bc <<< "$1==100") == 1 ]] &&
-        printf "${E_TRO}" $1 &&
-        return
-
-    printf "${E_RED}" $1
+    if (( $1 >= 90 && $1 <= 99 )); then
+        printf "${E_GRE}" $1
+    elif (( $1 <= 89 && $1 >= 50 )); then
+        printf "${E_YEL}" $1
+    elif (( $1 == 100 )); then
+        printf "${E_TRO}" $1
+    else
+        printf "${E_RED}" $1
+    fi
 }
 
 function _camel_to_snake_case () {
