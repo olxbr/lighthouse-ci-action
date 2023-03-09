@@ -19,7 +19,7 @@ _log "║ Average of ${C_WHT}${RUNS}${C_END} RUNS and ${C_WHT}${urls_length}${C_
 _log "╚══════════════════════════════╝"
 
 for url in ${URLS[@]}; do 
-    lighthouse_link=$(jq -r ".\"${url}\"" <<< ${LINKS})
+    lighthouse_link=$(jq -r ".\"${url%/}/\"" <<< ${LINKS})
 
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
