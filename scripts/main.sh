@@ -134,10 +134,11 @@ for url in ${URLS[@]}; do
 
     ## Print summary to action
     TEMPLATE="templates/github_summary_template"
-    SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
+    SUMMARY=$(cat ${TEMPLATE})
     SUMMARY="${SUMMARY@Q}"
     SUMMARY="${SUMMARY#\$\'}"
     SUMMARY="${SUMMARY%\'}"
+    SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" <<< ${SUMMARY})
     echo -e ${SUMMARY} >> $GITHUB_STEP_SUMMARY
 
     # Run Post PR Comment for each URL
