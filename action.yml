@@ -90,22 +90,22 @@ runs:
         cd ${{github.action_path}}
         bash scripts/main.sh
 
-    - name: Compare result (When necessary)
-      if: ${{ inputs.branch_to_compare }}
+    - if: ${{ inputs.branch_to_compare }}
+      name: Compare result (When necessary)
       shell: bash
       run: |
         ## Should compare result
         source ${{ github.action_path }}/scripts/utils.sh
         _log "Branch or tag [${C_GRE}${{ inputs.branch_to_compare }}${C_END}] has been configured to compare results"
 
-    - name: Checkout to specific branch (When necessary)
-      if: ${{ inputs.branch_to_compare }}
+    - if: ${{ inputs.branch_to_compare }}
+      name: Checkout to specific branch (When necessary)
       uses: actions/checkout@v3
       with:
         ref: ${{ inputs.branch_to_compare }}
 
-    - name: Treosh Lighthouse CI Action (When necessary)
-      if: ${{ inputs.branch_to_compare }}
+    - if: ${{ inputs.branch_to_compare }}
+      name: Treosh Lighthouse CI Action (When necessary)
       id: treosh-lhci-action-to-compare
       uses: treosh/lighthouse-ci-action@v9
       with:
@@ -120,3 +120,9 @@ runs:
         serverToken: ${{ inputs.serverToken }}
         basicAuthUsername: ${{ inputs.basicAuthUsername }}
         basicAuthPassword: ${{ inputs.basicAuthPassword }}
+
+    - if: success()
+      name: Difference between os 2 executions
+      run: |
+        ## Comparing difference
+        pwd
