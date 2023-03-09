@@ -124,6 +124,12 @@ runs:
     - if: success()
       name: Difference between os 2 executions
       shell: bash
+      env:
+        ACTION_PATH: ${{ github.action_path }}
+        JSON_NEW_RESULTS: ${{ steps.treosh-lhci-action.outputs.manifest }}
+        JSON_OLD_RESULTS: ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
+        URLS: ${{ inputs.urls }}
       run: |
         ## Comparing difference
-        pwd
+        echo NEW ${JSON_NEW_RESULTS}
+        echo OLD ${JSON_OLD_RESULTS}
