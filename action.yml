@@ -139,4 +139,3 @@ runs:
         echo NEW ${JSON_NEW_RESULTS}
         echo OLD ${JSON_OLD_RESULTS}
         cd ${{github.action_path}}
-        bash scripts/main.sh
