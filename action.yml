@@ -138,6 +138,6 @@ runs:
         URLS: ${{ inputs.urls }}
       run: |
         ## Comparing difference
-        echo NEW ${JSON_NEW_RESULTS}
-        echo OLD ${JSON_OLD_RESULTS}
+        echo NEW ${{ steps.treosh-lhci-action.outputs.manifest }}
+        echo OLD ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
         cd ${{github.action_path}}
