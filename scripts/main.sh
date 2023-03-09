@@ -26,7 +26,7 @@ for url in ${URLS[@]}; do
     aggregate_summary='{}'
     re='^[0-9]+$'
 
-    _log "${C_WHT}🅢 Summary (${url})${C_ENC}"
+    _log "${C_WHT}${E_SUM} Summary (${url})${C_ENC}"
 
     for metric_name in ${list_summary_name[@]}; do
         let idx+=1
@@ -55,7 +55,7 @@ for url in ${URLS[@]}; do
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
         
-    _log "${C_WHT}🅜 Metrics (${url})${C_END}"
+    _log "${C_WHT}${E_MET} Metrics (${url})${C_END}"
 
     ## Get unit time
     unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
@@ -111,11 +111,8 @@ for url in ${URLS[@]}; do
     export LIGHTHOUSE_ACESSIBILITY=${avg_accessibility:='-'}
     export LIGHTHOUSE_BP=${avg_best_practices:='-'}
     export LIGHTHOUSE_SEO=${avg_seo:='-'}
-    export PERFORMANCE_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PERFORMANCE})
-    export ACESSIBILITY_EMOJI=$(_summary_emoji ${LIGHTHOUSE_ACESSIBILITY})
-    export BP_EMOJI=$(_summary_emoji ${LIGHTHOUSE_BP})
-    export SEO_EMOJI=$(_summary_emoji ${LIGHTHOUSE_SEO})
-    export PWA_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PWA})
+    export LIGHTHOUSE_PWA=${avg_pwa:='-'}
+
     export PERFORMANCE_COLOR=$(_badge_color ${LIGHTHOUSE_PERFORMANCE})
     export ACESSIBILITY_COLOR=$(_badge_color ${LIGHTHOUSE_ACESSIBILITY})
     export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
@@ -124,7 +121,6 @@ for url in ${URLS[@]}; do
 
     # Metrics
     export U_TIME=${unit_time:='-'}
-    export LIGHTHOUSE_PWA=${avg_pwa:='-'}
     export LIGHTHOUSE_FCP=${avg_first_contentful_paint:='-'}
     export LIGHTHOUSE_SI=${avg_speed_index:='-'}
     export LIGHTHOUSE_LCP=${avg_largest_contentful_paint:='-'}
@@ -134,10 +130,11 @@ for url in ${URLS[@]}; do
 
     ## Print summary to action
     TEMPLATE="templates/github_summary_template"
-    SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
+    SUMMARY=$(cat ${TEMPLATE})
     SUMMARY="${SUMMARY@Q}"
     SUMMARY="${SUMMARY#\$\'}"
     SUMMARY="${SUMMARY%\'}"
+    SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" <<< ${SUMMARY})
     echo -e ${SUMMARY} >> $GITHUB_STEP_SUMMARY
 
     # Run Post PR Comment for each URL
