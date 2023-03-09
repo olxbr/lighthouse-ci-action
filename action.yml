@@ -31,8 +31,11 @@ inputs:
     description: "Boolean to define if will comment on PR or not"
   collect_preset:
     description: "Set the collect preset: perf, experimental or desktop. Default: mobile"
+  urls_to_compare:
+    description: "Which urls should be used to campare results. Useful without config file"
+    default: ''
   branch_to_compare:
-    description: "Which branch should be used to campare results"
+    description: "Which branch should be used to campare results. Useful for config file. OBS: This parameter is works when urls is NOT defined"
     default: ''
 outputs:
   resultsPath:
@@ -90,13 +93,17 @@ runs:
         cd ${{github.action_path}}
         bash scripts/main.sh
 
-    - if: ${{ inputs.branch_to_compare }}
+    - if: ${{ inputs.urls_to_compare || inputs.branch_to_compare }}
       name: Compare result (When necessary)
       shell: bash
       run: |
         ## Should compare result
         source ${{ github.action_path }}/scripts/utils.sh
-        _log "Branch or tag [${C_GRE}${{ inputs.branch_to_compare }}${C_END}] has been configured to compare results"
+        [ -n '${{ inputs.urls_to_compare }}' ] &&
+          _log "Others URLS [${C_GRE}${{ inputs.urls_to_compare }}${C_END}] has been configured to compare results"
+
+        [ -n '${{ inputs.branch_to_compare }}' ] &&
+          _log "Branch or tag [${C_GRE}${{ inputs.branch_to_compare }}${C_END}] has been configured to compare results"
 
     - if: ${{ inputs.branch_to_compare }}
       name: Checkout to specific branch (When necessary)
@@ -104,12 +111,12 @@ runs:
       with:
         ref: ${{ inputs.branch_to_compare }}
 
-    - if: ${{ inputs.branch_to_compare }}
+    - if: ${{ inputs.urls_to_compare || inputs.branch_to_compare }}
       name: Treosh Lighthouse CI Action (When necessary)
       id: treosh-lhci-action-to-compare
       uses: treosh/lighthouse-ci-action@v9
       with:
-        urls: ${{ inputs.urls }}
+        urls: ${{ inputs.urls_to_compare }}
         budgetPath: ${{ inputs.budgetPath }}
         configPath: ${{ inputs.configPath }}
         uploadArtifacts: ${{ inputs.uploadArtifacts }}
@@ -125,11 +132,11 @@ runs:
       name: Difference between os 2 executions
       shell: bash
       env:
-        ACTION_PATH: ${{ github.action_path }}
-        JSON_NEW_RESULTS: ${{ steps.treosh-lhci-action.outputs.manifest }}
-        JSON_OLD_RESULTS: ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
+        JSON: ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
         URLS: ${{ inputs.urls }}
       run: |
         ## Comparing difference
         echo NEW ${JSON_NEW_RESULTS}
         echo OLD ${JSON_OLD_RESULTS}
+        cd ${{github.action_path}}
+        bash scripts/main.sh
