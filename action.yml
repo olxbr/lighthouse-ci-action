@@ -113,6 +113,7 @@ runs:
         ref: ${{ inputs.branch_to_compare }}
 
     - name: Treosh Lighthouse CI Action (When necessary)
+      if: ${{ inputs.branch_to_compare || false }}
       id: treosh-lhci-action-to-compare
       uses: treosh/lighthouse-ci-action@v9
       with:
