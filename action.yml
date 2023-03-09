@@ -90,21 +90,13 @@ runs:
         cd ${{github.action_path}}
         bash scripts/main.sh
 
-    # - name: Compare result (When necessary)
-    #   shell: bash
-    #   id: compare
-    #   env:
-    #     BRANCH_TO_COMPARE: ${{ inputs.branch_to_compare || 'none' }}
-    #     ACTION_PATH: ${{ github.action_path }}
-    #   run: |
-    #     ## Should compare result
-    #     source ${ACTION_PATH}/scripts/utils.sh
-
-    #     [[ $BRANCH_TO_COMPARE == 'none' ]] && 
-    #       _log warn "No branches were used to compare. Nothing to do, finished!" &&
-    #       exit 0
-
-    #     _log "Branch [$BRANCH_TO_COMPARE] has been configured to compare results"
+    - name: Compare result (When necessary)
+      if: ${{ inputs.branch_to_compare || false }}
+      shell: bash
+      run: |
+        ## Should compare result
+        source ${{ github.action_path }}/scripts/utils.sh
+        _log "Branch [$BRANCH_TO_COMPARE] has been configured to compare results"
 
     - name: Checkout to specific branch (When necessary)
       if: ${{ inputs.branch_to_compare || false }}
