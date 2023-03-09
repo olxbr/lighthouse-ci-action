@@ -96,7 +96,7 @@ runs:
       run: |
         ## Should compare result
         source ${{ github.action_path }}/scripts/utils.sh
-        _log "Branch [$BRANCH_TO_COMPARE] has been configured to compare results"
+        _log "Branch or tag [${C_GRE}${{ inputs.branch_to_compare }}${C_END}] has been configured to compare results"
 
     - name: Checkout to specific branch (When necessary)
       if: ${{ inputs.branch_to_compare || false }}
