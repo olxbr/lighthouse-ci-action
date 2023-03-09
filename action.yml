@@ -135,9 +135,12 @@ runs:
       shell: bash
       env:
         JSON: ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
-        URLS: ${{ inputs.urls }}
+        RUNS: ${{ inputs.runs }}
+        URLS: ${{ inputs.urls_to_compare }}
+        LINKS: ${{ steps.treosh-lhci-action-to-compare.outputs.links }}    
       run: |
         ## Comparing difference
         echo NEW ${{ steps.treosh-lhci-action.outputs.manifest }}
         echo OLD ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
         cd ${{github.action_path}}
+        bash scripts/main.sh
