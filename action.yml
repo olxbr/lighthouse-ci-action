@@ -33,7 +33,7 @@ inputs:
     description: "Set the collect preset: perf, experimental or desktop. Default: mobile"
   branch_to_compare:
     description: "Which branch should be used to campare results"
-    default: none
+    default: ''
 outputs:
   resultsPath:
     description: "Path to the folder with LHCI results"
@@ -90,12 +90,40 @@ runs:
         cd ${{github.action_path}}
         bash scripts/main.sh
 
-    - name: Compare result (When necessary)
-      shell: bash
-      id: compare
-      env:
-        BRANCH_TO_COMPARE: ${{ inputs.branch_to_compare || 'none' }}
-        ACTION_PATH: ${{ github.action_path }}
-      run: |
-        ## Should compare result
-        bash ${ACTION_PATH}/scripts/compare_results.sh
+    # - name: Compare result (When necessary)
+    #   shell: bash
+    #   id: compare
+    #   env:
+    #     BRANCH_TO_COMPARE: ${{ inputs.branch_to_compare || 'none' }}
+    #     ACTION_PATH: ${{ github.action_path }}
+    #   run: |
+    #     ## Should compare result
+    #     source ${ACTION_PATH}/scripts/utils.sh
+
+    #     [[ $BRANCH_TO_COMPARE == 'none' ]] && 
+    #       _log warn "No branches were used to compare. Nothing to do, finished!" &&
+    #       exit 0
+
+    #     _log "Branch [$BRANCH_TO_COMPARE] has been configured to compare results"
+
+    - name: Checkout to specific branch (When necessary)
+      if: ${{ inputs.branch_to_compare || false }}
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ inputs.branch_to_compare }}
+
+    - name: Treosh Lighthouse CI Action (When necessary)
+      id: treosh-lhci-action
+      uses: treosh/lighthouse-ci-action@v9
+      with:
+        urls: ${{ inputs.urls }}
+        budgetPath: ${{ inputs.budgetPath }}
+        configPath: ${{ inputs.configPath }}
+        uploadArtifacts: ${{ inputs.uploadArtifacts }}
+        artifactName: ${{ inputs.artifactName }}
+        temporaryPublicStorage: ${{ inputs.temporaryPublicStorage }}
+        runs: ${{ inputs.runs }}
+        serverBaseUrl: ${{ inputs.serverBaseUrl }}
+        serverToken: ${{ inputs.serverToken }}
+        basicAuthUsername: ${{ inputs.basicAuthUsername }}
+        basicAuthPassword: ${{ inputs.basicAuthPassword }}
