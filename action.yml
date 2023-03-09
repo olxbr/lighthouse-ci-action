@@ -91,7 +91,7 @@ runs:
         bash scripts/main.sh
 
     - name: Compare result (When necessary)
-      if: ${{ inputs.branch_to_compare || false }}
+      if: ${{ inputs.branch_to_compare }}
       shell: bash
       run: |
         ## Should compare result
@@ -99,13 +99,13 @@ runs:
         _log "Branch or tag [${C_GRE}${{ inputs.branch_to_compare }}${C_END}] has been configured to compare results"
 
     - name: Checkout to specific branch (When necessary)
-      if: ${{ inputs.branch_to_compare || false }}
+      if: ${{ inputs.branch_to_compare }}
       uses: actions/checkout@v3
       with:
         ref: ${{ inputs.branch_to_compare }}
 
     - name: Treosh Lighthouse CI Action (When necessary)
-      if: ${{ inputs.branch_to_compare || false }}
+      if: ${{ inputs.branch_to_compare }}
       id: treosh-lhci-action-to-compare
       uses: treosh/lighthouse-ci-action@v9
       with:
