@@ -12,6 +12,8 @@ export E_GRE='\xE2\x9C\x85'
 export E_YEL='\xE2\x9A\xA0'
 export E_RED='\xE2\x9D\x97'
 export E_TRO='\xF0\x9F\x8F\x86'
+export E_SUM='\xF0\x9F\x85\xA2'
+export E_MET='\xF0\x9F\x85\x9C'
 
 function _log() {
     case $1 in
