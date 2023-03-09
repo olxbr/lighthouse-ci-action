@@ -123,6 +123,7 @@ runs:
 
     - if: success()
       name: Difference between os 2 executions
+      shell: bash
       run: |
         ## Comparing difference
         pwd
