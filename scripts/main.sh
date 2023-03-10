@@ -152,7 +152,7 @@ _log "aggregateResults: ${aggregate_results}"
 echo "aggregateResults='$(jq -c <<< ${aggregate_results})'" >> "$GITHUB_OUTPUT"
 
 # Compare results if current metrics (When necessary)
-if [ ${JSON_COMPARE_RESULTS} ]; then
+if ${JSON_COMPARE_RESULTS}; then
     bullet_point_hex='\xe2\x80\xa2'
     _log "Comparison of results:"
     _log "  ${bullet_point_hex} ${C_GRE}New${C_END} result: ${JSON_COMPARE_RESULTS}"
