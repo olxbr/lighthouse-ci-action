@@ -155,11 +155,11 @@ echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     bullet_point_hex='\x20\x20\x20\xe2\x96\xba'
     star_point_hex='\xe2\x9c\xaa'
-    red_inc_arrow='${C_RED}⬆${C_END}'
-    red_dec_arrow='${C_RED}⬆${C_END}'
-    gre_inc_arrow='${C_GRE}⬇${C_END}'
-    gre_dec_arrow='${C_GRE}⬇${C_END}'
-    eql_arrow='${C_YEL}=${C_END}'
+    red_inc_arrow="\x20\x20\x20${C_RED}⬆${C_END}"
+    red_dec_arrow="\x20\x20\x20${C_RED}⬆${C_END}"
+    gre_inc_arrow="\x20\x20\x20${C_GRE}⬇${C_END}"
+    gre_dec_arrow="\x20\x20\x20${C_GRE}⬇${C_END}"
+    eql_arrow="\x20\x20\x20${C_WHT}=${C_END}"
     previous_results=${aggregateResults}
     recent_results=${JSON_COMPARE_RESULTS}
     previous_urls=($(jq -r '.[].url' <<< ${previous_results}))
