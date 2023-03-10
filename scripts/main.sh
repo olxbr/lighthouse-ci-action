@@ -150,6 +150,8 @@ done
 # Export Aggregate Results to Output
 echo "aggregateResults='$(jq -c <<< ${aggregate_results})'" >> "$GITHUB_OUTPUT"
 
+env
+
 # Compare results if current metrics (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     bullet_point_hex='\xe2\x80\xa2'
