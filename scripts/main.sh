@@ -187,6 +187,19 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
         let idx++
     done
+
+    ## Print Box
+    box='╔══════════════════════════════════════╗
+║   Result of comparing the new code   ║▒
+╠══════════════════════════════════════╣▒
+║ Summary  item1 tem2 item3 item3       ▒
+║           UP    Down  Down Down       ▒
+╟────────────────────────────────────── ▒
+║ Metric                                ▒
+║                                       ▒
+║                                       ▒
+ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒'
+    _log $box
     _log "Comparation finished!"
 else
     _log "aggregateResults: ${aggregateResults}"
