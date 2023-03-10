@@ -199,7 +199,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 ║                                       ▒
 ║                                       ▒
  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒'
-    _log $box
+    printf $box
     _log "Comparation finished!"
 else
     _log "aggregateResults: ${aggregateResults}"
