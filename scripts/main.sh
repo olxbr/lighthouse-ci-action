@@ -8,6 +8,7 @@ JSON=${JSON}
 RUNS=${RUNS}
 LINKS=${LINKS}
 URLS=(${URLS})
+JSON_COMPARE_RESULTS=${JSON_COMPARE_RESULTS:-false}
 
 calc_avg='{ sum+=$1; qtd+=1 } END { printf("%.${round}f", (sum/qtd)${multiplier} ) }'
 awk_calc_avg_in_percentage=$(multiplier=*100 round=0 envsubst <<< $calc_avg)
@@ -149,3 +150,11 @@ done
 # Export Aggregate Results to Output
 _log "aggregateResults: ${aggregate_results}"
 echo "aggregateResults='$(jq -c <<< ${aggregate_results})'" >> "$GITHUB_OUTPUT"
+
+# Compare results if current metrics (When necessary)
+if [ ${JSON_COMPARE_RESULTS} ]; then
+    bullet_point_hex='\xe2\x80\xa2\x0a'
+    _log "Comparison of results:"
+    _log "  ${bullet_point_hex} ${C_GRE}New${C_END} result: ${JSON_COMPARE_RESULTS}"
+    _log "  ${bullet_point_hex} ${C_GRE}Current${C_END} result: ${aggregate_results}"
+fi
