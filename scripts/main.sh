@@ -149,13 +149,13 @@ done
 
 # Export Aggregate Results to Output
 aggregateResults=$(jq -c <<< ${aggregate_results})
-echo "aggregateResults='${aggregate_results}'" >> "$GITHUB_OUTPUT"
+echo "aggregateResults='${aggregateResults}'" >> "$GITHUB_OUTPUT"
 
 # Compare results if current metrics (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     bullet_point_hex='\x20\x20\x20\xe2\x96\xba'
     star_point_hex='\xe2\x9c\xaa'
-    previous_results=${aggregate_results}
+    previous_results=${aggregateResults}
     recent_results=${JSON_COMPARE_RESULTS}
 
     _log "${star_point_hex} Comparison of results:"
