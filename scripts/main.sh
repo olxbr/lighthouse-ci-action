@@ -185,7 +185,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             _log "${m_key} => P: ${previous_value} R:${recent_value}"
         done
 
+        _log "antes"
         let idx++
+        _log "depois"
     done
 
 else
