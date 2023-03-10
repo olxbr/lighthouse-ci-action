@@ -148,17 +148,39 @@ for url in ${URLS[@]}; do
 done
 
 # Export Aggregate Results to Output
-echo "aggregateResults='$(jq -c <<< ${aggregate_results})'" >> "$GITHUB_OUTPUT"
+aggregateResults='$(jq -c <<< ${aggregate_results})'
+echo "aggregateResults='${aggregate_results}'" >> "$GITHUB_OUTPUT"
 
 env
 
 # Compare results if current metrics (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
-    bullet_point_hex='\xe2\x80\xa2'
-    _log "${bullet_point_hex} Comparison of results:"
-    _log "  ├⎯⎯${C_GRE}new${C_END} version: ${JSON_COMPARE_RESULTS}"
-    _log "  └⎯⎯${C_GRE}other${C_END} version: ${aggregate_results}"
+    bullet_point_hex='\x20\x20\x20\xe2\x96\xba'
+    star_point_hex='\xe2\x9c\xaa'
+    previous_results=${aggregate_results}
+    recent_results=${JSON_COMPARE_RESULTS}
 
+    _log "${star_point_hex} Comparison of results:"
+    _log "${bullet_point_hex} ${C_GRE}recent${C_END} version: ${recent_results}"
+    _log "${bullet_point_hex} ${C_GRE}previous${C_END} version: ${previous_results}"
+
+    previous_urls=($(jq -r '.[].url' <<< ${previous_results}))
+
+    ## Iterate using only previous version
+    let idx=0
+    for previous_url in $previous_urls; do
+        previous_summary_keys=$(jq -r '.[] | select(.url=="$previous_url") | .summary | keys[]' <<< ${previous_results})
+        previous_metrics_keys=$(jq -r '.[] | select(.url=="$previous_url") | .metrics | keys[]' <<< ${previous_results})
+        
+        _log "Summary: "
+        ## for each summary compare to the new version
+        for s_key in $previous_summary_keys; do
+            recent_value=$(jq -r '.[${idx}].summary.$s_key' <<< ${recent_results})
+            previous_value=$(jq -r '.[] | select(.url=="$previous_url") | .summary.$s_key' <<< ${previous_results})
+            _log "${s_key} => P: ${previous_value} R:${recent_value}"
+        done
+        let idx++
+    done
 
 else
     _log "aggregateResults: ${aggregate_results}"

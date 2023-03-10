@@ -141,8 +141,5 @@ runs:
         JSON_COMPARE_RESULTS: ${{ steps.print.outputs.aggregateResults }}   ## New Version
       run: |
         ## Comparing difference
-
-        echo "CAT NO OUTOUT"
-        cat ${GITHUB_OUTPUT}
         cd ${{github.action_path}}
         bash scripts/main.sh
