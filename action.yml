@@ -141,5 +141,9 @@ runs:
         JSON_COMPARE_RESULTS: ${{ steps.treosh-lhci-action.outputs.aggregateResults }}   ## New Version
       run: |
         ## Comparing difference
+        ${{ join(steps.treosh-lhci-action.outputs.*,'\n') }}
+
+        echo "CAT NO OUTOUT"
+        cat ${GITHUB_OUTPUT}
         cd ${{github.action_path}}
         bash scripts/main.sh
