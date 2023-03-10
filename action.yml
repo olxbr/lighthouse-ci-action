@@ -138,7 +138,7 @@ runs:
         RUNS: ${{ inputs.runs }}
         URLS: ${{ inputs.urls_to_compare }}
         LINKS: ${{ steps.treosh-lhci-action-to-compare.outputs.links }}
-        JSON_COMPARE_RESULTS: ${{ steps.treosh-lhci-action.outputs.manifest }}   ## New Version
+        JSON_COMPARE_RESULTS: ${{ steps.treosh-lhci-action.outputs.aggregateResults }}   ## New Version
       run: |
         ## Comparing difference
         cd ${{github.action_path}}

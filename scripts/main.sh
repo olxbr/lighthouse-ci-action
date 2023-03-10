@@ -148,13 +148,16 @@ for url in ${URLS[@]}; do
 done
 
 # Export Aggregate Results to Output
-_log "aggregateResults: ${aggregate_results}"
 echo "aggregateResults='$(jq -c <<< ${aggregate_results})'" >> "$GITHUB_OUTPUT"
 
 # Compare results if current metrics (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     bullet_point_hex='\xe2\x80\xa2'
-    _log "Comparison of results:"
-    _log "  ${bullet_point_hex} ${C_GRE}New${C_END} result: ${JSON_COMPARE_RESULTS}"
-    _log "  ${bullet_point_hex} ${C_GRE}Current${C_END} result: ${aggregate_results}"
+    _log "${bullet_point_hex} Comparison of results:"
+    _log "  ├⎯⎯${C_GRE}new${C_END} version: ${JSON_COMPARE_RESULTS}"
+    _log "  └⎯⎯${C_GRE}other${C_END} version: ${aggregate_results}"
+
+
+else
+    _log "aggregateResults: ${aggregate_results}"
 fi
