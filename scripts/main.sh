@@ -155,14 +155,23 @@ echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     bullet_point_hex='\x20\x20\x20\xe2\x96\xba'
     star_point_hex='\xe2\x9c\xaa'
+    red_inc_arrow='${C_RED}⬆${C_END}'
+    red_dec_arrow='${C_RED}⬆${C_END}'
+    gre_inc_arrow='${C_GRE}⬇${C_END}'
+    gre_dec_arrow='${C_GRE}⬇${C_END}'
+    eql_arrow='${C_YEL}=${C_END}'
     previous_results=${aggregateResults}
     recent_results=${JSON_COMPARE_RESULTS}
+    previous_urls=($(jq -r '.[].url' <<< ${previous_results}))
 
     _log "${star_point_hex} Comparison of results:"
     _log "${bullet_point_hex} ${C_GRE}recent${C_END} version: ${recent_results}"
     _log "${bullet_point_hex} ${C_GRE}previous${C_END} version: ${previous_results}"
 
-    previous_urls=($(jq -r '.[].url' <<< ${previous_results}))
+    _log "╔══════════════════════════════════════╗"
+    _log "║   Result of comparing the new code   ║▒"
+    _log "╚══════════════════════════════════════╝▒"
+    _log " ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
 
     ## Iterate using only previous version
     let idx=0
@@ -170,36 +179,38 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         previous_summary_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary | keys[]" <<< ${previous_results})
         previous_metrics_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics | keys[]" <<< ${previous_results})
         
-        _log "Summary: "
         ## for each summary compare to the new version
+        _log "${C_WHT}🅢 Summary ($(jq -r ".[$idx].url" <<< ${recent_results}))${C_ENC}"
         for s_key in $previous_summary_keys; do
             recent_value=$(jq -r ".[$idx].summary.$s_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary.$s_key" <<< ${previous_results})
+
+            ## Greater is better
+            res_value=$(bc <<< "${recent_value}-${previous_value}")
+            [[ $res_value -gt 0 ]] && _log "${gre_inc_arrow} Increase (${res_value})"
+            [[ $res_value -lt 0 ]] && _log "${red_dec_arrow} Decrease (${res_value})"
+            [[ $res_value -gt 0 ]] && _log "${eql_arrow} Equals (${res_value})"
             _log "${s_key} => P: ${previous_value} R:${recent_value}"
         done
 
         ## for each metrics compare to the new version
+        _log "${C_WHT}🅜 Metrics ($(jq -r ".[$idx].url" <<< ${recent_results}))${C_END}"
         for m_key in $previous_metrics_keys; do
             recent_value=$(jq -r ".[$idx].metrics.$m_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics.$m_key" <<< ${previous_results})
+
+            ## Lower is better
+            res_value=$(bc <<< "${recent_value}-${previous_value}")
+            [[ $res_value -gt 0 ]] && _log "${red_inc_arrow} Increase (${res_value})"
+            [[ $res_value -lt 0 ]] && _log "${gre_dec_arrow} Decrease (${res_value})"
+            [[ $res_value -gt 0 ]] && _log "${eql_arrow} Equals (${res_value})"
+
             _log "${m_key} => P: ${previous_value} R:${recent_value}"
         done
 
         let idx++
     done
 
-    ## Print Box
-    box='╔══════════════════════════════════════╗
-║   Result of comparing the new code   ║▒
-╠══════════════════════════════════════╣▒
-║ Summary  item1 tem2 item3 item3       ▒
-║           UP    Down  Down Down       ▒
-╟────────────────────────────────────── ▒
-║ Metric                                ▒
-║                                       ▒
-║                                       ▒
- ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒'
-    printf $box
     _log "Comparation finished!"
 else
     _log "aggregateResults: ${aggregateResults}"
