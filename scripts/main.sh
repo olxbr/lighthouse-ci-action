@@ -148,7 +148,7 @@ for url in ${URLS[@]}; do
 done
 
 # Export Aggregate Results to Output
-aggregateResults='$(jq -c <<< "${aggregate_results}")'
+aggregateResults=$(jq -c <<< ${aggregate_results})
 echo "aggregateResults='${aggregate_results}'" >> "$GITHUB_OUTPUT"
 
 # Compare results if current metrics (When necessary)
