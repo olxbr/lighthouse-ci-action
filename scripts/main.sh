@@ -189,7 +189,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             [[ $res_value -gt 0 ]] && _log "${gre_inc_arrow} Increase (${res_value})" || true
             [[ $res_value -lt 0 ]] && _log "${red_dec_arrow} Decrease (${res_value})" || true
-            [[ $res_value -gt 0 ]] && _log "${eql_arrow} Equals (${res_value})" || true
+            [[ $res_value -eq 0 ]] && _log "${eql_arrow} Equals (${res_value})" || true
             _log "${s_key} => P: ${previous_value} R:${recent_value} - DIF ${res_value}"
         done
 
@@ -203,7 +203,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             [[ $res_value -gt 0 ]] && _log "${red_inc_arrow} Increase (${res_value})" || true
             [[ $res_value -lt 0 ]] && _log "${gre_dec_arrow} Decrease (${res_value})" || true
-            [[ $res_value -gt 0 ]] && _log "${eql_arrow} Equals (${res_value})" || true
+            [[ $res_value -eq 0 ]] && _log "${eql_arrow} Equals (${res_value})" || true
 
             _log "${m_key} => P: ${previous_value} R:${recent_value} - diff ${res_value}"
         done
