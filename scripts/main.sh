@@ -174,6 +174,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         _log "S: ${previous_summary_keys} M: ${previous_metrics_keys} U: ${previous_url}"
         ## for each summary compare to the new version
         for s_key in $previous_summary_keys; do
+            echo ".[$idx].summary.$s_key"
             recent_value=$(jq -r ".[$idx].summary.$s_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary.$s_key" <<< ${previous_results})
             _log "${s_key} => P: ${previous_value} R:${recent_value}"
