@@ -167,8 +167,8 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     ## Iterate using only previous version
     let idx=0
     for previous_url in $previous_urls; do
-        previous_summary_keys=$(jq -r '.[] | select(.url=="$previous_url") | .summary | keys[]' <<< ${previous_results})
-        previous_metrics_keys=$(jq -r '.[] | select(.url=="$previous_url") | .metrics | keys[]' <<< ${previous_results})
+        previous_summary_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary | keys[]" <<< ${previous_results})
+        previous_metrics_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics | keys[]" <<< ${previous_results})
         
         _log "Summary: "
         _log "S: ${previous_summary_keys} M: ${previous_metrics_keys} U: ${previous_url}"
