@@ -153,6 +153,7 @@ echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 
 # Compare results recent code with previous (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
+    tab_hex='\x09'
     space_hex='\x20\x20\x20'
     bullet_point_hex="${space_hex}\xe2\x96\xba"
     star_point_hex='\xe2\x9c\xaa'
@@ -169,9 +170,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     _log "${bullet_point_hex} ${C_GRE}recent${C_END} version: ${recent_results}"
     _log "${bullet_point_hex} ${C_GRE}previous${C_END} version: ${previous_results}"
 
-    _log "╔════════════════════════╗"
-    _log "║${C_BLU} Result of the new code${C_END} ║"
-    _log "╚════════════════════════╝"
+    _log "${tab_hex}╔══════════════════════════════╗"
+    _log "${tab_hex}║${space_hex}${C_BLU} Result of the new code${C_END} space_hex║"
+    _log "${tab_hex}╚══════════════════════════════╝"
 
     ## Iterate using only previous version
     let idx=0
