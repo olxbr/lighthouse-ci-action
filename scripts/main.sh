@@ -27,7 +27,7 @@ for url in ${URLS[@]}; do
     aggregate_summary='{}'
     re='^[0-9]+$'
 
-    _log "${C_WHT}🅢 Summary (${url})"
+    _log "🅢 ${C_WHT}Summary (${url})"
 
     for metric_name in ${list_summary_name[@]}; do
         let idx+=1
@@ -56,7 +56,7 @@ for url in ${URLS[@]}; do
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
         
-    _log "${C_WHT}🅜 Metrics (${url})"
+    _log "🅜 ${C_WHT}Metrics (${url})"
 
     ## Get unit time
     unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
@@ -220,9 +220,6 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
         let idx++
     done
-
-    _log ""
-    _log "Comparation finished!"
 else
     _log "aggregateResults: ${aggregateResults}"
 fi
