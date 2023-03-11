@@ -186,9 +186,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
             ## Greater is better
             res_value=$(bc <<< "${recent_value}-${previous_value}")
-            [[ $res_value -gt 0 ]] && log_line="${s_key}: ${gre_inc_arrow} Increase (${res_value})"
-            [[ $res_value -lt 0 ]] && log_line="${s_key}: ${red_dec_arrow} Decrease (${res_value})"
-            [[ $res_value -eq 0 ]] && log_line="${s_key}: ${eql_arrow} Equals (${res_value})"
+            [[ $res_value -gt 0 ]] && log_line="${gre_inc_arrow} Increase ${s_key} (${res_value})"
+            [[ $res_value -lt 0 ]] && log_line="${red_dec_arrow} Decrease ${s_key} (${res_value})"
+            [[ $res_value -eq 0 ]] && log_line="${eql_arrow} Same score ${s_key} (${res_value})"
 
             _log "\x20\x20\x20 ${log_line}"
     
@@ -202,9 +202,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
             ## Lower is better
             res_value=$(bc <<< "${recent_value}-${previous_value}")
-            [[ $res_value -gt 0 ]] && log_line="${m_key}: ${red_inc_arrow} Increase (${res_value} ${metric_unit})"
-            [[ $res_value -lt 0 ]] && log_line="${m_key}: ${gre_dec_arrow} Decrease (${res_value} ${metric_unit})"
-            [[ $res_value -eq 0 ]] && log_line="${m_key}: ${eql_arrow} Equals (${res_value} ${metric_unit})"
+            [[ $res_value -gt 0 ]] && log_line="${red_inc_arrow} Increase (${res_value} ${m_key} ${metric_unit})"
+            [[ $res_value -lt 0 ]] && log_line="${gre_dec_arrow} Decrease (${res_value} ${m_key} ${metric_unit})"
+            [[ $res_value -eq 0 ]] && log_line="${eql_arrow} Same score (${res_value} ${m_key} ${metric_unit})"
 
             _log "\x20\x20\x20 ${log_line}"
 
