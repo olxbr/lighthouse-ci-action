@@ -153,7 +153,8 @@ echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 
 # Compare results recent code with previous (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
-    title_space='\x09\x09\x09\x09\x09\x09\x09\x20\x20'
+    title_space='\x09\x09\x09\x09\x09\x09\x09\x20\x20\x20\x20\x20'
+    t_n_space='\x09\x09\x09'
     space_hex='\x20\x20\x20'
     bullet_point_hex="${space_hex}\xe2\x96\xba"
     star_point_hex='\xe2\x9c\xaa'
@@ -173,7 +174,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     _log ""
     _log "╔══════════════════════════════════════════════════════╗"
     _log "║${title_space}║"
-    _log "║${space_hex}${space_hex}${space_hex}${space_hex}${space_hex}${C_BLU} RESULT OF THE NEW CODE${C_END}${space_hex}${space_hex}${space_hex}${space_hex}${space_hex}║"
+    _log "║${t_n_space}${C_BLU}RESULT OF THE NEW CODE${C_END}${t_n_space}║"
     _log "║${title_space}║"
     _log "╚══════════════════════════════════════════════════════╝"
 
