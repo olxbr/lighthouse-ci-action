@@ -171,20 +171,11 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     _log "${bullet_point_hex} ${C_GRE}previous${C_END} version: ${previous_results}"
 
     _log ""
-    cat <<EOF > title.templates
-╔══════════════════════════════════════════════════════╗
-║                                                      ║
-║       ${C_BLU}RESULT OF THE NEW CODE${C_END}         ║
-║                                                      ║
-╚══════════════════════════════════════════════════════╝
-EOF
-    _log $(cat title.templates)
-
-    # _log "╔══════════════════════════════════════════════════════╗"
-    # _log "║${title_space}║"
-    # _log "║${space_hex}${space_hex}${space_hex}${space_hex}${C_BLU} RESULT OF THE NEW CODE${C_END} ${space_hex}${space_hex}${space_hex}${space_hex}║"
-    # _log "║${title_space}║"
-    # _log "╚══════════════════════════════════════════════════════╝"
+    _log "╔══════════════════════════════════════════════════════╗"
+    _log "║${title_space}║"
+    _log "║${space_hex}${space_hex}${space_hex}${space_hex}${C_BLU} RESULT OF THE NEW CODE${C_END} ${space_hex}${space_hex}${space_hex}${space_hex}║"
+    _log "║${title_space}║"
+    _log "╚══════════════════════════════════════════════════════╝"
 
     ## Iterate using only previous version
     let idx=0
