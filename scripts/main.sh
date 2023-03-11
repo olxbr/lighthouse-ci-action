@@ -158,11 +158,11 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     space_hex='\x20\x20\x20'
     bullet_point_hex="${space_hex}\xe2\x96\xba"
     star_point_hex='\xe2\x9c\xaa'
-    red_inc_arrow="${C_RED}⬆ ⬆️ ⤴ 🔼 ↑ ↟  ⤴ ⇮ ⤴ 𐍊  ⤸ ▲ ⭣  ➚ ${C_END}"
-    red_dec_arrow="${C_RED}⬆${C_END}"
-    gre_inc_arrow="${C_GRE}⬇ ↆ ➘ ⥥ ${C_END}"
-    gre_dec_arrow="${C_GRE}⬇ ↆ ➘ ⥥ ${C_END}"
-    eql_arrow="${C_BLU}=${C_END}"
+    red_inc_arrow="${C_RED}𐍊${C_END}"
+    red_dec_arrow="${C_RED}𐍊${C_END}"
+    gre_inc_arrow="${C_GRE}ↆ${C_END}"
+    gre_dec_arrow="${C_GRE}ↆ${C_END}"
+    eql_arrow="${C_BLU}✔ ✔️ ✓ ✅ ☑️ =${C_END}"
     previous_results=${aggregateResults}
     recent_results=${JSON_COMPARE_RESULTS}
     previous_urls=($(jq -r '.[].url' <<< ${previous_results}))
