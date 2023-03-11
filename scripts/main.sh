@@ -187,9 +187,11 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
             ## Greater is better
             res_value=$(bc <<< "${recent_value}-${previous_value}")
-            [[ $res_value -gt 0 ]] && _log "${space_hex}${gre_inc_arrow} Increase in ${s_key} (${res_value}%)"
-            [[ $res_value -lt 0 ]] && _log "${space_hex}${red_dec_arrow} Decrease in ${s_key} (${res_value}%)"
-            [[ $res_value -eq 0 ]] && _log "${space_hex}${eql_arrow} Same score in ${s_key} (${res_value}%)"
+            bold_key="${C_WHT}${s_key}${C_END}"
+
+            [[ $res_value -gt 0 ]] && _log "${space_hex}${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)"
+            [[ $res_value -lt 0 ]] && _log "${space_hex}${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)"
+            [[ $res_value -eq 0 ]] && _log "${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)"
     
         done
 
@@ -201,9 +203,11 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
             ## Lower is better
             res_value=$(bc <<< "${recent_value}-${previous_value}")
-            [[ $res_value -gt 0 ]] && _log "${space_hex}${red_inc_arrow} Increase time in ${m_key} (${res_value} ${metric_unit})"
-            [[ $res_value -lt 0 ]] && _log "${space_hex}${gre_dec_arrow} Decrease time in ${m_key} (${res_value} ${metric_unit})"
-            [[ $res_value -eq 0 ]] && _log "${space_hex}${eql_arrow} Same time (${res_value} ${metric_unit})"
+            bold_key="${C_WHT}${m_key}${C_END}"
+
+            [[ $res_value -gt 0 ]] && _log "${space_hex}${red_inc_arrow} Increase time in ${bold_key} (${res_value} ${metric_unit})"
+            [[ $res_value -lt 0 ]] && _log "${space_hex}${gre_dec_arrow} Decrease time in ${bold_key} (${res_value} ${metric_unit})"
+            [[ $res_value -eq 0 ]] && _log "${space_hex}${eql_arrow} Same time in ${bold_key} (${res_value} ${metric_unit})"
 
         done
 
