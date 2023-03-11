@@ -220,7 +220,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
         let idx++
     done
-    exit 0
+    _log "Comparation finished!"
 else
     _log "aggregateResults: ${aggregateResults}"
 fi
