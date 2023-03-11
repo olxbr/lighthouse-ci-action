@@ -159,7 +159,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     red_dec_arrow="\x20\x20\x20${C_RED}⬆${C_END}"
     gre_inc_arrow="\x20\x20\x20${C_GRE}⬇${C_END}"
     gre_dec_arrow="\x20\x20\x20${C_GRE}⬇${C_END}"
-    eql_arrow="\x20\x20\x20${C_WHT}=${C_END}"
+    eql_arrow="\x20\x20\x20${C_BLU}=${C_END}"
     previous_results=${aggregateResults}
     recent_results=${JSON_COMPARE_RESULTS}
     previous_urls=($(jq -r '.[].url' <<< ${previous_results}))
@@ -169,9 +169,8 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     _log "${bullet_point_hex} ${C_GRE}previous${C_END} version: ${previous_results}"
 
     _log "╔══════════════════════════════════╗"
-    _log "║${C_BLU} Result of comparing the new code${C_END} ║▒"
-    _log "╚══════════════════════════════════╝▒"
-    _log "\x20▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+    _log "║${C_BLU} Result of comparing the new code${C_END} ║"
+    _log "╚══════════════════════════════════╝"
 
     ## Iterate using only previous version
     let idx=0
@@ -187,9 +186,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
             ## Greater is better
             res_value=$(bc <<< "${recent_value}-${previous_value}")
-            [[ $res_value -gt 0 ]] && _log "${gre_inc_arrow} Increase (${res_value})"
-            [[ $res_value -lt 0 ]] && _log "${red_dec_arrow} Decrease (${res_value})"
-            [[ $res_value -eq 0 ]] && _log "${eql_arrow} Equals (${res_value})"
+            [[ $res_value -gt 0 ]] && _log "${s_key}: Increase ${gre_inc_arrow} (${res_value})"
+            [[ $res_value -lt 0 ]] && _log "${s_key}: Decrease ${red_dec_arrow} (${res_value})"
+            [[ $res_value -eq 0 ]] && _log "${s_key}: Equals ${eql_arrow} (${res_value})"
     
         done
 
@@ -201,9 +200,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
             ## Lower is better
             res_value=$(bc <<< "${recent_value}-${previous_value}")
-            [[ $res_value -gt 0 ]] && _log "${red_inc_arrow} Increase (${res_value})"
-            [[ $res_value -lt 0 ]] && _log "${gre_dec_arrow} Decrease (${res_value})"
-            [[ $res_value -eq 0 ]] && _log "${eql_arrow} Equals (${res_value})"
+            [[ $res_value -gt 0 ]] && _log "${m_key}: Increase ${red_inc_arrow} (${res_value} ${metric_unit})"
+            [[ $res_value -lt 0 ]] && _log "${m_key}: Decrease ${gre_dec_arrow} (${res_value} ${metric_unit})"
+            [[ $res_value -eq 0 ]] && _log "${m_key}: Equals ${eql_arrow} (${res_value} ${metric_unit})"
 
         done
 
