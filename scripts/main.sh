@@ -27,7 +27,7 @@ for url in ${URLS[@]}; do
     aggregate_summary='{}'
     re='^[0-9]+$'
 
-    _log "${C_WHT}🅢 Summary (${url})${C_ENC}"
+    _log "${C_WHT}🅢 Summary (${url})"
 
     for metric_name in ${list_summary_name[@]}; do
         let idx+=1
@@ -56,7 +56,7 @@ for url in ${URLS[@]}; do
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
         
-    _log "${C_WHT}🅜 Metrics (${url})${C_END}"
+    _log "${C_WHT}🅜 Metrics (${url})"
 
     ## Get unit time
     unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
@@ -77,8 +77,8 @@ for url in ${URLS[@]}; do
 
         ## Print output
         [[ ${idx} -lt ${#list_metrics_name[@]} ]] &&
-        _log "   ├⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}${C_END}" ||
-        _log "   └⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}${C_END}"
+        _log "   ├⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}" ||
+        _log "   └⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}"
         
         ## Agregate metric to output
         aggregate_metrics=$(jq ". += { ${metric_name}: ${avg} }" <<< "${aggregate_metrics}")
@@ -153,7 +153,6 @@ echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 
 # Compare results recent code with previous (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
-    tab_hex='\x09'
     space_hex='\x20\x20\x20'
     bullet_point_hex="${space_hex}\xe2\x96\xba"
     star_point_hex='\xe2\x9c\xaa'
@@ -170,9 +169,12 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     _log "${bullet_point_hex} ${C_GRE}recent${C_END} version: ${recent_results}"
     _log "${bullet_point_hex} ${C_GRE}previous${C_END} version: ${previous_results}"
 
-    _log "${tab_hex}╔══════════════════════════════╗"
-    _log "${tab_hex}║${space_hex}${C_BLU} Result of the new code${C_END} space_hex║"
-    _log "${tab_hex}╚══════════════════════════════╝"
+    _log ""
+    _log "╔══════════════════════════════════════════════════════╗"
+    _log "║                                                      ║"
+    _log "║${space_hex}${space_hex}${space_hex}${C_BLU} RESULT OF THE NEW CODE${C_END} ${space_hex}${space_hex}${space_hex}║"
+    _log "║                                                      ║"
+    _log "╚══════════════════════════════════════════════════════╝"
 
     ## Iterate using only previous version
     let idx=0
@@ -181,7 +183,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         previous_metrics_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics | keys[]" <<< ${previous_results})
         
         ## for each summary compare to the new version
-        _log "${C_WHT}🅢 Summary (Difference)${C_ENC}"
+        _log "🅢 ${C_WHT}Summary (Difference)"
         for s_key in $previous_summary_keys; do
             recent_value=$(jq -r ".[$idx].summary.$s_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary.$s_key" <<< ${previous_results})
@@ -197,7 +199,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         done
 
         ## for each metrics compare to the new version
-        _log "${C_WHT}🅜 Metrics (Difference)${C_END}"
+        _log "🅜 ${C_WHT}Metrics (Difference)"
         for m_key in $previous_metrics_keys; do
             recent_value=$(jq -r ".[$idx].metrics.$m_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics.$m_key" <<< ${previous_results})

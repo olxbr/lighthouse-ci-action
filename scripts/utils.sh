@@ -23,7 +23,7 @@ function _log() {
 
     msg=$( (($#>1)) && echo ${2} || echo ${1} )
 
-    echo -e "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${msg}"
+    echo -e "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${msg}${C_END}"
 }
 
 function _summary_color() {
