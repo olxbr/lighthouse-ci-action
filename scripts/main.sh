@@ -167,10 +167,12 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     recent_results=${JSON_COMPARE_RESULTS}
     previous_urls=($(jq -r '.[].url' <<< ${previous_results}))
 
+    _log ""
     _log "${star_point_hex} Comparison of results:"
     _log "${bullet_point_hex} ${C_GRE}recent${C_END} version: ${recent_results}"
     _log "${bullet_point_hex} ${C_GRE}previous${C_END} version: ${previous_results}"
 
+    _log ""
     _log ""
     _log "╔═════════════════════════════════════════════════════════╗"
     _log "║${title_space}║"
@@ -219,6 +221,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         let idx++
     done
 
+    _log ""
     _log "Comparation finished!"
 else
     _log "aggregateResults: ${aggregateResults}"
