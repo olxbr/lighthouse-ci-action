@@ -5,6 +5,7 @@ export ESC_SEQ='\033['
 export C_END=$ESC_SEQ'0m'
 export C_GRE=$ESC_SEQ'1;32m'
 export C_YEL=$ESC_SEQ'1;33m'
+export C_BLU=$ESC_SEQ'1;34m'
 export C_RED=$ESC_SEQ'1;31m'
 export C_WHT=$ESC_SEQ'1;37m'
 
