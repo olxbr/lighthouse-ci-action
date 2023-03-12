@@ -186,7 +186,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         previous_summary_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary | keys[]" <<< ${previous_results})
         previous_metrics_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics | keys[]" <<< ${previous_results})
 
-        _log "\x09𝒰𝓇𝓁: $(jq -r ".[$idx].url" <<< ${recent_results})"
+        _log "\x09𝒰𝓇𝓁: $(jq -r ".[$idx].url" <<< ${recent_results}) 𝓤𝓻𝓵  𝖀𝕽𝕷 𝖀𝖗𝖑  𝕌ℝ𝕃  𝕌𝕣𝕝  🆄🆁🅻"
         _log "┌──────────────────────────────────────────────────────"
         
         ## for each summary compare to the new version
