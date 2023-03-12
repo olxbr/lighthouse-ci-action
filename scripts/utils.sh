@@ -8,6 +8,7 @@ export C_YEL=$ESC_SEQ'1;33m'
 export C_BLU=$ESC_SEQ'1;34m'
 export C_RED=$ESC_SEQ'1;31m'
 export C_WHT=$ESC_SEQ'1;37m'
+export C_WHT_NO_BOLD=$ESC_SEQ'1;37m'
 
 export E_GRE='\xE2\x9C\x85'
 export E_YEL='\xE2\x9A\xA0'
