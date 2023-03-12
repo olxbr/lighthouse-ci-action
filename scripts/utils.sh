@@ -29,9 +29,6 @@ function _log() {
         msg_total_coll=$2
         msg_last_char=$3
         msg_more=$(($msg_total_coll-$msg_length))
-        echo "ML: $msg_length"
-        echo "MT: $msg_total_coll"
-        echo "MM: $msg_more"
         msg_space_end=$(printf '\\x20%.0s' $(seq 1 $(($msg_total_coll-$msg_length))))
         msg="${msg}${msg_space_end}${msg_last_char}"
     fi
