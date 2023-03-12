@@ -175,7 +175,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     _log ""
     title="\x09\x09\x09 ${C_BLU}RESULT OF THE NEW CODE${C_END}\x09\x09\x09"
     title_line=$(eval printf '═%.0s' {3..$coll_length})
-    title_space='\x09\x09\x09\x09\x09\x09'
+    title_space='\x09\x09\x09\x09\x09\x09\x09\x09'
     _log "╔$title_line╗"
     _log "║$title_space║"
     _log "║$title║"
@@ -201,9 +201,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             bold_key="${C_WHT}${s_key}${C_END}"
 
-            [[ $res_value -gt 0 ]] && _log "│\x09${space_hex}${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)"
-            [[ $res_value -lt 0 ]] && _log "│\x09${space_hex}${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)"
-            [[ $res_value -eq 0 ]] && _log "│\x09${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)"
+            [[ $res_value -gt 0 ]] && _log "│\x09${space_hex}${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)" ${coll_length} │
+            [[ $res_value -lt 0 ]] && _log "│\x09${space_hex}${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)" ${coll_length} │
+            [[ $res_value -eq 0 ]] && _log "│\x09${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)" ${coll_length} │
     
         done
 
