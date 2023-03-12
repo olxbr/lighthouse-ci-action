@@ -175,7 +175,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     _log ""
     title="\x09\x09\x09 ${C_BLU}RESULT OF THE NEW CODE${C_END}\x09\x09\x09"
     title_line=$(eval printf '═%.0s' {3..$coll_length})
-    title_space=$(eval printf '\x20%.0s' {3..$coll_length})
+    title_space=$(eval printf '\\x20%.0s' {3..$coll_length})
     _log "╔$title_line╗"
     _log "║$title_space║"
     _log "║$title║"
