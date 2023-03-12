@@ -157,10 +157,10 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     space_hex='\x20\x20\x20\x20'
     bullet_point_hex="\x20\x20\x20\xe2\x96\xba"
     star_point_hex='\xe2\x9c\xaa'
-    red_inc_arrow="${C_RED}\x20𐍊${C_END}" #𐍊
-    red_dec_arrow="${C_RED}\x20ↆ${C_END}"
-    gre_inc_arrow="${C_GRE}\x20𐍊${C_END}"
-    gre_dec_arrow="${C_GRE}\x20ↆ${C_END}" #ↆ
+    red_inc_arrow="${C_RED}🔼${C_END}" #𐍊
+    red_dec_arrow="${C_RED}🔽${C_END}"
+    gre_inc_arrow="${C_GRE}🔼${C_END}"
+    gre_dec_arrow="${C_GRE}🔼${C_END}" #ↆ
     eql_arrow="${C_BLU}✅${C_END}"
     previous_results=${aggregateResults}
     recent_results=${JSON_COMPARE_RESULTS}
@@ -188,7 +188,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         previous_summary_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary | keys[]" <<< ${previous_results})
         previous_metrics_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics | keys[]" <<< ${previous_results})
 
-        _log "{C_WHT_NO_BOLD} 🆄🆁🅻${C_END} $(jq -r ".[$idx].url" <<< ${recent_results})"
+        _log "${C_WHT_NO_BOLD} 🆄🆁🅻${C_END} $(jq -r ".[$idx].url" <<< ${recent_results})"
         _log "┌$(eval printf '─%.0s' {3..$coll_length})┐"
         
         ## for each summary compare to the new version
