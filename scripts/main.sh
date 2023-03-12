@@ -154,8 +154,6 @@ echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 # Compare results recent code with previous (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     coll_length=60
-    title_space='\x09\x09\x09\x09\x09\x09\x09\x20\x20\x20\x20\x20\x20\x20\x20'
-    t_n_space='\x09\x09\x09'
     space_hex='\x20\x20\x20'
     bullet_point_hex="${space_hex}\xe2\x96\xba"
     star_point_hex='\xe2\x9c\xaa'
@@ -175,14 +173,14 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
     _log ""
     _log ""
+    title="\x09\x09\x09 ${C_BLU}RESULT OF THE NEW CODE${C_END}\x09\x09\x09"
     title_line=$(eval printf '═%.0s' {3..$coll_length})
-    echo ${title_line}
-    _log ${title_line}
-    _log "╔${title_line}╗"
-    _log "║${title_space}║"
-    _log "║${t_n_space}${C_BLU}RESULT OF THE NEW CODE${C_END}${t_n_space}║"
-    _log "║${title_space}║"
-    _log "╚═════════════════════════════════════════════════════════╝"
+    title_space=$(eval printf '\x20%.0s' {3..$coll_length})
+    _log "╔$title_line╗"
+    _log "║$title_space║"
+    _log "║$title║"
+    _log "║$title_space║"
+    _log "╚$title_line╝"
 
     ## Iterate using only previous version
     let idx=0
@@ -191,7 +189,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         previous_metrics_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics | keys[]" <<< ${previous_results})
 
         _log "\x09${C_WHT_NO_BOLD}🆄🆁🅻${C_END} $(jq -r ".[$idx].url" <<< ${recent_results})"
-        _log "┌──────────────────────────────────────────────────────────"
+        _log "┌$(eval printf '─%.0s' {3..$coll_length})┐"
         
         ## for each summary compare to the new version
         _log "│\x09🅢 ${C_WHT}Summary (Difference)"
@@ -225,7 +223,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
         done
 
-        _log "└──────────────────────────────────────────────────────────"
+        _log "└$(eval printf '─%.0s' {3..$coll_length})┘"
         _log ""
         let idx++
     done
