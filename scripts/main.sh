@@ -188,7 +188,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         previous_summary_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary | keys[]" <<< ${previous_results})
         previous_metrics_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics | keys[]" <<< ${previous_results})
 
-        _log "/x20/x20${C_WHT_NO_BOLD}🆄🆁🅻${C_END} $(jq -r ".[$idx].url" <<< ${recent_results})"
+        _log "\x20\x20${C_WHT_NO_BOLD}🆄🆁🅻${C_END} $(jq -r ".[$idx].url" <<< ${recent_results})"
         _log "┌$(eval printf '─%.0s' {3..$coll_length})┐"
         
         ## for each summary compare to the new version
@@ -203,7 +203,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
             [[ $res_value -gt 0 ]] && _log "|${space_hex}${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)" $(($coll_length+21)) │
             [[ $res_value -lt 0 ]] && _log "|${space_hex}${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)" $(($coll_length+21)) │
-            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)" $(($coll_length+21)) │
+            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)" $(($coll_length+22)) │
     
         done
 
@@ -219,7 +219,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
             [[ $res_value -gt 0 ]] && _log "|${space_hex}${red_inc_arrow} Increase time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+21)) │
             [[ $res_value -lt 0 ]] && _log "|${space_hex}${gre_dec_arrow} Decrease time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+21)) │
-            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow} Same time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+21)) │
+            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow} Same time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+22)) │
 
         done
 
