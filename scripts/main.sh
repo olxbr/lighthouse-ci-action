@@ -175,7 +175,8 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
     _log ""
     _log ""
-    _log "╔$(printf '═%.0s' {3..$coll_length})╗"
+    title_line=$(printf '═%.0s' {3..$coll_length})
+    _log "╔${title_line}╗"
     _log "║${title_space}║"
     _log "║${t_n_space}${C_BLU}RESULT OF THE NEW CODE${C_END}${t_n_space}║"
     _log "║${title_space}║"
