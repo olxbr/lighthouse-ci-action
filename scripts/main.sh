@@ -192,7 +192,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         _log "┌$(eval printf '─%.0s' {3..$coll_length})┐"
         
         ## for each summary compare to the new version
-        _log "| 🅢 ${C_WHT}Summary (Difference)${C_END}" $(($coll_length+9)) │
+        _log "|\x09🅢 ${C_WHT}Summary (Difference)${C_END}" $(($coll_length+9)) │
         for s_key in $previous_summary_keys; do
             recent_value=$(jq -r ".[$idx].summary.$s_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary.$s_key" <<< ${previous_results})
