@@ -153,6 +153,7 @@ echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 
 # Compare results recent code with previous (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
+    coll_length=60
     title_space='\x09\x09\x09\x09\x09\x09\x09\x20\x20\x20\x20\x20\x20\x20\x20'
     t_n_space='\x09\x09\x09'
     space_hex='\x20\x20\x20'
@@ -174,7 +175,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
     _log ""
     _log ""
-    _log "╔═════════════════════════════════════════════════════════╗"
+    _log "╔$(printf '═%.0s' {3..$coll_length})╗"
     _log "║${title_space}║"
     _log "║${t_n_space}${C_BLU}RESULT OF THE NEW CODE${C_END}${t_n_space}║"
     _log "║${title_space}║"
