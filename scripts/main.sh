@@ -153,8 +153,8 @@ echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 
 # Compare results recent code with previous (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
-    coll_length=59
-    space_hex='\x20\x20\x20\x20'
+    coll_length=65
+    space_hex='\x20\x20\x20\x20\x20\x20'
     bullet_point_hex="\x20\x20\x20\xe2\x96\xba"
     star_point_hex='\xe2\x9c\xaa'
     # red_inc_arrow="${C_RED}▲${C_END}" #𐍊
@@ -197,7 +197,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         _log "┌$(eval printf '─%.0s' {3..$coll_length})┐"
         
         ## for each summary compare to the new version
-        _log "| 🅢 ${C_WHT}Summary (Difference)${C_END}\x09" $(($coll_length+9)) │
+        _log "| \x20\x20🅢 ${C_WHT}Summary (Difference)${C_END}\x09" $(($coll_length+9)) │
         for s_key in $previous_summary_keys; do
             recent_value=$(jq -r ".[$idx].summary.$s_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary.$s_key" <<< ${previous_results})
@@ -206,14 +206,14 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             bold_key="${C_WHT}${s_key}${C_END}"
 
-            [[ $res_value -gt 0 ]] && _log "|${space_hex}${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)" $(($coll_length+19)) │
-            [[ $res_value -lt 0 ]] && _log "|${space_hex}${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)" $(($coll_length+19)) │
-            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)" $(($coll_length+19)) │
+            [[ $res_value -gt 0 ]] && _log "|${space_hex}${gre_inc_arrow}Increase in ${bold_key} (${res_value}%)" $(($coll_length+19)) │
+            [[ $res_value -lt 0 ]] && _log "|${space_hex}${red_dec_arrow}Decrease in ${bold_key} (${res_value}%)" $(($coll_length+19)) │
+            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow}Same score in ${bold_key} (${res_value}%)" $(($coll_length+19)) │
     
         done
 
         ## for each metrics compare to the new version
-        _log "| 🅜 ${C_WHT}Metrics (Difference)${C_END}\x09" $(($coll_length+9)) │
+        _log "| \x20\x20🅜 ${C_WHT}Metrics (Difference)${C_END}\x09" $(($coll_length+9)) │
         for m_key in $previous_metrics_keys; do
             recent_value=$(jq -r ".[$idx].metrics.$m_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics.$m_key" <<< ${previous_results})
@@ -222,9 +222,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             bold_key="${C_WHT}${m_key}${C_END}"
 
-            [[ $res_value -gt 0 ]] && _log "|${space_hex}${red_inc_arrow} Increase time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+21)) │
-            [[ $res_value -lt 0 ]] && _log "|${space_hex}${gre_dec_arrow} Decrease time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+21)) │
-            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow} Same time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+22)) │
+            [[ $res_value -gt 0 ]] && _log "|${space_hex}${red_inc_arrow}Increase time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+21)) │
+            [[ $res_value -lt 0 ]] && _log "|${space_hex}${gre_dec_arrow}Decrease time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+21)) │
+            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow}Same time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+22)) │
 
         done
 
