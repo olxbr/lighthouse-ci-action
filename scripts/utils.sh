@@ -29,6 +29,7 @@ function _log() {
         msg_total_coll=$2
         msg_last_char=$3
         msg_space_end=$(printf '\\x20%.0s' $(seq 1 $(($msg_length-$msg_total_coll))))
+        echo "${msg}${msg_space_end}${msg_last_char}"
         msg="${msg}${msg_space_end}${msg_last_char}"
     fi
 
