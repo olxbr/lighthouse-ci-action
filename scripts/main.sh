@@ -192,7 +192,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         _log "┌$(eval printf '─%.0s' {3..$coll_length})┐"
         
         ## for each summary compare to the new version
-        _log "|\x09🅢 ${C_WHT}Summary (Difference)" $(($coll_length+15)) │
+        _log "|\x09🅢 ${C_WHT}Summary (Difference)" $(($coll_length+5)) │
         for s_key in $previous_summary_keys; do
             recent_value=$(jq -r ".[$idx].summary.$s_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary.$s_key" <<< ${previous_results})
@@ -208,7 +208,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         done
 
         ## for each metrics compare to the new version
-        _log "|\x09🅜 ${C_WHT}Metrics (Difference)" $(($coll_length+15)) │
+        _log "|\x09🅜 ${C_WHT}Metrics (Difference)" $(($coll_length+5)) │
         for m_key in $previous_metrics_keys; do
             recent_value=$(jq -r ".[$idx].metrics.$m_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics.$m_key" <<< ${previous_results})
