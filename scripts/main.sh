@@ -178,9 +178,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
     _log ""
     _log ""
-    title="\x09\x09\x09 ${C_BLU}RESULT OF THE NEW CODE${C_END}\x09\x09\x09"
+    title="\x09\x09\x09\x20 ${C_BLU}RESULT OF THE NEW CODE${C_END} \x20\x09\x09\x09"
     title_line=$(eval printf '═%.0s' {3..$coll_length})
-    title_space='\x09\x09\x09\x09\x09\x09\x09\x09'
+    title_space='\x20\x20\x20\x09\x09\x09\x09\x09\x09\x09\x09'
     _log "╔$title_line╗"
     _log "║$title_space║"
     _log "║$title║"
@@ -197,7 +197,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         _log "┌$(eval printf '─%.0s' {3..$coll_length})┐"
         
         ## for each summary compare to the new version
-        _log "| \x20\x20🅢 ${C_WHT}Summary (Difference)${C_END}\x09" $(($coll_length)) │
+        _log "| \x20\x20🅢 ${C_WHT}Summary (Difference)${C_END}\x09" $(($coll_length+3)) │
         for s_key in $previous_summary_keys; do
             recent_value=$(jq -r ".[$idx].summary.$s_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary.$s_key" <<< ${previous_results})

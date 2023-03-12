@@ -100,7 +100,7 @@ runs:
         ## Should compare result
         source ${{ github.action_path }}/scripts/utils.sh
         if [ -n '${{ inputs.urls_to_compare }}' ]; then
-          _log "Others URLS [${C_BLU}${{ inputs.urls_to_compare }}${C_END}] has been configured to compare results"
+          _log "Others URLS [${C_BLU}${{ inputs.urls_to_compare.trim() }}${C_END}] has been configured to compare results"
         fi
 
         if [ -n '${{ inputs.branch_to_compare }}' ]; then
