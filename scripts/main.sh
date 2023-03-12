@@ -157,10 +157,10 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     space_hex='\x20\x20\x20\x20'
     bullet_point_hex="\x20\x20\x20\xe2\x96\xba"
     star_point_hex='\xe2\x9c\xaa'
-    red_inc_arrow="${C_RED}\x09𐍊${C_END}"
-    red_dec_arrow="${C_RED}\x09ↆ${C_END}"
-    gre_inc_arrow="${C_GRE}\x09𐍊${C_END}"
-    gre_dec_arrow="${C_GRE}\x09ↆ${C_END}"
+    red_inc_arrow="${C_RED}\x20𐍊${C_END}"
+    red_dec_arrow="${C_RED}\x20ↆ${C_END}"
+    gre_inc_arrow="${C_GRE}\x20𐍊${C_END}"
+    gre_dec_arrow="${C_GRE}\x20ↆ${C_END}"
     eql_arrow="${C_BLU}✅${C_END}"
     previous_results=${aggregateResults}
     recent_results=${JSON_COMPARE_RESULTS}
@@ -201,8 +201,8 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             bold_key="${C_WHT}${s_key}${C_END}"
 
-            [[ $res_value -gt 0 ]] && _log "|${space_hex}${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)" $(($coll_length+21)) │
-            [[ $res_value -lt 0 ]] && _log "|${space_hex}${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)" $(($coll_length+21)) │
+            [[ $res_value -gt 0 ]] && _log "|\x09${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)" $(($coll_length+21)) │
+            [[ $res_value -lt 0 ]] && _log "|\x09${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)" $(($coll_length+21)) │
             [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)" $(($coll_length+20)) │
     
         done
