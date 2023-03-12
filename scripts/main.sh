@@ -157,11 +157,11 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     space_hex='\x20\x20\x20\x20'
     bullet_point_hex="\x20\x20\x20\xe2\x96\xba"
     star_point_hex='\xe2\x9c\xaa'
-    red_inc_arrow="${C_RED}🔼${C_END}" #𐍊
-    red_dec_arrow="${C_RED}🔽${C_END}"
-    gre_inc_arrow="${C_GRE}🔼${C_END}"
-    gre_dec_arrow="${C_GRE}🔼${C_END}" #ↆ
-    eql_arrow="${C_BLU}✅${C_END}"
+    red_inc_arrow="${C_RED}🔴${C_END}" #𐍊
+    red_dec_arrow="${C_RED}🔴${C_END}"
+    gre_inc_arrow="${C_GRE}🟢${C_END}"
+    gre_dec_arrow="${C_GRE}🟢${C_END}" #ↆ
+    eql_arrow="${C_BLU}🔵${C_END}"
     previous_results=${aggregateResults}
     recent_results=${JSON_COMPARE_RESULTS}
     previous_urls=$(jq -r '.[].url' <<< ${previous_results})
@@ -188,7 +188,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         previous_summary_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary | keys[]" <<< ${previous_results})
         previous_metrics_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics | keys[]" <<< ${previous_results})
 
-        _log "${C_WHT_NO_BOLD} 🆄🆁🅻${C_END} $(jq -r ".[$idx].url" <<< ${recent_results})"
+        _log "/x20/x20${C_WHT_NO_BOLD}🆄🆁🅻${C_END} $(jq -r ".[$idx].url" <<< ${recent_results})"
         _log "┌$(eval printf '─%.0s' {3..$coll_length})┐"
         
         ## for each summary compare to the new version
@@ -201,8 +201,8 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             bold_key="${C_WHT}${s_key}${C_END}"
 
-            [[ $res_value -gt 0 ]] && _log "|\x09${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)" $(($coll_length+21)) │
-            [[ $res_value -lt 0 ]] && _log "|\x09${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)" $(($coll_length+21)) │
+            [[ $res_value -gt 0 ]] && _log "|\x09${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)" $(($coll_length+20)) │
+            [[ $res_value -lt 0 ]] && _log "|\x09${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)" $(($coll_length+20)) │
             [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)" $(($coll_length+20)) │
     
         done
@@ -217,8 +217,8 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             bold_key="${C_WHT}${m_key}${C_END}"
 
-            [[ $res_value -gt 0 ]] && _log "|${space_hex}${red_inc_arrow} Increase time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+21)) │
-            [[ $res_value -lt 0 ]] && _log "|${space_hex}${gre_dec_arrow} Decrease time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+21)) │
+            [[ $res_value -gt 0 ]] && _log "|${space_hex}${red_inc_arrow} Increase time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+20)) │
+            [[ $res_value -lt 0 ]] && _log "|${space_hex}${gre_dec_arrow} Decrease time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+20)) │
             [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow} Same time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+20)) │
 
         done
