@@ -208,7 +208,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         done
 
         ## for each metrics compare to the new version
-        _log "| 🅜 ${C_WHT}Metrics (Difference)${C_END}" $(($coll_length+9)) │
+        _log "| 🅜 ${C_WHT}Metrics (Difference)${C_END}\x09" $(($coll_length+9)) │
         for m_key in $previous_metrics_keys; do
             recent_value=$(jq -r ".[$idx].metrics.$m_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics.$m_key" <<< ${previous_results})
