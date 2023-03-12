@@ -221,6 +221,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
         done
 
+        _log "└──────────────────────────────────────────────────────────"
         _log ""
         let idx++
     done
