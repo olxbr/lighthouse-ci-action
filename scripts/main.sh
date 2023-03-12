@@ -165,7 +165,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     eql_arrow="${C_BLU}✅${C_END}"
     previous_results=${aggregateResults}
     recent_results=${JSON_COMPARE_RESULTS}
-    previous_urls=($(jq -r '.[].url' <<< ${previous_results}))
+    previous_urls=$(jq -r '.[].url' <<< ${previous_results})
 
     _log ""
     _log "${star_point_hex} Comparison of results:"
