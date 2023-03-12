@@ -24,6 +24,7 @@ function _log() {
 
     msg=$( (($#>1)) && echo ${2} || echo ${1} )
     if (($#>2)); then
+        echo "M: ${msg}"
         msg_evaluated=$(echo -e $msg) ## Transform hex to char
         msg_length=$(echo ${#msg_evaluated})
         msg_total_coll=$2
