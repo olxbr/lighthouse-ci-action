@@ -192,7 +192,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
         _log "┌──────────────────────────────────────────────────────"
         
         ## for each summary compare to the new version
-        _log "│🅢 ${C_WHT}Summary (Difference)"
+        _log "│\x09🅢 ${C_WHT}Summary (Difference)"
         for s_key in $previous_summary_keys; do
             recent_value=$(jq -r ".[$idx].summary.$s_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary.$s_key" <<< ${previous_results})
@@ -201,14 +201,14 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             bold_key="${C_WHT}${s_key}${C_END}"
 
-            [[ $res_value -gt 0 ]] && _log "│${space_hex}${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)"
-            [[ $res_value -lt 0 ]] && _log "│${space_hex}${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)"
-            [[ $res_value -eq 0 ]] && _log "│${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)"
+            [[ $res_value -gt 0 ]] && _log "│\x09${space_hex}${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)"
+            [[ $res_value -lt 0 ]] && _log "│\x09${space_hex}${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)"
+            [[ $res_value -eq 0 ]] && _log "│\x09${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)"
     
         done
 
         ## for each metrics compare to the new version
-        _log "│🅜 ${C_WHT}Metrics (Difference)"
+        _log "│\x09🅜 ${C_WHT}Metrics (Difference)"
         for m_key in $previous_metrics_keys; do
             recent_value=$(jq -r ".[$idx].metrics.$m_key" <<< ${recent_results})
             previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics.$m_key" <<< ${previous_results})
@@ -217,9 +217,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             bold_key="${C_WHT}${m_key}${C_END}"
 
-            [[ $res_value -gt 0 ]] && _log "│${space_hex}${red_inc_arrow} Increase time in ${bold_key} (${res_value} ${metric_unit})"
-            [[ $res_value -lt 0 ]] && _log "│${space_hex}${gre_dec_arrow} Decrease time in ${bold_key} (${res_value} ${metric_unit})"
-            [[ $res_value -eq 0 ]] && _log "│${space_hex}${eql_arrow} Same time in ${bold_key} (${res_value} ${metric_unit})"
+            [[ $res_value -gt 0 ]] && _log "│\x09${space_hex}${red_inc_arrow} Increase time in ${bold_key} (${res_value} ${metric_unit})"
+            [[ $res_value -lt 0 ]] && _log "│\x09${space_hex}${gre_dec_arrow} Decrease time in ${bold_key} (${res_value} ${metric_unit})"
+            [[ $res_value -eq 0 ]] && _log "│\x09${space_hex}${eql_arrow} Same time in ${bold_key} (${res_value} ${metric_unit})"
 
         done
 
