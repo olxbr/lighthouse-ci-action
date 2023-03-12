@@ -175,7 +175,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
 
     _log ""
     _log ""
-    title_line=$(printf '═%.0s' {3..$coll_length})
+    title_line=$(eval printf '═%.0s' {3..$coll_length})
     echo ${title_line}
     _log ${title_line}
     _log "╔${title_line}╗"
