@@ -154,7 +154,7 @@ echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 # Compare results recent code with previous (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     coll_length=59
-    space_hex='\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'
+    space_hex='\x20\x20\x20\x20\x20'
     bullet_point_hex="\x20\x20\x20\xe2\x96\xba"
     star_point_hex='\xe2\x9c\xaa'
     red_inc_arrow="${C_RED}\x20𐍊${C_END}"
