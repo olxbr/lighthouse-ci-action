@@ -162,11 +162,11 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     # gre_inc_arrow="${C_GRE}▲${C_END}"
     # gre_dec_arrow="${C_GRE}▼${C_END}" #ↆ
     # eql_arrow="${C_BLU}▶︎${C_END}"
-    red_inc_arrow="${C_RED}🔴${C_END}" #𐍊
-    red_dec_arrow="${C_RED}🔴${C_END}"
-    gre_inc_arrow="${C_GRE}🟢${C_END}"
-    gre_dec_arrow="${C_GRE}🟢${C_END}" #ↆ
-    eql_arrow="${C_BLU}🔵${C_END}"
+    red_inc_arrow="${C_RED}🔴\x09${C_END}" #𐍊
+    red_dec_arrow="${C_RED}🔴\x09${C_END}"
+    gre_inc_arrow="${C_GRE}🟢\x09${C_END}"
+    gre_dec_arrow="${C_GRE}🟢\x09${C_END}" #ↆ
+    eql_arrow="${C_BLU}🔵\x09${C_END}"
     previous_results=${aggregateResults}
     recent_results=${JSON_COMPARE_RESULTS}
     previous_urls=$(jq -r '.[].url' <<< ${previous_results})
@@ -206,9 +206,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             bold_key="${C_WHT}${s_key}${C_END}"
 
-            [[ $res_value -gt 0 ]] && _log "|${space_hex}${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)\x09" $(($coll_length+19)) │
-            [[ $res_value -lt 0 ]] && _log "|${space_hex}${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)\x09" $(($coll_length+19)) │
-            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)\x09" $(($coll_length+19)) │
+            [[ $res_value -gt 0 ]] && _log "|${space_hex}${gre_inc_arrow} Increase in ${bold_key} (${res_value}%)" $(($coll_length+19)) │
+            [[ $res_value -lt 0 ]] && _log "|${space_hex}${red_dec_arrow} Decrease in ${bold_key} (${res_value}%)" $(($coll_length+19)) │
+            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow} Same score in ${bold_key} (${res_value}%)" $(($coll_length+19)) │
     
         done
 
