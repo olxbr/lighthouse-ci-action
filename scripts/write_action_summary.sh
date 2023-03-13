@@ -17,6 +17,7 @@ export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
 export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
 export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
 
+TEMPLATE="templates/github_summary_template"
 SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
 SUMMARY="${SUMMARY@Q}"
 SUMMARY="${SUMMARY#\$\'}"

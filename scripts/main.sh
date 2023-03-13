@@ -139,7 +139,7 @@ for url in ${URLS[@]}; do
     export LIGHTHOUSE_TI=${avg_interactive:='-'}
 
     ## Print summary to action
-    TEMPLATE="templates/github_summary_template"
+    # TEMPLATE="templates/github_summary_template"
     # SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
     # SUMMARY="${SUMMARY@Q}"
     # SUMMARY="${SUMMARY#\$\'}"
