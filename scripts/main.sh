@@ -41,8 +41,9 @@ for url in ${URLS[@]}; do
 
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
         echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
-        export "avg_${snake_metric_name}=${avg}"
-        export "emoji_${snake_metric_name}=$(_summary_emoji ${avg})"
+        echo "emoji_${snake_metric_name}=$(_summary_emoji ${avg})" >> ${GITHUB_ENV}
+        # export "avg_${snake_metric_name}=${avg}"
+        # export "emoji_${snake_metric_name}=$(_summary_emoji ${avg})"
 
         ## Agregate metric to output
         camel_metric_name=$(_snake_to_camel_case ${metric_name})
@@ -90,7 +91,7 @@ for url in ${URLS[@]}; do
         ## Exporting to pr comment and summary
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
         echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
-        export "avg_${snake_metric_name}=${avg}"
+        # export "avg_${snake_metric_name}=${avg}"
     done
 
     # Build aggregate results
@@ -106,11 +107,15 @@ for url in ${URLS[@]}; do
     aggregate_results=$(jq ". += [${result}]" <<< ${aggregate_results})
 
     # Evaluating env vars to use in templates
-    export EVALUATED_URL=$([ "$urls_length" -gt "1" ] && echo " - (${url})" || echo "")
-    export EVALUATED_LIGHTHOUSE_LINK=$([ -n "$lighthouse_link" ] && echo "> _For full web report see [this page](${lighthouse_link})._")
+    # export EVALUATED_URL=$([ "$urls_length" -gt "1" ] && echo " - (${url})" || echo "")
+    # export EVALUATED_LIGHTHOUSE_LINK=$([ -n "$lighthouse_link" ] && echo "> _For full web report see [this page](${lighthouse_link})._")
+    echo "EVALUATED_URL=$([ "$urls_length" -gt "1" ] && echo " - (${url})" || echo "")" >> ${GITHUB_ENV}
+    echo "EVALUATED_LIGHTHOUSE_LINK=$([ -n "$lighthouse_link" ] && echo "> _For full web report see [this page](${lighthouse_link})._")" >> ${GITHUB_ENV}
 
     # Lhci Configs
-    export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
+    # export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
+    echo "COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}" >> ${GITHUB_ENV}
+
 
     # Summary
     # export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}

@@ -168,6 +168,7 @@ runs:
     - name: Create Action summary and Comment on PR
       shell: bash
       run: |
+        ## Writing summary and comment on PR
         cd ${{github.action_path}}
         bash scripts/write_action_summary.sh
         
