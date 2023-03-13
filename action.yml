@@ -167,6 +167,8 @@ runs:
 
     - name: Create Action summary and Comment on PR
       shell: bash
+      env:
+        SHOULD_COMPARE: ${{ inputs.urls_to_compare || inputs.branch_to_compare }}
       run: |
         ## Writing summary and comment on PR
         cd ${{github.action_path}}

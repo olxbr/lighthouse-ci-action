@@ -1,6 +1,9 @@
 ## Load common functions
 source scripts/utils.sh
 
+## ENVs
+SHOULD_COMPARE=${SHOULD_COMPARE:=false}
+
 _log "Writing summary on action..."
 
 # Summary
@@ -18,6 +21,8 @@ export ACESSIBILITY_COLOR=$(_badge_color ${LIGHTHOUSE_ACESSIBILITY})
 export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
 export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
 export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
+
+export score_comparation_desc=$([[ $SHOULD_COMPARE ]] && echo '(Comparison with previous url)' || echo '')
 
 TEMPLATE="templates/github_summary_template"
 SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
