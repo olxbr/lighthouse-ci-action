@@ -6,9 +6,6 @@ source scripts/utils.sh
 ## Declare env variables
 branch_to_compare=${BRANCH_TO_COMPARE}
 
-# Compare results recent code with previous (When necessary)
-if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
-
 coll_length=66 ## Better choose always 'even'
 bullet_point_hex="\x09►"
 red_mark="${C_RED}🔴\x09${C_END}"
