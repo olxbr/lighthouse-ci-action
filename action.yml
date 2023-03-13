@@ -100,7 +100,7 @@ runs:
         ## Should compare result
         source ${{ github.action_path }}/scripts/utils.sh
         if [ -n '${{ inputs.urls_to_compare }}' ]; then
-          _log "Others URLS [${C_BLU}${{ inputs.urls_to_compare }}${C_END}] has been configured to compare results"
+          _log "Others URLS [${C_BLU}$(echo ${{ inputs.urls_to_compare }})${C_END}] has been configured to compare results"
         fi
 
         if [ -n '${{ inputs.branch_to_compare }}' ]; then
@@ -153,7 +153,8 @@ runs:
         RUNS: ${{ inputs.runs }}
         URLS: ${{ inputs.urls_to_compare }}
         LINKS: ${{ steps.treosh-lhci-action-to-compare.outputs.links }}
-        JSON_COMPARE_RESULTS: ${{ steps.print.outputs.aggregateResults }}   ## New Version
+        RECENT_RESULTS: ${{ steps.print.outputs.aggregateResults }}           ## New Version
+        PREVIOUS_RESULTS: ${{ steps.previous-run.outputs.aggregateResults }}  ## Old Version
       run: |
         ## Comparing difference
         cd ${{github.action_path}}

@@ -3,19 +3,15 @@
 ## Load common functions
 source scripts/utils.sh
 
-## Declare env variables
-branch_to_compare=${BRANCH_TO_COMPARE}
-
 coll_length=66 ## Better choose always 'even'
 bullet_point_hex="\x09►"
 red_mark="${C_RED}🔴\x09${C_END}"
 gre_mark="${C_GRE}🟢\x09${C_END}"
 eql_mark="${C_BLU}🔵\x09${C_END}"
-previous_results=${aggregateResults}
-recent_results=${JSON_COMPARE_RESULTS}
+previous_results=${PREVIOUS_RESULTS}
+recent_results=${RECENT_RESULTS}
 previous_urls=$(jq -r '.[].url' <<< ${previous_results})
 
-_log ""
 _log "⚙︎ Comparison of results:"
 _log "${bullet_point_hex} ${C_BLU}recent${C_END} version: ${recent_results}"
 _log "${bullet_point_hex} ${C_BLU}previous${C_END} version: ${previous_results}"
