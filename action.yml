@@ -99,7 +99,8 @@ runs:
       run: |
         ## Should compare result
         source ${{ github.action_path }}/scripts/utils.sh
-        URLs=$(echo ${{ inputs.urls_to_compare }} | tr -d '\n')
+        URLs="${{ inputs.urls_to_compare }}"
+        URLs=$(echo $URLs)
 
         if [ -n '${{ inputs.urls_to_compare }}' ]; then
           _log "Others URLS [${C_BLU}${URLs}${C_END}] has been configured to compare results"
