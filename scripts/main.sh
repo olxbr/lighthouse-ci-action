@@ -156,26 +156,18 @@ echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     coll_length=66 ## Better choose always 'even'
     space_hex='\x20\x20\x20\x20\x20\x20'
-    bullet_point_hex="\x20\x20\x20\xe2\x96\xba"
-    star_point_hex='\xe2\x9c\xaa'
-    # red_inc_arrow="${C_RED}▲${C_END}" #𐍊
-    # red_dec_arrow="${C_RED}▼${C_END}"
-    # gre_inc_arrow="${C_GRE}▲${C_END}"
-    # gre_dec_arrow="${C_GRE}▼${C_END}" #ↆ
-    # eql_arrow="${C_BLU}▶︎${C_END}"
-    red_inc_arrow="${C_RED}🔴\x09${C_END}" #𐍊
-    red_dec_arrow="${C_RED}🔴\x09${C_END}"
-    gre_inc_arrow="${C_GRE}🟢\x09${C_END}"
-    gre_dec_arrow="${C_GRE}🟢\x09${C_END}" #ↆ
-    eql_arrow="${C_BLU}🔵\x09${C_END}"
+    bullet_point_hex="\x09►"
+    red_mark="${C_RED}🔴\x09${C_END}"
+    gre_mark="${C_GRE}🟢\x09${C_END}"
+    eql_mark="${C_BLU}🔵\x09${C_END}"
     previous_results=${aggregateResults}
     recent_results=${JSON_COMPARE_RESULTS}
     previous_urls=$(jq -r '.[].url' <<< ${previous_results})
 
     _log ""
-    _log "${star_point_hex} Comparison of results:"
-    _log "${bullet_point_hex} ${C_GRE}recent${C_END} version: ${recent_results}"
-    _log "${bullet_point_hex} ${C_GRE}previous${C_END} version: ${previous_results}"
+    _log "⚙︎ Comparison of results:"
+    _log "${bullet_point_hex} ${C_BLU}recent${C_END} version: ${recent_results}"
+    _log "${bullet_point_hex} ${C_BLU}previous${C_END} version: ${previous_results}"
 
     _log ""
     _log ""
@@ -209,9 +201,11 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             bold_key="${C_WHT}${s_key}${C_END}"
 
-            [[ $res_value -gt 0 ]] && _log "|${space_hex}${gre_inc_arrow}Increase in ${bold_key} (${res_value}%)" $(($coll_length+19)) │
-            [[ $res_value -lt 0 ]] && _log "|${space_hex}${red_dec_arrow}Decrease in ${bold_key} (${res_value}%)" $(($coll_length+19)) │
-            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow}Same score in ${bold_key} (${res_value}%)" $(($coll_length+20)) │
+            [[ $res_value -gt 0 ]] && log_line="|${space_hex}${gre_mark}Increase in ${bold_key} (${res_value}%)"
+            [[ $res_value -lt 0 ]] && log_line="|${space_hex}${red_mark}Decrease in ${bold_key} (${res_value}%)"
+            [[ $res_value -eq 0 ]] && log_line="|${space_hex}${eql_mark}Same score in ${bold_key} (${res_value}%)"
+
+            _log "$log_line" $(($coll_length+20)) │
     
         done
 
@@ -225,13 +219,9 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
             res_value=$(bc <<< "${recent_value}-${previous_value}")
             bold_key="${C_WHT}${m_key}${C_END}"
 
-            [[ $res_value -gt 0 ]] && _log "|${space_hex}${red_inc_arrow}Increase time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+20)) │
-            [[ $res_value -lt 0 ]] && _log "|${space_hex}${gre_dec_arrow}Decrease time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+20)) │
-            [[ $res_value -eq 0 ]] && _log "|${space_hex}${eql_arrow}Same time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+20)) │
-
-        done
-
-        _log "└$(eval printf '─%.0s' {3..$coll_length})┘"
+            [[ $res_value -gt 0 ]] && _log "|${space_hex}${red_mark}Increase time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+20)) │
+            [[ $res_value -lt 0 ]] && _log "|${space_hex}${red_mark}Decrease time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_length+20)) │
+            [[ $res_value -eq 0 ]] && _log "|${space_hex}${gre_marke time in ${bold_key} (${res_value} ${metric_unit})" $(($coll_lengthgre_mark   eql_mark      _log "└$(eval printf '─%.0s' {3..$coll_length})┘"
         _log ""
         let idx++
     done
