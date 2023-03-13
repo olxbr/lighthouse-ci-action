@@ -1,3 +1,6 @@
+## Load common functions
+source scripts/utils.sh
+
 # Summary
 export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}
 export LIGHTHOUSE_ACESSIBILITY=${avg_accessibility:='-'}
