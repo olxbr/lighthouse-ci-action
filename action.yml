@@ -153,6 +153,7 @@ runs:
     - if: ${{ steps.previous-run.conclusion == 'sucess' &&
               steps.treosh-lhci-action-to-compare.conclusion == 'sucess' }}
       name: Difference between os 2 executions
+      id: compare-results
       shell: bash
       env:
         JSON: ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
@@ -169,7 +170,7 @@ runs:
     - name: Create Action summary and Comment on PR
       shell: bash
       env:
-        SHOULD_COMPARE: ${{ inputs.urls_to_compare || inputs.branch_to_compare }}
+        SHOULD_COMPARE: ${{ steps.compare-results.conclusion == 'sucess' }}
       run: |
         ## Writing summary and comment on PR
         cd ${{github.action_path}}

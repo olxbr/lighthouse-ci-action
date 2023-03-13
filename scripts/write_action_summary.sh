@@ -22,6 +22,7 @@ export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
 export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
 export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
 
+echo $SHOULD_COMPARE
 export score_comparation_desc=$([[ $SHOULD_COMPARE ]] && echo '(Comparison with previous url)' || echo '')
 
 TEMPLATE="templates/github_summary_template"
