@@ -93,6 +93,7 @@ for url in ${URLS[@]}; do
     # Build aggregate results
     result='{}'
     result=$(jq ". += {\"url\": \"${url}\"}" <<< ${result})
+    result=$(jq ". += {\"numericUnit\": \"${metric_unit}\"}" <<< ${result})
 
     if [ -n "$lighthouse_link" ]; then
         result=$(jq ". += {\"link\": \"${lighthouse_link}\"}" <<< ${result})

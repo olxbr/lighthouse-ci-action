@@ -16,8 +16,7 @@ _log "⚙︎ Comparison of results:"
 _log "${bullet_point_hex} ${C_BLU}recent${C_END} version: ${recent_results}"
 _log "${bullet_point_hex} ${C_BLU}previous${C_END} version: ${previous_results}"
 
-_log ""
-_log ""
+_log "\n\n"
 title="RESULT OF THE NEW CODE"
 title_begin=$(((($coll_length-${#title})/2)))
 title_center="$(printf '\\x20%.0s' $(seq 2 $title_begin))${C_BLU}${title}${C_END}$(printf '\\x20%.0s' $(seq 2 $title_begin))"
