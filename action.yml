@@ -131,6 +131,21 @@ runs:
         basicAuthPassword: ${{ inputs.basicAuthPassword }}
 
     - if: success()
+      name: Create output for previows version
+      id: previous-run
+      shell: bash
+      env:
+        JSON: ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
+        RUNS: ${{ inputs.runs }}
+        URLS: ${{ inputs.urls_to_compare }}
+        LINKS: ${{ steps.treosh-lhci-action-to-compare.outputs.links }}
+        PREVIOUS_RUN: true
+      run: |
+        ## Generation previous version outputs
+        cd ${{github.action_path}}
+        bash scripts/main.sh
+
+    - if: success()
       name: Difference between os 2 executions
       shell: bash
       env:
@@ -142,4 +157,4 @@ runs:
       run: |
         ## Comparing difference
         cd ${{github.action_path}}
-        bash scripts/main.sh
+        bash scripts/compare_results.sh
