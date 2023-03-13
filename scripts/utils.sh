@@ -22,7 +22,7 @@ function _log() {
         *)    logLevel="${C_WHT}[INFO]${C_END}";;
     esac
 
-    msg=$( (($#==2)) && echo ${2} || echo ${1} )
+    msg=$( (($#==2)) && printf "${2}" || printf "${1}" )
     if (($#>2)); then
         msg_evaluated=$(echo -e $msg) ## Transform hex to char
         msg_length=$(echo ${#msg_evaluated})
