@@ -23,7 +23,7 @@ export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
 export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
 
 echo $SHOULD_COMPARE
-export score_comparation_desc=$([[ $SHOULD_COMPARE ]] && echo '(Comparison with previous url)' || echo '')
+export score_comparation_desc=$([[ "$SHOULD_COMPARE" != false ]] && echo '(Comparison with previous url)' || echo '')
 
 TEMPLATE="templates/github_summary_template"
 SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
