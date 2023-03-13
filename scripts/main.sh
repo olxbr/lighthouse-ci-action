@@ -140,10 +140,10 @@ for url in ${URLS[@]}; do
     SUMMARY="${SUMMARY@Q}"
     SUMMARY="${SUMMARY#\$\'}"
     SUMMARY="${SUMMARY%\'}"
-    echo -e ${SUMMARY} >> $GITHUB_STEP_SUMMARY
+    [[ $PREVIOUS_RUN == false ]] && echo -e ${SUMMARY} >> $GITHUB_STEP_SUMMARY
 
     # Run Post PR Comment for each URL
-    if ${COMMENT_ON_PR}; then
+    if ${COMMENT_ON_PR} && [[ $PREVIOUS_RUN == false ]]; then
         bash scripts/post_pr_comment.sh
     fi
 done

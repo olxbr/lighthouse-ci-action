@@ -99,6 +99,8 @@ runs:
       run: |
         ## Should compare result
         source ${{ github.action_path }}/scripts/utils.sh
+
+        ## Trim the string (removes newline)
         URLs="${{ inputs.urls_to_compare }}"
         URLs=$(echo $URLs)
 
