@@ -33,7 +33,7 @@ function _log() {
         msg="${msg}${msg_space_end}${msg_last_char}"
     fi
 
-    printf "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${msg}${C_END}\n"
+    echo -e "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${msg}${C_END}"
 }
 
 function _summary_color() {
