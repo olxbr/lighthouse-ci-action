@@ -29,6 +29,7 @@ for url in ${URLS[@]}; do
 
     _log "🅢 ${C_WHT}Summary (${url})"
 
+    let idx=0
     for metric_name in ${list_summary_name[@]}; do
         let idx+=1
 
@@ -182,6 +183,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     title_middle=$(($coll_length/2))
     title_length=$((${#title}/2))
     title_begin=$(($title_middle-$title_length))
+    echo "${title_begin}"
     title_center="$(printf '\\x20%.0s' $(seq 1 $((1-$title_begin))))${C_BLU}RESULT OF THE NEW CODE${C_END}$(printf '\\x20%.0s' $(seq 1 $((1+$title_begin))))"
     title_line=$(eval printf '═%.0s' {3..$coll_length})
     title_space='\x20\x09\x09\x09\x09\x09\x09\x09\x09'
