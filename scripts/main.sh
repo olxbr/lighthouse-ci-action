@@ -181,7 +181,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     _log ""
     title="RESULT OF THE NEW CODE"
     title_begin=$(((($coll_length-${#title})/2)))
-    title_center="$(printf '\\x20%.0s' $(seq 3 $title_begin))${C_BLU}${title}${C_END}$(printf '\\x20%.0s' $(seq 3 $title_begin))"
+    title_center="$(printf '\\x20%.0s' $(seq 2 $title_begin))${C_BLU}${title}${C_END}$(printf '\\x20%.0s' $(seq 2 $title_begin))"
     title_line=$(eval printf '═%.0s' {3..$coll_length})
     title_space=$(printf '\\x20%.0s' $(seq 3 $coll_length))
     _log "╔$title_line╗"
