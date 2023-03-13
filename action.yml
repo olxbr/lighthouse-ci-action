@@ -135,7 +135,7 @@ runs:
         basicAuthUsername: ${{ inputs.basicAuthUsername }}
         basicAuthPassword: ${{ inputs.basicAuthPassword }}
 
-    - if: success()
+    - if: ${{ steps.treosh-lhci-action-to-compare.conclusion == 'sucess' }}
       name: Create output for previows version
       id: previous-run
       shell: bash
@@ -150,7 +150,8 @@ runs:
         cd ${{github.action_path}}
         bash scripts/main.sh
 
-    - if: success()
+    - if: ${{ steps.previous-run.conclusion == 'sucess' &&
+              steps.treosh-lhci-action-to-compare.conclusion == 'sucess' }}
       name: Difference between os 2 executions
       shell: bash
       env:
