@@ -119,7 +119,7 @@ runs:
         ref: ${{ inputs.branch_to_compare }}
 
     - if: ${{ inputs.urls_to_compare || inputs.branch_to_compare }}
-      name: Treosh Lighthouse CI Action (When necessary)
+      name: Treosh Lighthouse CI Action to compare (When necessary)
       id: treosh-lhci-action-to-compare
       uses: treosh/lighthouse-ci-action@v9
       with:
@@ -164,3 +164,11 @@ runs:
         ## Comparing difference
         cd ${{github.action_path}}
         bash scripts/compare_results.sh
+
+    - name: Create Action summary and Comment on PR
+      shell: bash
+      run: |
+        cd ${{github.action_path}}
+        bash scripts/write_action_summary.sh
+        
+        

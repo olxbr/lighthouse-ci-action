@@ -15,8 +15,11 @@ awk_calc_avg_in_percentage=$(multiplier=*100 round=0 envsubst <<< $calc_avg)
 urls_length=${#URLS[@]}
 aggregate_results='[]'
 
+print_runs="${C_WHT}${RUNS}${C_END}"
+print_urls_len="${C_WHT}${urls_length}${C_END}"
+
 _log "╔══════════════════════════════╗"
-_log "║ Average of ${C_WHT}${RUNS}${C_END} RUNS and ${C_WHT}${urls_length}${C_END} URLs ║"
+_log "║ Average of ${print_runs} RUNS and ${print_urls_len} URLs ║"
 _log "╚══════════════════════════════╝"
 
 for url in ${URLS[@]}; do 
@@ -110,20 +113,20 @@ for url in ${URLS[@]}; do
     export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
 
     # Summary
-    export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}
-    export LIGHTHOUSE_ACESSIBILITY=${avg_accessibility:='-'}
-    export LIGHTHOUSE_BP=${avg_best_practices:='-'}
-    export LIGHTHOUSE_SEO=${avg_seo:='-'}
-    export PERFORMANCE_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PERFORMANCE})
-    export ACESSIBILITY_EMOJI=$(_summary_emoji ${LIGHTHOUSE_ACESSIBILITY})
-    export BP_EMOJI=$(_summary_emoji ${LIGHTHOUSE_BP})
-    export SEO_EMOJI=$(_summary_emoji ${LIGHTHOUSE_SEO})
-    export PWA_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PWA})
-    export PERFORMANCE_COLOR=$(_badge_color ${LIGHTHOUSE_PERFORMANCE})
-    export ACESSIBILITY_COLOR=$(_badge_color ${LIGHTHOUSE_ACESSIBILITY})
-    export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
-    export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
-    export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
+    # export LIGHTHOUSE_PERFORMANCE=${avg_performance:='-'}
+    # export LIGHTHOUSE_ACESSIBILITY=${avg_accessibility:='-'}
+    # export LIGHTHOUSE_BP=${avg_best_practices:='-'}
+    # export LIGHTHOUSE_SEO=${avg_seo:='-'}
+    # export PERFORMANCE_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PERFORMANCE})
+    # export ACESSIBILITY_EMOJI=$(_summary_emoji ${LIGHTHOUSE_ACESSIBILITY})
+    # export BP_EMOJI=$(_summary_emoji ${LIGHTHOUSE_BP})
+    # export SEO_EMOJI=$(_summary_emoji ${LIGHTHOUSE_SEO})
+    # export PWA_EMOJI=$(_summary_emoji ${LIGHTHOUSE_PWA})
+    # export PERFORMANCE_COLOR=$(_badge_color ${LIGHTHOUSE_PERFORMANCE})
+    # export ACESSIBILITY_COLOR=$(_badge_color ${LIGHTHOUSE_ACESSIBILITY})
+    # export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
+    # export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
+    # export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
 
     # Metrics
     export U_TIME=${unit_time:='-'}
@@ -137,11 +140,11 @@ for url in ${URLS[@]}; do
 
     ## Print summary to action
     TEMPLATE="templates/github_summary_template"
-    SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
-    SUMMARY="${SUMMARY@Q}"
-    SUMMARY="${SUMMARY#\$\'}"
-    SUMMARY="${SUMMARY%\'}"
-    [[ $PREVIOUS_RUN == false ]] && echo -e ${SUMMARY} >> $GITHUB_STEP_SUMMARY
+    # SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
+    # SUMMARY="${SUMMARY@Q}"
+    # SUMMARY="${SUMMARY#\$\'}"
+    # SUMMARY="${SUMMARY%\'}"
+    # [[ $PREVIOUS_RUN == false ]] && echo -e ${SUMMARY} >> $GITHUB_STEP_SUMMARY
 
     # Run Post PR Comment for each URL
     if ${COMMENT_ON_PR} && [[ $PREVIOUS_RUN == false ]]; then
