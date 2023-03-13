@@ -22,8 +22,13 @@ export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
 export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
 export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
 
-echo $SHOULD_COMPARE
+## For compared values
 export score_comparation_desc=$([[ "$SHOULD_COMPARE" != false ]] && echo '(Comparison with previous url)' || echo '')
+export avg_performance_compared=${avg_performance_compared:=''}
+export avg_accessibility_compared=${export avg_accessibility_compared:=''}
+export avg_best_practices_compared=${avg_best_practices_compared:=''}
+export avg_seo_compared=${avg_seo_compared:=''}
+export avg_pwa_compared=${avg_pwa_compared:=''}
 
 TEMPLATE="templates/github_summary_template"
 SUMMARY=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
