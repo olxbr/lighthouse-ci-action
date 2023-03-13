@@ -154,7 +154,7 @@ echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 
 # Compare results recent code with previous (When necessary)
 if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
-    coll_length=65
+    coll_length=66
     space_hex='\x20\x20\x20\x20\x20\x20'
     bullet_point_hex="\x20\x20\x20\xe2\x96\xba"
     star_point_hex='\xe2\x9c\xaa'
@@ -183,7 +183,7 @@ if [[ "${JSON_COMPARE_RESULTS}" != false ]]; then
     title_begin=$((($coll_length-${#title})/2))
     title_center="$(printf '\\x20%.0s' $(seq 1 $title_begin))${C_BLU}${title}${C_END}$(printf '\\x20%.0s' $(seq 1 $title_begin))"
     title_line=$(eval printf '═%.0s' {3..$coll_length})
-    title_space='$(printf '\\x20%.0s' $(seq 1 $(($coll_length-2))))'
+    title_space=$(printf '\\x20%.0s' $(seq 1 $(($coll_length-2))))
     _log "╔$title_line╗"
     _log "║$title_space║"
     _log "║$title_center║"
