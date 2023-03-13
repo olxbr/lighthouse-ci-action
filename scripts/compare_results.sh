@@ -16,7 +16,7 @@ _log "⚙︎ Comparison of results:"
 _log "${bullet_point_hex} ${C_BLU}recent${C_END} version: ${recent_results}"
 _log "${bullet_point_hex} ${C_BLU}previous${C_END} version: ${previous_results}"
 
-_log "\n\n"
+_log ""
 title="RESULT OF THE NEW CODE"
 title_begin=$(((($coll_length-${#title})/2)))
 title_center="$(printf '\\x20%.0s' $(seq 2 $title_begin))${C_BLU}${title}${C_END}$(printf '\\x20%.0s' $(seq 2 $title_begin))"
@@ -31,6 +31,7 @@ _log "╚$title_line╝"
 ## Iterate using only previous version
 let idx=0
 for previous_url in $previous_urls; do
+    metric_unit=$(jq -r ".[$idx].numericUnit" <<< ${previous_results})
     previous_summary_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary | keys[]" <<< ${previous_results})
     previous_metrics_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics | keys[]" <<< ${previous_results})
 
