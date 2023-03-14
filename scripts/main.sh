@@ -71,7 +71,7 @@ for url in ${URLS[@]}; do
         export metric_unit="ms" round=0 ||
         export metric_unit="s"  round=2
 
-    export unit_time=${metric_unit}
+    echo "unit_time=${metric_unit}" >> ${GITHUB_ENV}
 
     awk_calc_avg=$(multiplier=*1 round=${round} envsubst <<< $calc_avg)
 
