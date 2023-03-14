@@ -19,7 +19,7 @@ _log "║ Average of ${C_WHT}${RUNS}${C_END} RUNS and ${C_WHT}${urls_length}${C_
 _log "╚══════════════════════════════╝"
 
 for url in ${URLS[@]}; do 
-    lighthouse_link=$(jq -r ". | to_entries[] | select(.key==\"${url%/}\" or .key==\"${url%/}/\") | .value" <<< ${LINKS})
+    lighthouse_link=$(jq -r ". | to_entries[] | select(.key | test(\"${url%/}/?$\")) | .value" <<< ${LINKS})
 
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
@@ -32,7 +32,7 @@ for url in ${URLS[@]}; do
         let idx+=1
 
         ## Acquire metric
-        avg=$(jq ".[] | select(.url==\"${url%/}\" or .url==\"${url%/}/\") | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '-')
+        avg=$(jq ".[] | select(.url | test(\"${url%/}/?$\")) | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '-')
 
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
         echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
@@ -51,7 +51,7 @@ for url in ${URLS[@]}; do
     done
 
     ## Metrics (AVG)
-    list_json_path=$(jq -r ".[] | select(.url==\"${url%/}\" or .url==\"${url%/}/\") | .jsonPath" <<< ${JSON})
+    list_json_path=$(jq -r ".[] | select(.url | test(\"${url%/}/?$\")) | .jsonPath" <<< ${JSON})
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
         
