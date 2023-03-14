@@ -32,7 +32,7 @@ for url in ${URLS[@]}; do
         let idx+=1
 
         ## Acquire metric
-        avg=$(jq ".[] | select(.url==\"${url}\") | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '-')
+        avg=$(jq ".[] | select(.url==\"${url%/}\" or .url==\"${url%/}/\") | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '-')
 
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
         echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
@@ -51,7 +51,7 @@ for url in ${URLS[@]}; do
     done
 
     ## Metrics (AVG)
-    list_json_path=$(jq -r ".[] | select(.url==\"${url}\") | .jsonPath" <<< ${JSON})
+    list_json_path=$(jq -r ".[] | select(.url==\"${url%/}\" or .url==\"${url%/}/\") | .jsonPath" <<< ${JSON})
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
         
