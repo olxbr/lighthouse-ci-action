@@ -171,9 +171,13 @@ runs:
       shell: bash
       env:
         SHOULD_COMPARE: ${{ steps.compare-results.conclusion == 'sucess' }}
+        COMMENT_ON_PR: ${{ inputs.comment_on_pr }}
+        GH_TOKEN: ${{ inputs.gh_token }}
+        PR_NUMBER: ${{ github.event.number }}
       run: |
         ## Writing summary and comment on PR
         cd ${{github.action_path}}
         bash scripts/write_action_summary.sh
+        bash scripts/post_pr_comment.sh
         
         

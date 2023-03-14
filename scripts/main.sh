@@ -40,7 +40,9 @@ for url in ${URLS[@]}; do
         avg=$(jq ".[] | select(.url==\"${url}\") | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '-')
 
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
-        echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
+        [[ "$PREVIOUS_RUN" == false ]] &&
+            echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV} ||
+            echo "avg_${snake_metric_name}_compared=${avg}" >> ${GITHUB_ENV}
         echo "emoji_${snake_metric_name}=$(_summary_emoji ${avg})" >> ${GITHUB_ENV}
         # export "avg_${snake_metric_name}=${avg}"
         # export "emoji_${snake_metric_name}=$(_summary_emoji ${avg})"
@@ -90,7 +92,9 @@ for url in ${URLS[@]}; do
 
         ## Exporting to pr comment and summary
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
-        echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
+        [[ "$PREVIOUS_RUN" == false ]] &&
+            echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV} ||
+            echo "avg_${snake_metric_name}_compared=${avg}" >> ${GITHUB_ENV}
         # export "avg_${snake_metric_name}=${avg}"
     done
 
@@ -133,15 +137,15 @@ for url in ${URLS[@]}; do
     # export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
     # export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
 
-    # Metrics
-    export U_TIME=${unit_time:='-'}
-    export LIGHTHOUSE_PWA=${avg_pwa:='-'}
-    export LIGHTHOUSE_FCP=${avg_first_contentful_paint:='-'}
-    export LIGHTHOUSE_SI=${avg_speed_index:='-'}
-    export LIGHTHOUSE_LCP=${avg_largest_contentful_paint:='-'}
-    export LIGHTHOUSE_TBT=${avg_total_blocking_time:='-'}
-    export LIGHTHOUSE_CLS=${avg_total_cumulative_layout_shift:='-'}
-    export LIGHTHOUSE_TI=${avg_interactive:='-'}
+    # # Metrics
+    # export U_TIME=${unit_time:='-'}
+    # export LIGHTHOUSE_PWA=${avg_pwa:='-'}
+    # export LIGHTHOUSE_FCP=${avg_first_contentful_paint:='-'}
+    # export LIGHTHOUSE_SI=${avg_speed_index:='-'}
+    # export LIGHTHOUSE_LCP=${avg_largest_contentful_paint:='-'}
+    # export LIGHTHOUSE_TBT=${avg_total_blocking_time:='-'}
+    # export LIGHTHOUSE_CLS=${avg_total_cumulative_layout_shift:='-'}
+    # export LIGHTHOUSE_TI=${avg_interactive:='-'}
 
     ## Print summary to action
     # TEMPLATE="templates/github_summary_template"
@@ -152,9 +156,9 @@ for url in ${URLS[@]}; do
     # [[ $PREVIOUS_RUN == false ]] && echo -e ${SUMMARY} >> $GITHUB_STEP_SUMMARY
 
     # Run Post PR Comment for each URL
-    if ${COMMENT_ON_PR} && [[ $PREVIOUS_RUN == false ]]; then
-        bash scripts/post_pr_comment.sh
-    fi
+    # if ${COMMENT_ON_PR} && [[ $PREVIOUS_RUN == false ]]; then
+    #     bash scripts/post_pr_comment.sh
+    # fi
 done
 
 # Export Aggregate Results to Output
