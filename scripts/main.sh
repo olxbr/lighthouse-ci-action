@@ -40,9 +40,7 @@ for url in ${URLS[@]}; do
         avg=$(jq ".[] | select(.url==\"${url}\") | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '-')
 
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
-        [[ "$PREVIOUS_RUN" == false ]] &&
-            echo "avg_${snake_metric_name}=$(_summary_emoji ${avg}) ${avg}" >> ${GITHUB_ENV} ||
-            echo "avg_${snake_metric_name}_previows=$(_summary_emoji ${avg}) ${avg}" >> ${GITHUB_ENV}
+        echo "avg_${snake_metric_name}=$(_summary_emoji ${avg}) ${avg}" >> ${GITHUB_ENV}
         # echo "emoji_${snake_metric_name}=$(_summary_emoji ${avg})" >> ${GITHUB_ENV}
         # export "avg_${snake_metric_name}=${avg}"
         # export "emoji_${snake_metric_name}=$(_summary_emoji ${avg})"
@@ -92,9 +90,7 @@ for url in ${URLS[@]}; do
 
         ## Exporting to pr comment and summary
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
-        [[ "$PREVIOUS_RUN" == false ]] &&
-            echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV} ||
-            echo "avg_${snake_metric_name}_previows=${avg}" >> ${GITHUB_ENV}
+        echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
         # export "avg_${snake_metric_name}=${avg}"
     done
 

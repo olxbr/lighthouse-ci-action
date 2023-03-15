@@ -47,17 +47,18 @@ for previous_url in $previous_urls; do
         ## Greater is better
         res_value=$(bc <<< "${recent_value}-${previous_value}")
         bold_key="${C_WHT}${s_key}${C_END}"
+        snake_metric_name=$(_camel_to_snake_case ${s_key})
 
         [[ $res_value -gt 0 ]] &&
-            echo "compared_${snake_metric_name}='(${gre_mark} _+_${res_value}%)'" >> ${GITHUB_ENV} &&
+            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${gre_mark} _+_${res_value}%)" >> ${GITHUB_ENV} &&
             log_line="|      ${gre_mark}Increase in ${bold_key} (${res_value}%)"
 
         [[ $res_value -lt 0 ]] &&
-            echo "compared_${snake_metric_name}_previows='(${red_mark} ${res_value}%)'" >> ${GITHUB_ENV} &&
+            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${red_mark} ${res_value}%)" >> ${GITHUB_ENV} &&
             log_line="|      ${red_mark}Decrease in ${bold_key} (${res_value}%)"
 
         [[ $res_value -eq 0 ]] &&
-            echo "compared_${snake_metric_name}_previows='(${eql_mark} ${res_value}%)'" >> ${GITHUB_ENV} &&
+            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${eql_mark} ${res_value}%)" >> ${GITHUB_ENV} &&
             log_line="|      ${eql_mark}Same score in ${bold_key} (${res_value}%)"
 
         _log "$log_line" $(($coll_length+15)) │
@@ -73,17 +74,18 @@ for previous_url in $previous_urls; do
         ## Lower is better
         res_value=$(bc <<< "${recent_value}-${previous_value}")
         bold_key="${C_WHT}${m_key}${C_END}"
+        snake_metric_name=$(_camel_to_snake_case ${m_key})
 
         [[ $res_value -gt 0 ]] &&
-            echo "compared_${snake_metric_name}='(${red_mark} _+_${res_value}%)'" >> ${GITHUB_ENV} &&
+            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${red_mark} _+_${res_value}%)" >> ${GITHUB_ENV} &&
             log_line="|      ${red_mark}Increase time in ${bold_key} (${res_value} ${metric_unit})"
 
         [[ $res_value -lt 0 ]] &&
-            echo "compared_${snake_metric_name}='(${gre_mark} ${res_value}%)'" >> ${GITHUB_ENV} &&
+            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${gre_mark} ${res_value}%)" >> ${GITHUB_ENV} &&
             log_line="|      ${gre_mark}Decrease time in ${bold_key} (${res_value} ${metric_unit})"
 
         [[ $res_value -eq 0 ]] &&
-            echo "compared_${snake_metric_name}='(${eql_mark} ${res_value}%)'" >> ${GITHUB_ENV} &&
+            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${eql_mark} ${res_value}%)" >> ${GITHUB_ENV} &&
             log_line="|      ${eql_mark}Same time in ${bold_key} (${res_value} ${metric_unit})"
 
         _log "$log_line" $(($coll_length+15)) │
