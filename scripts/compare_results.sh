@@ -11,6 +11,7 @@ eql_mark="${C_BLU}🔵\x09${C_END}"
 previous_results=${PREVIOUS_RESULTS}
 recent_results=${RECENT_RESULTS}
 previous_urls=$(jq -r '.[].url' <<< ${previous_results})
+COMPARISON_WAS_EXECUTED=true
 
 _log "⚙︎ Comparison of results:"
 _log "${bullet_point_hex} ${C_BLU}recent${C_END} version: ${recent_results}"

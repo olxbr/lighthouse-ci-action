@@ -2,7 +2,7 @@
 source scripts/utils.sh
 
 ## ENVs
-SHOULD_COMPARE=${SHOULD_COMPARE:=false}
+SHOULD_COMPARE=${COMPARISON_WAS_EXECUTED:=false}
 
 _log "Writing summary on action..."
 

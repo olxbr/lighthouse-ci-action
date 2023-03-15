@@ -3,13 +3,13 @@
 
 ## Metrics
 
-| Metric name                    | Timing (${U_TIME})                                                            |
-|--------------------------------|-------------------------------------------------------------------------------|
-| First Contentful Paint (FCP)   | ${avg_first_contentful_paint} ${compared_first_contentful_paint}              |
-| Speed Index (SI)               | ${avg_speed_index} ${compared_speed_index}                                    |
-| Largest Contentful Paint (LCP) | ${avg_largest_contentful_paint} ${compared_largest_contentful_paint}          |
-| Time to Interactive (TTI)      | ${avg_interactive} ${compared_interactive}                                    |
-| Total Blocking Time (TBT)      | ${avg_total_blocking_time} ${compared_total_blocking_time}                    |
-| Cumulative Layout Shift (CLS)  | ${avg_total_cumulative_layout_shift} ${compared_total_cumulative_layout_shift}|
+| Metric name                    | Timing (${U_TIME})                   |
+|--------------------------------|--------------------------------------|
+| First Contentful Paint (FCP)   | ${avg_first_contentful_paint}        |
+| Speed Index (SI)               | ${avg_speed_index}                   |
+| Largest Contentful Paint (LCP) | ${avg_largest_contentful_paint}      |
+| Time to Interactive (TTI)      | ${avg_interactive}                   |
+| Total Blocking Time (TBT)      | ${avg_total_blocking_time}           |
+| Cumulative Layout Shift (CLS)  | ${avg_total_cumulative_layout_shift} |
 
 ${EVALUATED_LIGHTHOUSE_LINK}

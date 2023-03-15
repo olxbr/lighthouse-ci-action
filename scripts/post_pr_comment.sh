@@ -44,21 +44,11 @@ fi
 
 # Metrics
 export U_TIME=${unit_time:='-'}
-export LIGHTHOUSE_PWA=${avg_pwa:='-'}
-export LIGHTHOUSE_PWA_COMPARED=${avg_pwa_compared:=''}
-export LIGHTHOUSE_FCP=${avg_first_contentful_paint:='-'}
-export LIGHTHOUSE_FCP_COMPARED=${avg_first_contentful_paint_compared:=''}
-export LIGHTHOUSE_SI=${avg_speed_index:='-'}
-export LIGHTHOUSE_SI_COMPARED=${avg_speed_index_compared:=''}
-export LIGHTHOUSE_LCP=${avg_largest_contentful_paint:='-'}
-export LIGHTHOUSE_LCP_COMPARED=${avg_largest_contentful_paint_compared:=''}
-export LIGHTHOUSE_TBT=${avg_total_blocking_time:='-'}
-export LIGHTHOUSE_TBT_COMPARED=${avg_total_blocking_time_compared:=''}
-export LIGHTHOUSE_CLS=${avg_total_cumulative_layout_shift:='-'}
-export LIGHTHOUSE_CLS_COMPARED=${avg_total_cumulative_layout_shift_compared:=''}
-export LIGHTHOUSE_TI=${avg_interactive:='-'}
-export LIGHTHOUSE_TI_COMPARED=${avg_interactive_compared:=''}
-
+export PERFORMANCE_COLOR=$(_badge_color ${LIGHTHOUSE_PERFORMANCE})
+export ACESSIBILITY_COLOR=$(_badge_color ${LIGHTHOUSE_ACESSIBILITY})
+export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
+export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
+export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
 
 ## Use teplate and convert
 _log info "Loading template"
