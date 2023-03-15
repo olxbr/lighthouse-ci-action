@@ -23,14 +23,14 @@ _log "║ Average of ${print_runs} RUNS and ${print_urls_len} URLs ║"
 _log "╚══════════════════════════════╝"
 
 for url in ${URLS[@]}; do 
-    lighthouse_link=$(jq -r ".\"${url}\"" <<< ${LINKS})
+    lighthouse_link=$(jq -r ". | to_entries[] | select(.key==\"${url%/}\" or .key==\"${url%/}/\") | .value" <<< ${LINKS})
 
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
     aggregate_summary='{}'
     re='^[0-9]+$'
 
-    _log "🅢 ${C_WHT}Summary (${url})"
+    _log "${E_SUM} ${C_WHT}Summary (${url})"
 
     let idx=0
     for metric_name in ${list_summary_name[@]}; do
@@ -62,8 +62,8 @@ for url in ${URLS[@]}; do
     list_json_path=$(jq -r ".[] | select(.url==\"${url}\") | .jsonPath" <<< ${JSON})
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
-        
-    _log "🅜 ${C_WHT}Metrics (${url})"
+
+    _log "${E_MET} ${C_WHT}Metrics (${url})"
 
     ## Get unit time
     unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"

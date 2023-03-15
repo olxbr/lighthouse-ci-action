@@ -8,6 +8,11 @@ function _check_for_comments () {
     COMMENTS=$(curl --location --request GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" \
             --header "Authorization: token ${GH_TOKEN}" \
             --silent)
+    ## Is a valid response ?
+    [[ -z "$(jq -r '.[].body' <<< $COMMENTS 2> /dev/null)" ]] &&
+        _log warn "Can't find comments in the repository. Maybe the API is out blocked by rate-limit. Skipping process to check comment." &&
+        return
+
     LAST_COMMENT_ID=$(jq -c '.[] | select(.body | test("'"^${HEADER}"'")) | select(.user.login == "olxbr-bot") .id' <<< ${COMMENTS} | tail -n1)
     if [ -n "${LAST_COMMENT_ID}" ];
     then

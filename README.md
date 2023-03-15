@@ -30,7 +30,7 @@ Before using this action, please ensure the following:
 ```yml
 - name: Run Lighthouse
         id: lhci-action
-        uses: olxbr/lighthouse-ci-action@v1
+        uses: olxbr/lighthouse-ci-action@v0
         with:
           urls: |
             http://localhost/
