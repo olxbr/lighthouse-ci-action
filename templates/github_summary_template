@@ -2,10 +2,10 @@
 
 ${E_SUM} Summary 	
 
-| Category            | Score ${score_comparation_desc}                                               |	
-|---------------------|-------------------------------------------------------------------------------|	
-| Performance         | ${emoji_performance} ${avg_performance}% ${avg_performance_compared}          |	
-| Acessibility        | ${emoji_accessibility} ${avg_accessibility}% ${avg_accessibility_compared}    |	
-| Best Practices      | ${emoji_best_practices} ${avg_best_practices}% ${avg_best_practices_compared} |	
-| SEO                 | ${emoji_seo} ${avg_seo}% ${avg_seo_compared}                                  |	
-| Progressive Web App | ${emoji_pwa} ${avg_pwa}% ${avg_pwa_compared}                                  |
+| Category            | Score ${score_comparation_desc}                      |
+|---------------------|------------------------------------------------------|
+| Performance         | ${avg_performance}% ${compared_performance}          |
+| Acessibility        | ${avg_accessibility}% ${compared_accessibility}      |
+| Best Practices      | ${avg_best_practices}% ${compared_best_practices}    |
+| SEO                 | ${avg_seo}% ${compared_seo}                          |
+| Progressive Web App | ${avg_pwa}% ${compared_pwa}                          |

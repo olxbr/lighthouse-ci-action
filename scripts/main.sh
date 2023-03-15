@@ -41,9 +41,9 @@ for url in ${URLS[@]}; do
 
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
         [[ "$PREVIOUS_RUN" == false ]] &&
-            echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV} ||
-            echo "avg_${snake_metric_name}_compared=${avg}" >> ${GITHUB_ENV}
-        echo "emoji_${snake_metric_name}=$(_summary_emoji ${avg})" >> ${GITHUB_ENV}
+            echo "avg_${snake_metric_name}='$(_summary_emoji ${avg}) ${avg}'" >> ${GITHUB_ENV} ||
+            echo "avg_${snake_metric_name}_previows='$(_summary_emoji ${avg}) ${avg}'" >> ${GITHUB_ENV}
+        # echo "emoji_${snake_metric_name}=$(_summary_emoji ${avg})" >> ${GITHUB_ENV}
         # export "avg_${snake_metric_name}=${avg}"
         # export "emoji_${snake_metric_name}=$(_summary_emoji ${avg})"
 
@@ -94,7 +94,7 @@ for url in ${URLS[@]}; do
         snake_metric_name=$(_camel_to_snake_case ${metric_name})
         [[ "$PREVIOUS_RUN" == false ]] &&
             echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV} ||
-            echo "avg_${snake_metric_name}_compared=${avg}" >> ${GITHUB_ENV}
+            echo "avg_${snake_metric_name}_previows=${avg}" >> ${GITHUB_ENV}
         # export "avg_${snake_metric_name}=${avg}"
     done
 

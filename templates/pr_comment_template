@@ -1,15 +1,15 @@
 # Web Vitals Report (${COLLECT_PRESET})${EVALUATED_URL}
-![Performance](https://img.shields.io/badge/Performance-${LIGHTHOUSE_PERFORMANCE}%25-${PERFORMANCE_COLOR}?style=flat-square) ![Accessibility](https://img.shields.io/badge/Accessibility-${LIGHTHOUSE_ACESSIBILITY}%25-${ACESSIBILITY_COLOR}?style=flat-square) ![Best Practices](https://img.shields.io/badge/Best%20Practices-${LIGHTHOUSE_BP}%25-${BP_COLOR}?style=flat-square) ![SEO](https://img.shields.io/badge/SEO-${LIGHTHOUSE_SEO}%25-${SEO_COLOR}?style=flat-square) ![Progressive Web App](https://img.shields.io/badge/Progressive%20Web%20App-${LIGHTHOUSE_PWA}%25-${PWA_COLOR}?style=flat-square)
+![Performance](https://img.shields.io/badge/Performance-${avg_performance}%25-${PERFORMANCE_COLOR}?style=flat-square) ![Accessibility](https://img.shields.io/badge/Accessibility-${avg_accessibility}%25-${ACESSIBILITY_COLOR}?style=flat-square) ![Best Practices](https://img.shields.io/badge/Best%20Practices-${avg_best_practices}%25-${BP_COLOR}?style=flat-square) ![SEO](https://img.shields.io/badge/SEO-${avg_seo}%25-${SEO_COLOR}?style=flat-square) ![Progressive Web App](https://img.shields.io/badge/Progressive%20Web%20App-${avg_pwa}%25-${PWA_COLOR}?style=flat-square)
 
 ## Metrics
 
-| Metric name                    | Timing (${U_TIME})                           |
-|--------------------------------|----------------------------------------------|
-| First Contentful Paint (FCP)   | ${LIGHTHOUSE_FCP} ${LIGHTHOUSE_FCP_COMPARED} |
-| Speed Index (SI)               | ${LIGHTHOUSE_SI}  ${LIGHTHOUSE_SI_COMPARED}  |
-| Largest Contentful Paint (LCP) | ${LIGHTHOUSE_LCP} ${LIGHTHOUSE_LCP_COMPARED} |
-| Time to Interactive (TTI)      | ${LIGHTHOUSE_TI}  ${LIGHTHOUSE_TI_COMPARED}  |
-| Total Blocking Time (TBT)      | ${LIGHTHOUSE_TBT} ${LIGHTHOUSE_TBT_COMPARED} |
-| Cumulative Layout Shift (CLS)  | ${LIGHTHOUSE_CLS} ${LIGHTHOUSE_CLS_COMPARED} |
+| Metric name                    | Timing (${U_TIME})                                                            |
+|--------------------------------|-------------------------------------------------------------------------------|
+| First Contentful Paint (FCP)   | ${avg_first_contentful_paint} ${compared_first_contentful_paint}              |
+| Speed Index (SI)               | ${avg_speed_index} ${compared_speed_index}                                    |
+| Largest Contentful Paint (LCP) | ${avg_largest_contentful_paint} ${compared_largest_contentful_paint}          |
+| Time to Interactive (TTI)      | ${avg_interactive} ${compared_interactive}                                    |
+| Total Blocking Time (TBT)      | ${avg_total_blocking_time} ${compared_total_blocking_time}                    |
+| Cumulative Layout Shift (CLS)  | ${avg_total_cumulative_layout_shift} ${compared_total_cumulative_layout_shift}|
 
 ${EVALUATED_LIGHTHOUSE_LINK}
