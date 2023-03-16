@@ -51,13 +51,13 @@ function _summary_color() {
         return
 
     [[ $1 -le 89 && $1 -ge 50 ]] &&
-        ([[ $print_clean == true]] &&
+        ([[ $print_clean == true ]] &&
             printf "${E_YEL}$1%%" ||
             printf "${E_YEL} ${C_YEL}$1%%${C_END}") &&
         return
 
-    [[ $1 -eq 100 == true ]] &&
-        ([[ $print_clean ]] &&
+    [[ $1 -eq 100 ]] &&
+        ([[ $print_clean == true ]] &&
             printf "${E_TRO}$1%%" ||
             printf "${E_TRO} ${C_GRE}$1%%${C_END}") &&
         return
