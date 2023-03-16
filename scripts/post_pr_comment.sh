@@ -46,17 +46,16 @@ urls=($(jq '.[].url' <<< $aggregate_reports))
 
 for url in $urls; do
 
-    # Metrics
-    export U_TIME=${unit_time:='-'}
-    export PERFORMANCE_COLOR=$(_badge_color ${LIGHTHOUSE_PERFORMANCE})
-    export ACESSIBILITY_COLOR=$(_badge_color ${LIGHTHOUSE_ACESSIBILITY})
-    export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
-    export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
-    export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
-
     ## Export all summary/metrics values to ENV
     $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
     $(jq -r ".[] | select(.url==$url) | .metrics | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
+
+    export U_TIME=$(jq -r ".[] | select(.url==$url) | .numericUnit")
+    export PERFORMANCE_COLOR=$(_badge_color ${performance})
+    export ACESSIBILITY_COLOR=$(_badge_color ${accessibility})
+    export BP_COLOR=$(_badge_color ${bestPractices})
+    export SEO_COLOR=$(_badge_color ${seo})
+    export PWA_COLOR=$(_badge_color ${pwa})
 
     ## Use teplate and convert
     _log info "Loading template"
