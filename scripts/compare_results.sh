@@ -5,9 +5,9 @@ source scripts/utils.sh
 
 coll_length=66 ## Better choose always 'even'
 bullet_point_hex="\x09►"
-red_mark="${C_RED}🔴\x09${C_END}"
-gre_mark="${C_GRE}🟢\x09${C_END}"
-eql_mark="${C_BLU}🔵\x09${C_END}"
+red_mark="🔴"
+gre_mark="🟢"
+eql_mark="🔵"
 previous_results=${PREVIOUS_RESULTS}
 recent_results=${RECENT_RESULTS}
 aggregate_reports=${aggregate_reports}
@@ -49,19 +49,18 @@ for previous_url in $previous_urls; do
         ## Greater is better
         res_value=$(bc <<< "${recent_value}-${previous_value}")
         bold_key="${C_WHT}${s_key}${C_END}"
-        snake_metric_name=$(_camel_to_snake_case ${s_key})
 
         [[ $res_value -gt 0 ]] &&
-            aggregate_reports=$(jq -r ".[$idx].summary.$s_key=\"$report_metric(${gre_mark}_+_${res_value}%)\"" <<< $aggregate_reports) &&
-            log_line="|      ${gre_mark}Increase in ${bold_key} (${res_value}%)"
+            aggregate_reports=$(jq ".[$idx].summary.$s_key=\"$report_metric(${gre_mark}_+_${res_value}%)\"" <<< $aggregate_reports) &&
+            log_line="|      ${gre_mark}\x09Increase in ${bold_key} (${res_value}%)"
 
         [[ $res_value -lt 0 ]] &&
-            aggregate_reports=$(jq -r ".[$idx].summary.$s_key=\"$report_metric(${red_mark}\x02${res_value}%)\"" <<< $aggregate_reports) &&
-            log_line="|      ${red_mark}Decrease in ${bold_key} (${res_value}%)"
+            aggregate_reports=$(jq ".[$idx].summary.$s_key=\"$report_metric(${red_mark}\x02${res_value}%)\"" <<< $aggregate_reports) &&
+            log_line="|      ${red_mark}\x09Decrease in ${bold_key} (${res_value}%)"
 
         [[ $res_value -eq 0 ]] &&
-            aggregate_reports=$(jq -r ".[$idx].summary.$s_key=\"$report_metric(${eql_mark}\x02${res_value}%)\"" <<< $aggregate_reports) &&
-            log_line="|      ${eql_mark}Same score in ${bold_key} (${res_value}%)"
+            aggregate_reports=$(jq ".[$idx].summary.$s_key=\"$report_metric(${eql_mark}\x02${res_value}%)\"" <<< $aggregate_reports) &&
+            log_line="|      ${eql_mark}\x09Same score in ${bold_key} (${res_value}%)"
 
         _log "$log_line" $(($coll_length+15)) │
 
@@ -77,19 +76,18 @@ for previous_url in $previous_urls; do
         ## Lower is better
         res_value=$(bc <<< "${recent_value}-${previous_value}")
         bold_key="${C_WHT}${m_key}${C_END}"
-        snake_metric_name=$(_camel_to_snake_case ${m_key})
 
         [[ $res_value -gt 0 ]] &&
-            aggregate_reports=$(jq -r ".[$idx].summary.$m_key=\"$report_metric(${red_mark}\x02${res_value}${metric_unit})\"" <<< $aggregate_reports) &&
-            log_line="|      ${red_mark}Increase time in ${bold_key} (${res_value} ${metric_unit})"
+            aggregate_reports=$(jq ".[$idx].summary.$m_key=\"$report_metric(${red_mark}\x02${res_value}${metric_unit})\"" <<< $aggregate_reports) &&
+            log_line="|      ${red_mark}\x09Increase time in ${bold_key} (${res_value} ${metric_unit})"
 
         [[ $res_value -lt 0 ]] &&
-            aggregate_reports=$(jq -r ".[$idx].summary.$m_key=\"$report_metric(${gre_mark}\x02${res_value}${metric_unit})\"" <<< $aggregate_reports) &&
-            log_line="|      ${gre_mark}Decrease time in ${bold_key} (${res_value} ${metric_unit})"
+            aggregate_reports=$(jq ".[$idx].summary.$m_key=\"$report_metric(${gre_mark}\x02${res_value}${metric_unit})\"" <<< $aggregate_reports) &&
+            log_line="|      ${gre_mark}\x09Decrease time in ${bold_key} (${res_value} ${metric_unit})"
 
         [[ $res_value -eq 0 ]] &&
-            aggregate_reports=$(jq -r ".[$idx].summary.$m_key=\"$report_metric(${eql_mark}\x02${res_value}${metric_unit})\"" <<< $aggregate_reports) &&
-            log_line="|      ${eql_mark}Same time in ${bold_key} (${res_value} ${metric_unit})"
+            aggregate_reports=$(jq ".[$idx].summary.$m_key=\"$report_metric(${eql_mark}\x02${res_value}${metric_unit})\"" <<< $aggregate_reports) &&
+            log_line="|      ${eql_mark}\x09Same time in ${bold_key} (${res_value} ${metric_unit})"
 
         _log "$log_line" $(($coll_length+15)) │
 
