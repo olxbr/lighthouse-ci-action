@@ -63,7 +63,6 @@ for url in $urls; do
     export EVALUATED_LIGHTHOUSE_LINK=$([ -n "$lighthouse_link" ] && echo "> _For full web report see [this page](${lighthouse_link})._")
 
     export U_TIME=$(jq -r ".[] | select(.url==$url) | .numericUnit" <<< $aggregate_reports)
-    echo "_badge_color ${performance}"
     export PERFORMANCE_COLOR=$(_badge_color ${performance})
     export ACESSIBILITY_COLOR=$(_badge_color ${accessibility})
     export BP_COLOR=$(_badge_color ${bestPractices})
