@@ -29,6 +29,7 @@ for url in ${URLS[@]}; do
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
     aggregate_summary='{}'
+    aggregate_summary_report='{}'
 
     _log "${E_SUM} ${C_WHT}Summary (${url})"
 
@@ -41,7 +42,8 @@ for url in ${URLS[@]}; do
 
         ## Agregate metric to output
         camel_metric_name=$(_snake_to_camel_case ${metric_name})
-        aggregate_summary=$(jq ". += { \"${camel_metric_name}\": ${avg} }" <<< "${aggregate_summary}")
+        aggregate_summary=$(jq ". += { ${camel_metric_name}: ${avg} }" <<< "${aggregate_summary}")
+        aggregate_summary_report=$(eval jq '. += { ${camel_metric_name}: "$(_summary_color ${avg})" }' <<< '${aggregate_summary_report}')
 
         [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
         _log "   ├⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})" ||
@@ -91,7 +93,7 @@ for url in ${URLS[@]}; do
 
     result=$(jq ". += {\"summary\": ${aggregate_summary}, \"metrics\": ${aggregate_metrics}}" <<< ${result})
     aggregate_results=$(jq ". += [${result}]" <<< ${aggregate_results})
-    aggregate_reports=$(jq -c ". += [${result}]" <<< ${aggregate_reports})
+    aggregate_reports=$(jq -c ". += [${result}]" <<< $(eval jq -c '.summary=${aggregate_summary_report}' <<< $aggregate_results))
 
 done
 
