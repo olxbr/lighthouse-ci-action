@@ -88,13 +88,13 @@ function _summary_emoji() {
     printf "${E_RED}" $1
 }
 
-function _camel_to_snake_case () {
-    echo $1 | sed -E 's,([A-Z]),_\1,g' | sed -E 's,(\-),_,g' | tr '[:upper:]' '[:lower:]'
-}
-
-# function _snake_to_camel_case () {
-#     echo $1 | sed -E 's/[_-]([a-z])/\U\1/g'
+# function _camel_to_snake_case () {
+#     echo $1 | sed -E 's,([A-Z]),_\1,g' | sed -E 's,(\-),_,g' | tr '[:upper:]' '[:lower:]'
 # }
+
+function _snake_to_camel_case () {
+    echo $1 | sed -E 's/[_-]([a-z])/\U\1/g'
+}
 
 function _snake_case_to_hr () {
     size=$(expr "$1" : '.*')
