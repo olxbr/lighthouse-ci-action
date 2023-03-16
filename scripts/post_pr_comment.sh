@@ -47,7 +47,7 @@ urls=($(jq '.[].url' <<< $aggregate_reports))
 for url in $urls; do
 
     ## Export all summary/metrics values to ENV
-    $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports | sed -E s,%,%25%20,g)
+    $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
     $(jq -r ".[] | select(.url==$url) | .metrics | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
 
     # Link do Json 
@@ -66,6 +66,9 @@ for url in $urls; do
     export BP_COLOR=$(_badge_color ${bestPractices})
     export SEO_COLOR=$(_badge_color ${seo})
     export PWA_COLOR=$(_badge_color ${pwa})
+
+    # To Escape URI encode
+    $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports | sed -E s,%,%20,g)
 
     ## Use teplate and convert
     _log info "Loading template"
