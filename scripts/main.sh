@@ -14,6 +14,7 @@ calc_avg='{ sum+=$1; qtd+=1 } END { printf("%.${round}f", (sum/qtd)${multiplier}
 awk_calc_avg_in_percentage=$(multiplier=*100 round=0 envsubst <<< $calc_avg)
 urls_length=${#URLS[@]}
 aggregate_results='[]'
+aggregate_reports='[]'
 
 print_runs="${C_WHT}${RUNS}${C_END}"
 print_urls_len="${C_WHT}${urls_length}${C_END}"
@@ -28,7 +29,7 @@ for url in ${URLS[@]}; do
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
     aggregate_summary='{}'
-    re='^[0-9]+$'
+    # re='^[0-9]+$'
 
     _log "${E_SUM} ${C_WHT}Summary (${url})"
 
@@ -37,23 +38,25 @@ for url in ${URLS[@]}; do
         let idx+=1
 
         ## Acquire metric
-        avg=$(jq ".[] | select(.url==\"${url}\") | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '-')
+        avg=$(jq ".[] | select(.url==\"${url}\") | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '"-"')
 
-        snake_metric_name=$(_camel_to_snake_case ${metric_name})
-        echo "avg_${snake_metric_name}=$(_summary_emoji ${avg}) ${avg}" >> ${GITHUB_ENV}
+        # snake_metric_name=$(_camel_to_snake_case ${metric_name})
+        # echo "avg_${snake_metric_name}=$(_summary_emoji ${avg}) ${avg}" >> ${GITHUB_ENV}
+
         # echo "emoji_${snake_metric_name}=$(_summary_emoji ${avg})" >> ${GITHUB_ENV}
         # export "avg_${snake_metric_name}=${avg}"
         # export "emoji_${snake_metric_name}=$(_summary_emoji ${avg})"
 
         ## Agregate metric to output
         camel_metric_name=$(_snake_to_camel_case ${metric_name})
-        [[ ${avg} =~ ${re} ]] && 
-        aggregate_summary=$(jq ". += { \"${camel_metric_name}\": ${avg} }" <<< "${aggregate_summary}") ||
-        aggregate_summary=$(jq ". += { \"${camel_metric_name}\": \"${avg}\" }" <<< "${aggregate_summary}")
+        aggregate_summary=$(jq ". += { \"${camel_metric_name}\": ${avg} }" <<< "${aggregate_summary}")
+        # [[ ${avg} =~ ${re} ]] && 
+        # aggregate_summary=$(jq ". += { \"${camel_metric_name}\": ${avg} }" <<< "${aggregate_summary}") ||
+        # aggregate_summary=$(jq ". += { \"${camel_metric_name}\": \"${avg}\" }" <<< "${aggregate_summary}")
 
         [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
-        _log "   ├⎯⎯$(_snake_case_to_hr ${snake_metric_name}): $(_summary_color ${avg})" ||
-        _log "   └⎯⎯$(_snake_case_to_hr ${snake_metric_name}): $(_summary_color ${avg})"
+        _log "   ├⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})" ||
+        _log "   └⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})"
     done
 
     ## Metrics (AVG)
@@ -105,6 +108,7 @@ for url in ${URLS[@]}; do
 
     result=$(jq ". += {\"summary\": ${aggregate_summary}, \"metrics\": ${aggregate_metrics}}" <<< ${result})
     aggregate_results=$(jq ". += [${result}]" <<< ${aggregate_results})
+    aggregate_reports=$(jq -c ". += [${result}]" <<< ${aggregate_reports})
 
     # Evaluating env vars to use in templates
     # export EVALUATED_URL=$([ "$urls_length" -gt "1" ] && echo " - (${url})" || echo "")
@@ -161,3 +165,6 @@ done
 aggregateResults=$(jq -c <<< ${aggregate_results})
 echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
 _log "aggregateResults: ${aggregateResults}"
+
+# Export Reports for later reports (Summary and Pr comment)
+echo "aggregate_reports=${aggregate_reports}" >> $GITHUB_ENV

@@ -59,16 +59,12 @@ function _summary_color() {
 function _badge_color() {
     ! [[ $1 =~ ^[0-9] ]] && printf "red" && return ## not a number
 
-    [[ $1 -ge 90 && $1 -le 99 ]] &&
+    [[ $1 -ge 90 ]] &&
         printf "green" &&
         return
 
     [[ $1 -le 89 && $1 -ge 50 ]] &&
         printf "yellow" &&
-        return
-
-    [[ $1 -eq 100 ]] &&
-        printf "green" &&
         return
 
     printf "red"
@@ -92,13 +88,13 @@ function _summary_emoji() {
     printf "${E_RED}" $1
 }
 
-function _camel_to_snake_case () {
-    echo $1 | sed -E 's,([A-Z]),_\1,g' | sed -E 's,(\-),_,g' | tr '[:upper:]' '[:lower:]'
-}
+# function _camel_to_snake_case () {
+#     echo $1 | sed -E 's,([A-Z]),_\1,g' | sed -E 's,(\-),_,g' | tr '[:upper:]' '[:lower:]'
+# }
 
-function _snake_to_camel_case () {
-    echo $1 | sed -E 's/[_-]([a-z])/\U\1/g'
-}
+# function _snake_to_camel_case () {
+#     echo $1 | sed -E 's/[_-]([a-z])/\U\1/g'
+# }
 
 function _snake_case_to_hr () {
     size=$(expr "$1" : '.*')

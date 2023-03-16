@@ -170,7 +170,7 @@ runs:
     - name: Create Action summary and Comment on PR
       shell: bash
       env:
-        SHOULD_COMPARE: ${{ steps.compare-results.conclusion == 'sucess' }}
+        JSON: ${{ steps.print.outputs.aggregateResults }}
         COMMENT_ON_PR: ${{ inputs.comment_on_pr }}
         GH_TOKEN: ${{ inputs.gh_token }}
         PR_NUMBER: ${{ github.event.number }}
