@@ -20,7 +20,7 @@ for url in $urls; do
     export score_comparation_desc=$([[ "$COMPARATION_WAS_EXECUTED" == true ]] && echo '(Difference between previous)' || echo '')
 
     ## Export all summary report to ENV
-    $(jq -r ".[] | select(.url==$url) | .summary | keys[] as $k | \"export \($k)=\(.[$k])\"" <<< $aggregate_reports)
+    $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | 'export \($k)=\(.[$k])'" <<< $aggregate_reports)
 
     TEMPLATE="templates/github_summary_template"
     SUMMARY=$(cat ${TEMPLATE})
