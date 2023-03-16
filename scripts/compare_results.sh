@@ -51,7 +51,7 @@ for previous_url in $previous_urls; do
         bold_key="${C_WHT}${s_key}${C_END}"
 
         [[ $res_value -gt 0 ]] &&
-            aggregate_reports=$(jq -c ".[$idx].summary.$s_key=\"$report_metric (${gre_mark} +${res_value})\"" <<< $aggregate_reports) &&
+            aggregate_reports=$(jq -c ".[$idx].summary.$s_key=\"$report_metric (${gre_mark} ${res_value})\"" <<< $aggregate_reports) &&
             log_line="|     ${gre_mark}\x09Increase in ${bold_key} (${res_value}%)"
 
         [[ $res_value -lt 0 ]] &&
@@ -78,15 +78,15 @@ for previous_url in $previous_urls; do
         bold_key="${C_WHT}${m_key}${C_END}"
 
         [[ $res_value -gt 0 ]] &&
-            aggregate_reports=$(jq -c ".[$idx].summary.$m_key=\"$report_metric (${res_value} +${metric_unit})\"" <<< $aggregate_reports) &&
+            aggregate_reports=$(jq -c ".[$idx].metrics.$m_key=\"$report_metric (+${res_value} ${metric_unit})\"" <<< $aggregate_reports) &&
             log_line="|     ${red_mark}\x09Increase time in ${bold_key} (${res_value} ${metric_unit})"
 
         [[ $res_value -lt 0 ]] &&
-            aggregate_reports=$(jq -c ".[$idx].summary.$m_key=\"$report_metric (${res_value} ${metric_unit})\"" <<< $aggregate_reports) &&
+            aggregate_reports=$(jq -c ".[$idx].metrics.$m_key=\"$report_metric (${res_value} ${metric_unit})\"" <<< $aggregate_reports) &&
             log_line="|     ${gre_mark}\x09Decrease time in ${bold_key} (${res_value} ${metric_unit})"
 
         [[ $res_value -eq 0 ]] &&
-            aggregate_reports=$(jq -c ".[$idx].summary.$m_key=\"$report_metric (${res_value} ${metric_unit})\"" <<< $aggregate_reports) &&
+            aggregate_reports=$(jq -c ".[$idx].metrics.$m_key=\"$report_metric (${res_value} ${metric_unit})\"" <<< $aggregate_reports) &&
             log_line="|     ${eql_mark}\x09Same time in ${bold_key} (${res_value} ${metric_unit})"
 
         _log "$log_line" $(($coll_length+4)) │
