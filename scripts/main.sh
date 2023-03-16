@@ -98,9 +98,8 @@ for url in ${URLS[@]}; do
 done
 
 # Export Aggregate Results to Output
-aggregateResults=$(jq -c <<< ${aggregate_results})
-echo "aggregateResults=${aggregateResults}" >> "$GITHUB_OUTPUT"
-_log "aggregateResults: ${aggregateResults}"
+echo "aggregateResults=${aggregate_results}" >> "$GITHUB_OUTPUT"
+_log "aggregateResults: ${aggregate_results}"
 
 # Export Reports for later reports (Summary and Pr comment)
 echo "aggregate_reports=${aggregate_reports}" >> $GITHUB_ENV

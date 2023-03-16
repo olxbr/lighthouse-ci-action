@@ -42,18 +42,22 @@ function _summary_color() {
     ! [[ $1 =~ ^[0-9] ]] && printf "${C_RED}${1}${C_END}" && return ## not a number
 
     [[ $1 -ge 90 && $1 -le 99 ]] &&
-        printf "${E_GRE} ${C_GRE}$1%%${C_END}" &&
+        #printf "${E_GRE} ${C_GRE}$1%%${C_END}" &&
+        printf "${E_GRE} $1%%" &&
         return
 
     [[ $1 -le 89 && $1 -ge 50 ]] &&
-        printf "${E_YEL} ${C_YEL}$1%%${C_END}" &&
+        # printf "${E_YEL} ${C_YEL}$1%%${C_END}" &&
+        printf "${E_YEL} $1%%" &&
         return
 
     [[ $1 -eq 100 ]] &&
-        printf "${E_TRO} ${C_GRE}$1%%${C_END}" &&
+        # printf "${E_TRO} ${C_GRE}$1%%${C_END}" &&
+        printf "${E_TRO} $1%" &&
         return
 
-    printf "${E_RED} ${C_RED}$1%%${C_END}"
+    # printf "${E_RED} ${C_RED}$1%%${C_END}"
+    printf "${E_RED} $1%${C_END}"
 }
 
 function _badge_color() {
