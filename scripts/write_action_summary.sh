@@ -3,17 +3,19 @@ source scripts/utils.sh
 
 _log "Writing summary on action..."
 
-for url in $(jq '.[].url' <<< $aggregate_reports); do
+urls=($(jq '.[].url' <<< $aggregate_reports))
+
+for url in $urls; do
     # Link do Json 
     lighthouse_link=$(jq -r ".[] | select(.url==$url) | .link" <<< $aggregate_reports)
 
-    _log lighthouse_link
+    _log $lighthouse_link
 
     # Lhci Configs
     export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
 
     # Evaluating env vars to use in templates
-    export EVALUATED_URL=$([ "$urls_length" -gt "1" ] && echo " - (${url})" || echo "")
+    export EVALUATED_URL=$([ "${#urls[@]}" -gt "1" ] && echo " - (${url})" || echo "")
     export EVALUATED_LIGHTHOUSE_LINK=$([ -n "$lighthouse_link" ] && echo "> _For full web report see [this page](${lighthouse_link})._")
 
     ## For compared values (Filled in when necessary)
