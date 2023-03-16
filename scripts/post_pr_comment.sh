@@ -49,8 +49,6 @@ for url in $urls; do
     ## Export all summary/metrics values to ENV
     jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports > export.sh && source export.sh
     cat export.sh
-    jq -r ".[] | select(.url==$url) | .metrics | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports > export.sh && source export.sh
-    cat export.sh
 
     # Link do Json 
     lighthouse_link=$(jq -r ".[] | select(.url==$url) | .link" <<< $aggregate_reports)
@@ -63,16 +61,18 @@ for url in $urls; do
     export EVALUATED_LIGHTHOUSE_LINK=$([ -n "$lighthouse_link" ] && echo "> _For full web report see [this page](${lighthouse_link})._")
 
     export U_TIME=$(jq -r ".[] | select(.url==$url) | .numericUnit" <<< $aggregate_reports)
-    export PERFORMANCE_COLOR=$(_badge_color ${performance})
-    export ACESSIBILITY_COLOR=$(_badge_color ${accessibility})
-    export BP_COLOR=$(_badge_color ${bestPractices})
-    export SEO_COLOR=$(_badge_color ${seo})
-    export PWA_COLOR=$(_badge_color ${pwa})
+    export PERFORMANCE_COLOR=$(_badge_color "${performance}")
+    export ACESSIBILITY_COLOR=$(_badge_color "${accessibility}")
+    export BP_COLOR=$(_badge_color "${bestPractices}")
+    export SEO_COLOR=$(_badge_color "${seo}")
+    export PWA_COLOR=$(_badge_color "${pwa}")
 
     # To Escape URI encode
     jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports | sed -E s,[%\ ],%20,g > export.sh &&
         sed -i -E 's,export%20,export ,g' export.sh &&
         source export.sh
+    cat export.sh
+    jq -r ".[] | select(.url==$url) | .metrics | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports > export.sh && source export.sh
     cat export.sh
 
     ## Use teplate and convert

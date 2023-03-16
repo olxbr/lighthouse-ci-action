@@ -69,7 +69,7 @@ function _summary_color() {
 
 function _badge_color() {
     ## Get only number from string
-    only_num=${@//%*/}
+    only_num=${1//%*/}
     only_num=${only_num//[!0-9]/}
 
     echo "DENNTROOOOOO" 1>&2
