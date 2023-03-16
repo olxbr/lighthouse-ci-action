@@ -68,13 +68,15 @@ function _summary_color() {
 }
 
 function _badge_color() {
-    ! [[ $1 =~ ^[0-9] ]] && printf "red" && return ## not a number
+    only_num=${1//[!0-9]/} ## Get only number from string
 
-    [[ $1 -ge 90 ]] &&
+    ! [[ $only_num =~ ^[0-9] ]] && printf "red" && return ## not a number
+
+    [[ $only_num -ge 90 ]] &&
         printf "green" &&
         return
 
-    [[ $1 -le 89 && $1 -ge 50 ]] &&
+    [[ $only_num -le 89 && $only_num -ge 50 ]] &&
         printf "yellow" &&
         return
 
