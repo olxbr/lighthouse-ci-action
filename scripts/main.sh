@@ -43,7 +43,7 @@ for url in ${URLS[@]}; do
         ## Agregate metric to output
         camel_metric_name=$(_snake_to_camel_case ${metric_name})
         aggregate_summary=$(jq ". += { ${camel_metric_name}: ${avg} }" <<< "${aggregate_summary}")
-        aggregate_summary_report=$(jq ". += { ${camel_metric_name}: \"$(_summary_color ${avg})\" }" <<< '${aggregate_summary_report}')
+        aggregate_summary_report=$(jq ". += { ${camel_metric_name}: \"teste\" }" <<< '${aggregate_summary_report}')
 
         [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
         _log "   ├⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})" ||
