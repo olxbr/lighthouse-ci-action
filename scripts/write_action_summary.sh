@@ -8,10 +8,8 @@ urls=($(jq '.[].url' <<< $aggregate_reports))
 for url in $urls; do
 
     ## Export all summary values to ENV
-    IFS=$'\n'
-    for export in $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports); do
-        eval $export
-    done
+    jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports > export.sh
+    source export.sh
 
     # Link do Json 
     lighthouse_link=$(jq -r ".[] | select(.url==$url) | .link" <<< $aggregate_reports)
