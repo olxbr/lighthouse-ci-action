@@ -68,7 +68,7 @@ for url in $urls; do
     export PWA_COLOR=$(_badge_color ${pwa})
 
     # To Escape URI encode
-    jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports | sed -E s,%,%20,g > export.sh &&
+    jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports | sed -E s,[%\ ],%20,g > export.sh &&
     source export.sh
     cat export.sh
 

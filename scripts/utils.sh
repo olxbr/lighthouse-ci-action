@@ -68,7 +68,9 @@ function _summary_color() {
 }
 
 function _badge_color() {
-    only_num=${1//[!0-9]/} ## Get only number from string
+    ## Get only number from string
+    only_num=${1//%*/}
+    only_num=${only_num//[!0-9]/}
 
     ! [[ $only_num =~ ^[0-9] ]] && printf "red" && return ## not a number
 
