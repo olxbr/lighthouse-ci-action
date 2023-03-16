@@ -53,7 +53,7 @@ function _summary_color() {
 
     [[ $1 -eq 100 ]] &&
         # printf "${E_TRO} ${C_GRE}$1%%${C_END}" &&
-        printf "${E_TRO} $1%" &&
+        printf "${E_TRO} $1%%" &&
         return
 
     # printf "${E_RED} ${C_RED}$1%%${C_END}"
