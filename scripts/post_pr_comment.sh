@@ -8,7 +8,7 @@ function _check_for_comments () {
     COMMENTS=$(curl --location --request GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" \
             --header "Authorization: token ${GH_TOKEN}" \
             --silent)
-    LAST_COMMENT_ID=$(jq -c '.[] | select(.body | test("'"^${HEADER}"'")) | select(.user.login == "olxbr-bot") .id' <<< ${COMMENTS} | tail -n1)
+    LAST_COMMENT_ID=$(jq -c '.[] | select(.body | test("'"^${HEADER}"'")) .id' <<< ${COMMENTS} | tail -n1)
     if [ -n "${LAST_COMMENT_ID}" ];
     then
         _log info "Found past comments, deleting it..."
