@@ -69,7 +69,8 @@ for url in $urls; do
 
     # To Escape URI encode
     jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports | sed -E s,[%\ ],%20,g > export.sh &&
-    source export.sh
+        sed -i -E 's,export%20,export ,g' export.sh &&
+        source export.sh
     cat export.sh
 
     ## Use teplate and convert
