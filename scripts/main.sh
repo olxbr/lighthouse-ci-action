@@ -100,7 +100,7 @@ for url in ${URLS[@]}; do
     aggregate_results=$(jq ". += [${result}]" <<< ${aggregate_results})
 
     # Evaluating env vars to use in templates
-    export EVALUATED_URL=$([ "$urls_length" -gt "1" ] && echo " - (${url})" || echo "")
+    export EVALUATED_URL=" - (${url})"
     export EVALUATED_LIGHTHOUSE_LINK=$([ -n "$lighthouse_link" ] && echo "> _For full web report see [this page](${lighthouse_link})._")
 
     # Lhci Configs
