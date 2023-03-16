@@ -46,24 +46,24 @@ function _summary_color() {
 
     [[ $1 -ge 90 && $1 -le 99 ]] &&
         ([[ $print_clean == true ]] &&
-            printf "${E_GRE} $1%%" ||
+            printf "${E_GRE}$1%%" ||
             printf "${E_GRE} ${C_GRE}$1%%${C_END}") &&
         return
 
     [[ $1 -le 89 && $1 -ge 50 ]] &&
         ([[ $print_clean == true ]] &&
-            printf "${E_YEL} $1%%" ||
+            printf "${E_YEL}$1%%" ||
             printf "${E_YEL} ${C_YEL}$1%%${C_END}") &&
         return
 
     [[ $1 -eq 100 ]] &&
         ([[ $print_clean == true ]] &&
-            printf "${E_TRO} $1%%" ||
+            printf "${E_TRO}$1%%" ||
             printf "${E_TRO} ${C_GRE}$1%%${C_END}") &&
         return
 
     [[ $print_clean == true ]] &&
-        printf "${E_RED} $1%%" ||
+        printf "${E_RED}$1%%" ||
         printf "${E_RED} ${C_RED}$1%%${C_END}"
 }
 

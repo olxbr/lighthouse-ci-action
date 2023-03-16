@@ -47,8 +47,7 @@ urls=($(jq '.[].url' <<< $aggregate_reports))
 for url in $urls; do
 
     ## Export all summary/metrics values to ENV
-    jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports > export.sh
-    source export.sh
+    $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
     $(jq -r ".[] | select(.url==$url) | .metrics | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
 
     # Link do Json 
