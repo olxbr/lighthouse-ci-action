@@ -62,7 +62,7 @@ for previous_url in $previous_urls; do
             aggregate_reports=$(jq -c ".[$idx].summary.$s_key=\"$report_metric(${eql_mark}${res_value})\"" <<< $aggregate_reports) &&
             log_line="|     ${eql_mark}\x09Same score in ${bold_key} (${res_value}%)"
 
-        _log "$log_line" $(($coll_length+15)) │
+        _log "$log_line" $(($coll_length+5)) │
 
     done
 
@@ -71,7 +71,7 @@ for previous_url in $previous_urls; do
     for m_key in $previous_metrics_keys; do
         recent_value=$(jq -r ".[$idx].metrics.$m_key" <<< ${recent_results})
         previous_value=$(jq -r ".[] | select(.url==$previous_url) | .metrics.$m_key" <<< ${previous_results})
-        report_metric=$(jq -r ".[$idx].summary.$m_key" <<< $aggregate_reports)
+        report_metric=$(jq -r ".[$idx].metrics.$m_key" <<< $aggregate_reports)
 
         ## Lower is better
         res_value=$(bc <<< "${recent_value}-${previous_value}")
@@ -89,7 +89,7 @@ for previous_url in $previous_urls; do
             aggregate_reports=$(jq -c ".[$idx].summary.$m_key=\"$report_metric(${res_value}${metric_unit})\"" <<< $aggregate_reports) &&
             log_line="|     ${eql_mark}\x09Same time in ${bold_key} (${res_value} ${metric_unit})"
 
-        _log "$log_line" $(($coll_length+15)) │
+        _log "$log_line" $(($coll_length+5)) │
 
     done
 
