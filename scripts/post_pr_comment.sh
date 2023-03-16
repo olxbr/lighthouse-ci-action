@@ -48,7 +48,7 @@ for url in $urls; do
 
     ## Export all summary/metrics values to ENV
     IFS=$'\n'
-    for export in $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports); do
+    for export in $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports); do
         eval $export
     done
     $(jq -r ".[] | select(.url==$url) | .metrics | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
