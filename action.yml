@@ -50,9 +50,8 @@ runs:
     - name: Set LHCI env vars
       id: set-lhci-env-vars
       shell: bash
-      run: |        
-        cd ${{github.action_path}}
-        source scripts/utils.sh
+      run: |
+        source ${{github.action_path}}/scripts/utils.sh
         _set_up_lhci_env_vars ${{ inputs.collect_preset }}
 
     - name: Treosh Lighthouse CI Action
