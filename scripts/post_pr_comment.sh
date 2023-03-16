@@ -50,7 +50,17 @@ for url in $urls; do
     $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
     $(jq -r ".[] | select(.url==$url) | .metrics | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
 
-    export U_TIME=$(jq -r ".[] | select(.url==$url) | .numericUnit")
+    # Link do Json 
+    lighthouse_link=$(jq -r ".[] | select(.url==$url) | .link" <<< $aggregate_reports)
+
+    # Lhci Configs
+    export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
+
+    # Evaluating env vars to use in templates
+    export EVALUATED_URL=$([ "${#urls[@]}" -gt "1" ] && echo " - (${url})" || echo "")
+    export EVALUATED_LIGHTHOUSE_LINK=$([ -n "$lighthouse_link" ] && echo "> _For full web report see [this page](${lighthouse_link})._")
+
+    export U_TIME=$(jq -r ".[] | select(.url==$url) | .numericUnit" <<< $aggregate_reports)
     export PERFORMANCE_COLOR=$(_badge_color ${performance})
     export ACESSIBILITY_COLOR=$(_badge_color ${accessibility})
     export BP_COLOR=$(_badge_color ${bestPractices})
