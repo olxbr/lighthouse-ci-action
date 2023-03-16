@@ -72,6 +72,7 @@ function _badge_color() {
     only_num=${1//%*/}
     only_num=${only_num//[!0-9]/}
 
+    echo "DENNTROOOOOO"
     echo ${1}
     echo ${only_num}
 
