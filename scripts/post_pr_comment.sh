@@ -57,7 +57,7 @@ for url in $urls; do
     export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
 
     # Evaluating env vars to use in templates
-    export EVALUATED_URL=" - ${url}"
+    export EVALUATED_URL=" - (${url//\"/})"
     export EVALUATED_LIGHTHOUSE_LINK=$([ -n "$lighthouse_link" ] && echo "> _For full web report see [this page](${lighthouse_link})._")
 
     export U_TIME=$(jq -r ".[] | select(.url==$url) | .numericUnit" <<< $aggregate_reports)
