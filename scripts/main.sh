@@ -105,4 +105,5 @@ echo "aggregateResults=${aggregate_results}" >> "$GITHUB_OUTPUT"
 _log "aggregateResults: ${aggregate_results}"
 
 # Export Reports for later reports (Summary and Pr comment)
-echo "aggregate_reports=${aggregate_reports}" >> $GITHUB_ENV
+if [[ "$PREVIOUS_RUN" == false ]] &&
+    echo "aggregate_reports=${aggregate_reports}" >> $GITHUB_ENV

@@ -53,6 +53,8 @@ for url in $urls; do
     # Link do Json 
     lighthouse_link=$(jq -r ".[] | select(.url==$url) | .link" <<< $aggregate_reports)
 
+    export score_comparation_desc=$([[ "$COMPARATION_WAS_EXECUTED" == true ]] && echo '(Difference between previous)' || echo '')
+
     # Lhci Configs
     export COLLECT_PRESET=${LHCI_COLLECT__SETTINGS__PRESET:-mobile}
 
@@ -75,7 +77,7 @@ for url in $urls; do
         source export.sh
     jq -r ".[] | select(.url==$url) | .metrics | keys[] as \$k | \"export \(\$k)='\(.[\$k])'\"" <<< $aggregate_reports > export.sh && source export.sh
 
-    ## Use teplate and convert
+    ## Use template and convert
     _log info "Loading template"
     TEMPLATE="templates/pr_comment_template"
     COMMENT=$(envsubst < ${TEMPLATE})
