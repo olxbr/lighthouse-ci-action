@@ -50,6 +50,8 @@ for url in $urls; do
     $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
     $(jq -r ".[] | select(.url==$url) | .metrics | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
 
+    env
+
     # Link do Json 
     lighthouse_link=$(jq -r ".[] | select(.url==$url) | .link" <<< $aggregate_reports)
 
