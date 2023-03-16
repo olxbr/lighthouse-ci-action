@@ -57,7 +57,7 @@ function _summary_color() {
         return
 
     # printf "${E_RED} ${C_RED}$1%%${C_END}"
-    printf "${E_RED} $1%${C_END}"
+    printf "${E_RED} $1%%${C_END}"
 }
 
 function _badge_color() {
