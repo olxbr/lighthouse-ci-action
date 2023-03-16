@@ -10,7 +10,8 @@ gre_mark="${C_GRE}🟢\x09${C_END}"
 eql_mark="${C_BLU}🔵\x09${C_END}"
 previous_results=${PREVIOUS_RESULTS}
 recent_results=${RECENT_RESULTS}
-previous_urls=$(jq -r '.[].url' <<< ${previous_results})
+aggregate_reports=${aggregate_reports}
+previous_urls=$(jq '.[].url' <<< ${previous_results})
 
 _log "⚙︎ Comparison of results:"
 _log "${bullet_point_hex} ${C_BLU}recent${C_END} version: ${recent_results}"
@@ -32,8 +33,8 @@ _log "╚$title_line╝"
 let idx=0
 for previous_url in $previous_urls; do
     metric_unit=$(jq -r ".[$idx].numericUnit" <<< ${previous_results})
-    previous_summary_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary | keys[]" <<< ${previous_results})
-    previous_metrics_keys=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics | keys[]" <<< ${previous_results})
+    previous_summary_keys=$(jq -r ".[] | select(.url==$previous_url) | .summary | keys[]" <<< ${previous_results})
+    previous_metrics_keys=$(jq -r ".[] | select(.url==$previous_url) | .metrics | keys[]" <<< ${previous_results})
 
     _log "    ${C_WHT_NO_BOLD}🆄🆁🅻${C_END} $(jq -r ".[$idx].url" <<< ${recent_results})"
     _log "┌$(eval printf '─%.0s' {3..$coll_length})┐"
@@ -42,7 +43,8 @@ for previous_url in $previous_urls; do
     _log "|   🅢 ${C_WHT}Summary (Difference)${C_END}\x09" $(($coll_length+1)) │
     for s_key in $previous_summary_keys; do
         recent_value=$(jq -r ".[$idx].summary.$s_key" <<< ${recent_results})
-        previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .summary.$s_key" <<< ${previous_results})
+        previous_value=$(jq -r ".[] | select(.url==$previous_url) | .summary.$s_key" <<< ${previous_results})
+        report_metric=$(jq -r ".[$idx].summary.$s_key" <<< $aggregate_reports)
 
         ## Greater is better
         res_value=$(bc <<< "${recent_value}-${previous_value}")
@@ -50,15 +52,15 @@ for previous_url in $previous_urls; do
         snake_metric_name=$(_camel_to_snake_case ${s_key})
 
         [[ $res_value -gt 0 ]] &&
-            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${gre_mark} _+_${res_value}%)" >> ${GITHUB_ENV} &&
+            aggregate_reports=$(jq -r ".[$idx].summary.$s_key=\"$report_metric(${gre_mark}_+_${res_value}%)\"" <<< $aggregate_reports) &&
             log_line="|      ${gre_mark}Increase in ${bold_key} (${res_value}%)"
 
         [[ $res_value -lt 0 ]] &&
-            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${red_mark} ${res_value}%)" >> ${GITHUB_ENV} &&
+            aggregate_reports=$(jq -r ".[$idx].summary.$s_key=\"$report_metric(${red_mark}\x02${res_value}%)\"" <<< $aggregate_reports) &&
             log_line="|      ${red_mark}Decrease in ${bold_key} (${res_value}%)"
 
         [[ $res_value -eq 0 ]] &&
-            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${eql_mark} ${res_value}%)" >> ${GITHUB_ENV} &&
+            aggregate_reports=$(jq -r ".[$idx].summary.$s_key=\"$report_metric(${eql_mark}\x02${res_value}%)\"" <<< $aggregate_reports) &&
             log_line="|      ${eql_mark}Same score in ${bold_key} (${res_value}%)"
 
         _log "$log_line" $(($coll_length+15)) │
@@ -69,7 +71,8 @@ for previous_url in $previous_urls; do
     _log "|   🅜 ${C_WHT}Metrics (Difference)${C_END}\x09" $(($coll_length+1)) │
     for m_key in $previous_metrics_keys; do
         recent_value=$(jq -r ".[$idx].metrics.$m_key" <<< ${recent_results})
-        previous_value=$(jq -r ".[] | select(.url==\"$previous_url\") | .metrics.$m_key" <<< ${previous_results})
+        previous_value=$(jq -r ".[] | select(.url==$previous_url) | .metrics.$m_key" <<< ${previous_results})
+        report_metric=$(jq -r ".[$idx].summary.$m_key" <<< $aggregate_reports)
 
         ## Lower is better
         res_value=$(bc <<< "${recent_value}-${previous_value}")
@@ -77,15 +80,15 @@ for previous_url in $previous_urls; do
         snake_metric_name=$(_camel_to_snake_case ${m_key})
 
         [[ $res_value -gt 0 ]] &&
-            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${red_mark} _+_${res_value}%)" >> ${GITHUB_ENV} &&
+            aggregate_reports=$(jq -r ".[$idx].summary.$m_key=\"$report_metric(${red_mark}\x02${res_value}${metric_unit})\"" <<< $aggregate_reports) &&
             log_line="|      ${red_mark}Increase time in ${bold_key} (${res_value} ${metric_unit})"
 
         [[ $res_value -lt 0 ]] &&
-            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${gre_mark} ${res_value}%)" >> ${GITHUB_ENV} &&
+            aggregate_reports=$(jq -r ".[$idx].summary.$m_key=\"$report_metric(${gre_mark}\x02${res_value}${metric_unit})\"" <<< $aggregate_reports) &&
             log_line="|      ${gre_mark}Decrease time in ${bold_key} (${res_value} ${metric_unit})"
 
         [[ $res_value -eq 0 ]] &&
-            echo "avg_${snake_metric_name}=avg_${snake_metric_name} (${eql_mark} ${res_value}%)" >> ${GITHUB_ENV} &&
+            aggregate_reports=$(jq -r ".[$idx].summary.$m_key=\"$report_metric(${eql_mark}\x02${res_value}${metric_unit})\"" <<< $aggregate_reports) &&
             log_line="|      ${eql_mark}Same time in ${bold_key} (${res_value} ${metric_unit})"
 
         _log "$log_line" $(($coll_length+15)) │
