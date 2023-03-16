@@ -95,6 +95,8 @@ for url in ${URLS[@]}; do
     aggregate_results=$(jq -c ". += [${result}]" <<< ${aggregate_results})
 
     # Reports
+    _log $aggregate_summary
+    _log $aggregate_summary_report
     report=$(jq -c ".summary=$aggregate_summary_report" <<< $result)
     aggregate_reports=$(jq -c ". += [${report}]" <<< $aggregate_reports)
 
