@@ -42,31 +42,40 @@ else
     exit 0
 fi
 
-# Metrics
-export U_TIME=${unit_time:='-'}
-export PERFORMANCE_COLOR=$(_badge_color ${LIGHTHOUSE_PERFORMANCE})
-export ACESSIBILITY_COLOR=$(_badge_color ${LIGHTHOUSE_ACESSIBILITY})
-export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
-export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
-export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
+urls=($(jq '.[].url' <<< $aggregate_reports))
 
-## Use teplate and convert
-_log info "Loading template"
-TEMPLATE="templates/pr_comment_template"
-COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
+for url in $urls; do
 
-## Getting header after variable substitution, escaping the parenthesis
-HEADER=$(echo "${COMMENT}" | head -n1 | sed 's/[\(\)]/\\\\&/g')
+    # Metrics
+    export U_TIME=${unit_time:='-'}
+    export PERFORMANCE_COLOR=$(_badge_color ${LIGHTHOUSE_PERFORMANCE})
+    export ACESSIBILITY_COLOR=$(_badge_color ${LIGHTHOUSE_ACESSIBILITY})
+    export BP_COLOR=$(_badge_color ${LIGHTHOUSE_BP})
+    export SEO_COLOR=$(_badge_color ${LIGHTHOUSE_SEO})
+    export PWA_COLOR=$(_badge_color ${LIGHTHOUSE_PWA})
 
-COMMENT="${COMMENT@Q}"
-COMMENT="${COMMENT#\$\'}"
-COMMENT="${COMMENT%\'}"
+    ## Export all summary/metrics values to ENV
+    $(jq -r ".[] | select(.url==$url) | .summary | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
+    $(jq -r ".[] | select(.url==$url) | .metrics | keys[] as \$k | \"export \(\$k)=\(.[\$k])\"" <<< $aggregate_reports)
 
-## Only post if is in a PR
-if [ -n "${PR_NUMBER}" ];
-then
-    _check_for_comments
-    _post_comment
-else
-    _log warn "This may not be a PR so not commenting... See full report above"
-fi
+    ## Use teplate and convert
+    _log info "Loading template"
+    TEMPLATE="templates/pr_comment_template"
+    COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
+
+    ## Getting header after variable substitution, escaping the parenthesis
+    HEADER=$(echo "${COMMENT}" | head -n1 | sed 's/[\(\)]/\\\\&/g')
+
+    COMMENT="${COMMENT@Q}"
+    COMMENT="${COMMENT#\$\'}"
+    COMMENT="${COMMENT%\'}"
+
+    ## Only post if is in a PR
+    if [ -n "${PR_NUMBER}" ];
+    then
+        _check_for_comments
+        _post_comment
+    else
+        _log warn "This may not be a PR so not commenting... See full report above"
+    fi
+done

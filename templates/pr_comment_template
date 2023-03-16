@@ -1,15 +1,15 @@
 # Web Vitals Report (${COLLECT_PRESET})${EVALUATED_URL}
-![Performance](https://img.shields.io/badge/Performance-${avg_performance}%25-${PERFORMANCE_COLOR}?style=flat-square) ![Accessibility](https://img.shields.io/badge/Accessibility-${avg_accessibility}%25-${ACESSIBILITY_COLOR}?style=flat-square) ![Best Practices](https://img.shields.io/badge/Best%20Practices-${avg_best_practices}%25-${BP_COLOR}?style=flat-square) ![SEO](https://img.shields.io/badge/SEO-${avg_seo}%25-${SEO_COLOR}?style=flat-square) ![Progressive Web App](https://img.shields.io/badge/Progressive%20Web%20App-${avg_pwa}%25-${PWA_COLOR}?style=flat-square)
+![Performance](https://img.shields.io/badge/Performance-${performance}%25-${PERFORMANCE_COLOR}?style=flat-square) ![Accessibility](https://img.shields.io/badge/Accessibility-${accessibility}%25-${ACESSIBILITY_COLOR}?style=flat-square) ![Best Practices](https://img.shields.io/badge/Best%20Practices-${bestPractices}%25-${BP_COLOR}?style=flat-square) ![SEO](https://img.shields.io/badge/SEO-${seo}%25-${SEO_COLOR}?style=flat-square) ![Progressive Web App](https://img.shields.io/badge/Progressive%20Web%20App-${pwa}%25-${PWA_COLOR}?style=flat-square)
 
 ## Metrics
 
-| Metric name                    | Timing (${U_TIME})                   |
-|--------------------------------|--------------------------------------|
-| First Contentful Paint (FCP)   | ${avg_first_contentful_paint}        |
-| Speed Index (SI)               | ${avg_speed_index}                   |
-| Largest Contentful Paint (LCP) | ${avg_largest_contentful_paint}      |
-| Time to Interactive (TTI)      | ${avg_interactive}                   |
-| Total Blocking Time (TBT)      | ${avg_total_blocking_time}           |
-| Cumulative Layout Shift (CLS)  | ${avg_total_cumulative_layout_shift} |
+| Metric name                    | Timing (${U_TIME})            |
+|--------------------------------|-------------------------------|
+| First Contentful Paint (FCP)   | ${firstContentfulPaint}       |
+| Speed Index (SI)               | ${speedIndex}                 |
+| Largest Contentful Paint (LCP) | ${largestContentfulPaint}     |
+| Time to Interactive (TTI)      | ${interactive}                |
+| Total Blocking Time (TBT)      | ${totalBlockingTime}          |
+| Cumulative Layout Shift (CLS)  | ${totalCumulativeLayoutShift} |
 
 ${EVALUATED_LIGHTHOUSE_LINK}
