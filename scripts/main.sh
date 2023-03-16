@@ -92,8 +92,8 @@ for url in ${URLS[@]}; do
         aggregate_metrics=$(jq ". += { ${metric_name}: ${avg} }" <<< "${aggregate_metrics}")
 
         ## Exporting to pr comment and summary
-        snake_metric_name=$(_camel_to_snake_case ${metric_name})
-        echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
+        # snake_metric_name=$(_camel_to_snake_case ${metric_name})
+        # echo "avg_${snake_metric_name}=${avg}" >> ${GITHUB_ENV}
         # export "avg_${snake_metric_name}=${avg}"
     done
 

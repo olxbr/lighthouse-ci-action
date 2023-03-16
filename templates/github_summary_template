@@ -2,10 +2,10 @@
 
 ${E_SUM} Summary 	
 
-| Category            | Score ${score_comparation_desc}     |
-|---------------------|-------------------------------------|
-| Performance         | ${avg_performance}                  |
-| Acessibility        | ${avg_accessibility}                |
-| Best Practices      | ${avg_best_practices}               |
-| SEO                 | ${avg_seo}                          |
-| Progressive Web App | ${avg_pwa}                          |
+| Category            | Score ${score_comparation_desc} |
+|---------------------|---------------------------------|
+| Performance         | ${performance}                  |
+| Acessibility        | ${accessibility}                |
+| Best Practices      | ${bestPractices}                |
+| SEO                 | ${seo}                          |
+| Progressive Web App | ${pwa}                          |
