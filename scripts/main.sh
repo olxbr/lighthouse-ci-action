@@ -50,8 +50,6 @@ for url in ${URLS[@]}; do
         let idx+=1
 
         ## Acquire metric
-        echo "values for $metric_name: $(eval jq '.[] | select(.url | test("${sanitized_url%/}/?$")) | .summary."${metric_name}"' <<< ${JSON})"
-        echo "$awk_calc_avg_in_percentage"
         avg=$(jq ".[] | select(.url | test(\"${sanitized_url%/}/?$\")) | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '"-"')
 
         ## Agregate metric to output
