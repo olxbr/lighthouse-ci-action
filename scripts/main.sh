@@ -19,6 +19,8 @@ aggregate_reports='[]'
 print_runs="${C_WHT}${RUNS}${C_END}"
 print_urls_len="${C_WHT}${urls_length}${C_END}"
 
+env
+
 _log "╔══════════════════════════════╗"
 _log "║ Average of ${print_runs} RUNS and ${print_urls_len} URLs ║"
 _log "╚══════════════════════════════╝"
