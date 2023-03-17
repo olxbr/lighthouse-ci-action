@@ -72,10 +72,6 @@ function _badge_color() {
     only_num=${1//%*/}
     only_num=${only_num//[!0-9]/}
 
-    echo "DENNTROOOOOO" 1>&2
-    echo ${1} 1>&2
-    echo ${only_num} 1>&2
-
     ! [[ $only_num =~ ^[0-9] ]] && printf "red" && return ## not a number
 
     [[ $only_num -ge 90 ]] &&

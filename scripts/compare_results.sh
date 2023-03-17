@@ -52,15 +52,15 @@ for previous_url in $previous_urls; do
 
         [[ $res_value -gt 0 ]] &&
             aggregate_reports=$(jq -c ".[$idx].summary.$s_key=\"$report_metric (${gre_mark} ${res_value})\"" <<< $aggregate_reports) &&
-            log_line="|     ${gre_mark}\x09Increase in ${bold_key} (${res_value}%)"
+            log_line="|      ${gre_mark}\x09Increase in ${bold_key} (${res_value}%)"
 
         [[ $res_value -lt 0 ]] &&
             aggregate_reports=$(jq -c ".[$idx].summary.$s_key=\"$report_metric (${red_mark} ${res_value})\"" <<< $aggregate_reports) &&
-            log_line="|     ${red_mark}\x09Decrease in ${bold_key} (${res_value}%)"
+            log_line="|      ${red_mark}\x09Decrease in ${bold_key} (${res_value}%)"
 
         [[ $res_value -eq 0 ]] &&
             aggregate_reports=$(jq -c ".[$idx].summary.$s_key=\"$report_metric (${eql_mark} ${res_value})\"" <<< $aggregate_reports) &&
-            log_line="|     ${eql_mark}\x09Same score in ${bold_key} (${res_value}%)"
+            log_line="|      ${eql_mark}\x09Same score in ${bold_key} (${res_value}%)"
 
         _log "$log_line" $(($coll_length+4)) │
 
@@ -79,15 +79,15 @@ for previous_url in $previous_urls; do
 
         [[ $res_value -gt 0 ]] &&
             aggregate_reports=$(jq -c ".[$idx].metrics.$m_key=\"$report_metric (+${res_value} ${metric_unit})\"" <<< $aggregate_reports) &&
-            log_line="|     ${red_mark}\x09Increase time in ${bold_key} (${res_value} ${metric_unit})"
+            log_line="|      ${red_mark}\x09Increase time in ${bold_key} (${res_value} ${metric_unit})"
 
         [[ $res_value -lt 0 ]] &&
             aggregate_reports=$(jq -c ".[$idx].metrics.$m_key=\"$report_metric (${res_value} ${metric_unit})\"" <<< $aggregate_reports) &&
-            log_line="|     ${gre_mark}\x09Decrease time in ${bold_key} (${res_value} ${metric_unit})"
+            log_line="|      ${gre_mark}\x09Decrease time in ${bold_key} (${res_value} ${metric_unit})"
 
         [[ $res_value -eq 0 ]] &&
             aggregate_reports=$(jq -c ".[$idx].metrics.$m_key=\"$report_metric (${res_value} ${metric_unit})\"" <<< $aggregate_reports) &&
-            log_line="|     ${eql_mark}\x09Same time in ${bold_key} (${res_value} ${metric_unit})"
+            log_line="|      ${eql_mark}\x09Same time in ${bold_key} (${res_value} ${metric_unit})"
 
         _log "$log_line" $(($coll_length+4)) │
 
@@ -99,6 +99,5 @@ for previous_url in $previous_urls; do
 done
 
 ## Update json report
-_log "$aggregate_reports"
 echo "aggregate_reports=${aggregate_reports}" >> $GITHUB_ENV
 _log "Comparation finished!"
