@@ -19,14 +19,21 @@ aggregate_reports='[]'
 print_runs="${C_WHT}${RUNS}${C_END}"
 print_urls_len="${C_WHT}${urls_length}${C_END}"
 
-env
+## Print all information received
+[[ $ACTIONS_RUNNER_DEBUG == true]] &&
+    _lgo debug "Debug: on" &&
+    _log debug "JSON: ${JSON}" &&
+    _log debug "${RUNS}"
+    _log debug "${LINKS}"
+    _log debug "${URLS}"
+    _log debug "${PREVIOUS_RUN}"
 
 _log "╔══════════════════════════════╗"
 _log "║ Average of ${print_runs} RUNS and ${print_urls_len} URLs ║"
 _log "╚══════════════════════════════╝"
 
 for url in ${URLS[@]}; do 
-    lighthouse_link=$(jq -r ". | to_entries[] | select(.key | test(\"${url%/}/?$\")) | .value" <<< ${LINKS})
+    lighthouse_link=$(jq -r ". | select(.key | test(\"${url%/}/?$\")) | .value" <<< ${LINKS})
 
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
@@ -40,6 +47,8 @@ for url in ${URLS[@]}; do
         let idx+=1
 
         ## Acquire metric
+        echo "values for $metric_name: $(jq ".[] | select(.url | test(\"${url%/}/?$\")) | .summary.\"${metric_name}\"" <<< ${JSON})"
+        echo "$awk_calc_avg_in_percentage"
         avg=$(jq ".[] | select(.url | test(\"${url%/}/?$\")) | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '"-"')
 
         ## Agregate metric to output
