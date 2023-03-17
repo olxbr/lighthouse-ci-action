@@ -1,5 +1,5 @@
 # Web Vitals Report (${COLLECT_PRESET})${EVALUATED_URL}
-![Performance](https://img.shields.io/badge/Performance-${performance}-${PERFORMANCE_COLOR}?style=plastic) ![Accessibility](https://img.shields.io/badge/Accessibility-${accessibility}-${ACESSIBILITY_COLOR}?style=plastic) ![Best Practices](https://img.shields.io/badge/Best%20Practices-${bestPractices}-${BP_COLOR}?style=plastic) ![SEO](https://img.shields.io/badge/SEO-${seo}-${SEO_COLOR}?style=plastic) ![Progressive Web App](https://img.shields.io/badge/Progressive%20Web%20App-${pwa}-${PWA_COLOR}?style=plastic)
+![Performance](https://img.shields.io/badge/Performance-${performance}-${PERFORMANCE_COLOR}?style=plastic) ![Accessibility](https://img.shields.io/badge/Accessibility-${accessibility}-${ACESSIBILITY_COLOR}?style=plastic) ![Best Practices](https://img.shields.io/badge/Best%20Practices-${bestPractices}-${BP_COLOR}?style=plastic) ![SEO](https://img.shields.io/badge/SEO-${seo}-${SEO_COLOR}?style=plastic) ![PWA](https://img.shields.io/badge/PWA-${pwa}-${PWA_COLOR}?style=plastic)
 
 ## Metrics
 

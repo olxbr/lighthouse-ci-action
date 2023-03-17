@@ -75,7 +75,7 @@ function _badge_color() {
     ! [[ $only_num =~ ^[0-9] ]] && printf "red" && return ## not a number
 
     [[ $only_num -ge 90 ]] &&
-        printf "green" &&
+        printf "brightgreen" &&
         return
 
     [[ $only_num -le 89 && $only_num -ge 50 ]] &&
