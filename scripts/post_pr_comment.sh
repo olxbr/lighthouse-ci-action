@@ -13,7 +13,7 @@ function _check_for_comments () {
         _log warn "Can't find comments in the repository. Maybe the API is out blocked by rate-limit. Skipping process to check comment." &&
         return
 
-    LAST_COMMENT_ID=$(jq -c '.[] | select(.body | test("'"^${HEADER}"'")) | select(.user.login == "olxbr-bot") .id' <<< ${COMMENTS} | tail -n1)
+    LAST_COMMENT_ID=$(jq -c '.[] | select(.body | test("'"^${HEADER}"'")) | .id' <<< ${COMMENTS} | tail -n1)
     if [ -n "${LAST_COMMENT_ID}" ];
     then
         _log info "Found past comments, deleting it..."

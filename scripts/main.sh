@@ -24,7 +24,7 @@ _log "║ Average of ${print_runs} RUNS and ${print_urls_len} URLs ║"
 _log "╚══════════════════════════════╝"
 
 for url in ${URLS[@]}; do 
-    lighthouse_link=$(jq -r ". | to_entries[] | select(.key==\"${url%/}\" or .key==\"${url%/}/\") | .value" <<< ${LINKS})
+    lighthouse_link=$(jq -r ". | to_entries[] | select(.key | test(\"${url%/}/?$\")) | .value" <<< ${LINKS})
 
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
@@ -38,7 +38,7 @@ for url in ${URLS[@]}; do
         let idx+=1
 
         ## Acquire metric
-        avg=$(jq ".[] | select(.url==\"${url}\") | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '"-"')
+        avg=$(jq ".[] | select(.url | test(\"${url%/}/?$\")) | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '"-"')
 
         ## Agregate metric to output
         camel_metric_name=$(_snake_to_camel_case ${metric_name})
@@ -51,7 +51,7 @@ for url in ${URLS[@]}; do
     done
 
     ## Metrics (AVG)
-    list_json_path=$(jq -r ".[] | select(.url==\"${url}\") | .jsonPath" <<< ${JSON})
+    list_json_path=$(jq -r ".[] | select(.url | test(\"${url%/}/?$\")) | .jsonPath" <<< ${JSON})
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
 
