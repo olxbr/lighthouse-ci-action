@@ -20,7 +20,7 @@ print_runs="${C_WHT}${RUNS}${C_END}"
 print_urls_len="${C_WHT}${urls_length}${C_END}"
 
 ## Print all information received
-[[ $ACTIONS_RUNNER_DEBUG == true]] &&
+[[ $ACTIONS_RUNNER_DEBUG == true ]] &&
     _lgo debug "Debug: on" &&
     _log debug "JSON: ${JSON}" &&
     _log debug "${RUNS}"
