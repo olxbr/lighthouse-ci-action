@@ -35,7 +35,7 @@ inputs:
     description: "Which urls should be used to campare results. Useful without config file"
     default: ''
   branch_to_compare:
-    description: "Which branch should be used to campare results. Useful for config file. OBS: This parameter is works when urls is NOT defined"
+    description: "Which branch should be used to campare results. Useful for config file."
     default: ''
 outputs:
   resultsPath:
@@ -179,5 +179,3 @@ runs:
         cd ${{github.action_path}}
         bash scripts/write_action_summary.sh
         bash scripts/post_pr_comment.sh
-        
-        
