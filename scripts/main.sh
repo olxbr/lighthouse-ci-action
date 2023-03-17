@@ -23,17 +23,20 @@ print_urls_len="${C_WHT}${urls_length}${C_END}"
 [[ $ACTIONS_RUNNER_DEBUG == true ]] &&
     _lgo debug "Debug: on" &&
     _log debug "JSON: ${JSON}" &&
-    _log debug "${RUNS}"
-    _log debug "${LINKS}"
-    _log debug "${URLS}"
+    _log debug "${RUNS}" &&
+    _log debug "${LINKS}" &&
+    _log debug "${URLS}" &&
     _log debug "${PREVIOUS_RUN}"
 
 _log "╔══════════════════════════════╗"
 _log "║ Average of ${print_runs} RUNS and ${print_urls_len} URLs ║"
 _log "╚══════════════════════════════╝"
 
-for url in ${URLS[@]}; do 
-    lighthouse_link=$(jq -r ". | select(.key | test(\"${url%/}/?$\")) | .value" <<< ${LINKS})
+for url in ${URLS[@]}; do
+    ## Remove QS due regex select
+    sanitized_url=${url//\?/.}
+    
+    lighthouse_link=$(jq -r ". | select(.key | test(\"${sanitized_url%/}/?$\")) | .value" <<< ${LINKS})
 
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
@@ -47,9 +50,9 @@ for url in ${URLS[@]}; do
         let idx+=1
 
         ## Acquire metric
-        echo "values for $metric_name: $(jq ".[] | select(.url | test(\"${url%/}/?$\")) | .summary.\"${metric_name}\"" <<< ${JSON})"
+        echo "values for $metric_name: $(eval jq '.[] | select(.url | test("${sanitized_url%/}/?$")) | .summary."${metric_name}"' <<< ${JSON})"
         echo "$awk_calc_avg_in_percentage"
-        avg=$(jq ".[] | select(.url | test(\"${url%/}/?$\")) | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '"-"')
+        avg=$(jq ".[] | select(.url | test(\"${sanitized_url%/}/?$\")) | .summary.\"${metric_name}\"" <<< ${JSON} | awk "$awk_calc_avg_in_percentage" || echo '"-"')
 
         ## Agregate metric to output
         camel_metric_name=$(_snake_to_camel_case ${metric_name})
@@ -62,7 +65,7 @@ for url in ${URLS[@]}; do
     done
 
     ## Metrics (AVG)
-    list_json_path=$(jq -r ".[] | select(.url | test(\"${url%/}/?$\")) | .jsonPath" <<< ${JSON})
+    list_json_path=$(jq -r ".[] | select(.url | test(\"${sanitized_url%/}/?$\")) | .jsonPath" <<< ${JSON})
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
 
