@@ -3,7 +3,7 @@
 
 ## Metrics
 
-| Metric name                    | Timing - ${U_TIME} ${score_comparation_desc} |
+| Metric name                    | Timing [${U_TIME}] ${score_comparation_desc} |
 |--------------------------------|----------------------------------------------|
 | First Contentful Paint (FCP)   | ${firstContentfulPaint}                      |
 | Speed Index (SI)               | ${speedIndex}                                |
