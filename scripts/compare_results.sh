@@ -62,7 +62,7 @@ for previous_url in $previous_urls; do
             aggregate_reports=$(jq -c ".[$idx].summary.$s_key=\"$report_metric (${eql_mark}  ${res_value}%)\"" <<< $aggregate_reports) &&
             log_line="|      ${eql_mark}\x09Same score in ${bold_key} (${res_value}%)"
 
-        _log "$log_line" $(($coll_length+4)) │
+        _log "$log_line" $(($coll_length+7)) │
 
     done
 
@@ -89,7 +89,7 @@ for previous_url in $previous_urls; do
             aggregate_reports=$(jq -c ".[$idx].metrics.$m_key=\"$report_metric (${res_value} ${metric_unit})\"" <<< $aggregate_reports) &&
             log_line="|      ${eql_mark}\x09Same time in ${bold_key} (${res_value} ${metric_unit})"
 
-        _log "$log_line" $(($coll_length+4)) │
+        _log "$log_line" $(($coll_length+7)) │
 
     done
 
