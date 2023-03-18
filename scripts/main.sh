@@ -11,7 +11,7 @@ URLS=(${URLS})
 PREVIOUS_RUN=${PREVIOUS_RUN:-false}
 
 ## Print all information received
-_lgo debug "Debug: on"
+_log debug "Debug: on"
 _log debug "JSON: ${JSON}"
 _log debug "${RUNS}"
 _log debug "${LINKS}"
@@ -19,9 +19,9 @@ _log debug "${URLS}"
 _log debug "${PREVIOUS_RUN}"
 
 [[ -z "$JSON" ]] &&
-    _log warn "Can't find any dump to analyze. Variable JSON was [${JSON}]" &&
-    _log warn "Try to remove any kind of configuration 'upload' on your project in side on [.lighthouserc.js] like:" &&
-    _log warn "*   upload: {target: 'temporary-public-storage'}" &&
+    _log erro "Can't find any dump to analyze. Variable JSON was [${JSON}]" &&
+    _log warn "Try to remove any kind of configuration 'upload' on your project inside of [.lighthouserc.js] like:" &&
+    _log warn "*   ${C_WHT}upload: {target: 'temporary-public-storage'}" &&
     exit 1
 
 calc_avg='{ sum+=$1; qtd+=1 } END { printf("%.${round}f", (sum/qtd)${multiplier} ) }'
