@@ -48,7 +48,8 @@ for url in ${URLS[@]}; do
     aggregate_summary='{}'
     aggregate_summary_report='{}'
 
-    _log "${E_SUM} ${C_WHT}Summary (${url})"
+    _log "${C_BLU}${url}"
+    _log "  ${E_SUM} ${C_WHT}Summary"
 
     let idx=0
     for metric_name in ${list_summary_name[@]}; do
@@ -63,8 +64,8 @@ for url in ${URLS[@]}; do
         aggregate_summary_report=$(jq ". += { ${camel_metric_name}: \"$(_summary_color ${avg} clean)\" }" <<< "${aggregate_summary_report}")
 
         [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
-        _log "   ├⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})" ||
-        _log "   └⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})"
+        _log "     ├⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})" ||
+        _log "     └⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})"
     done
 
     ## Metrics (AVG)
@@ -72,7 +73,7 @@ for url in ${URLS[@]}; do
     list_metrics_name=(firstContentfulPaint largestContentfulPaint interactive speedIndex totalBlockingTime totalCumulativeLayoutShift)
     aggregate_metrics='{}'
 
-    _log "${E_MET} ${C_WHT}Metrics (${url})"
+    _log "  ${E_MET} ${C_WHT}Metrics"
 
     ## Get unit time
     unit_time="$(jq -r '.audits.metrics.numericUnit' <<< $(cat ${list_json_path}))"
@@ -91,8 +92,8 @@ for url in ${URLS[@]}; do
 
         ## Print output
         [[ ${idx} -lt ${#list_metrics_name[@]} ]] &&
-        _log "   ├⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}" ||
-        _log "   └⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}"
+        _log "     ├⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}" ||
+        _log "     └⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}"
         
         ## Agregate metric to output
         aggregate_metrics=$(jq ". += { ${metric_name}: ${avg} }" <<< "${aggregate_metrics}")
