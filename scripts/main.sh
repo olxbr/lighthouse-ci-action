@@ -10,6 +10,20 @@ LINKS=${LINKS}
 URLS=(${URLS})
 PREVIOUS_RUN=${PREVIOUS_RUN:-false}
 
+## Print all information received
+_lgo debug "Debug: on"
+_log debug "JSON: ${JSON}"
+_log debug "${RUNS}"
+_log debug "${LINKS}"
+_log debug "${URLS}"
+_log debug "${PREVIOUS_RUN}"
+
+[[ -z "$JSON" ]] &&
+    _log warn "Can't find any dump to analyze. Variable JSON was [${JSON}]" &&
+    _log warn "Try to remove any kind of configuration 'upload' on your project in side on [.lighthouserc.js] like:" &&
+    _log warn "*   upload: {target: 'temporary-public-storage'}" &&
+    exit 1
+
 calc_avg='{ sum+=$1; qtd+=1 } END { printf("%.${round}f", (sum/qtd)${multiplier} ) }'
 awk_calc_avg_in_percentage=$(multiplier=*100 round=0 envsubst <<< $calc_avg)
 urls_length=${#URLS[@]}
@@ -18,15 +32,6 @@ aggregate_reports='[]'
 
 print_runs="${C_WHT}${RUNS}${C_END}"
 print_urls_len="${C_WHT}${urls_length}${C_END}"
-
-## Print all information received
-[[ $ACTIONS_RUNNER_DEBUG == true ]] &&
-    _lgo debug "Debug: on" &&
-    _log debug "JSON: ${JSON}" &&
-    _log debug "${RUNS}" &&
-    _log debug "${LINKS}" &&
-    _log debug "${URLS}" &&
-    _log debug "${PREVIOUS_RUN}"
 
 _log "╔══════════════════════════════╗"
 _log "║ Average of ${print_runs} RUNS and ${print_urls_len} URLs ║"
