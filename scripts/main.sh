@@ -35,8 +35,12 @@ _log "╚═══════════════════════�
 for url in ${URLS[@]}; do
     ## Remove QS due regex select
     sanitized_url=${url//\?/.}
+    _log debug "url to search: ${sanitized_url}"
     
-    lighthouse_link=$(jq -r ". | select(.key | test(\"${sanitized_url%/}/?$\")) | .value" <<< ${LINKS})
+    lighthouse_link=$(jq -r ". | to_entries[] | select(.key | test(\"${urlsanitized_url%/}/?$\")) | .value" <<< ${LINKS})
+
+    _log debug "lighthouse_link: ${lighthouse_link}"
+    _log debug "LINKS: $LINKS"
 
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
