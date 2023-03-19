@@ -48,7 +48,7 @@ for url in ${URLS[@]}; do
     aggregate_summary='{}'
     aggregate_summary_report='{}'
 
-    _log "${C_BLU}${url}${C_END} $([[ "$PREVIOUS_RUN" == true ]] && echo '(Previous)')"
+    _log "${C_BLU}${url}${C_END} $([[ "$PREVIOUS_RUN" == true ]] && echo '(Previous version)')"
     _log "${E_SUM} ${C_WHT}Summary"
 
     let idx=0
