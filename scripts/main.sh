@@ -20,7 +20,7 @@ _log debug "${PREVIOUS_RUN}"
 
 [[ -z "$JSON" ]] &&
     _log erro "Can't find any dump to analyze. Variable JSON was [${JSON}]" &&
-    _log warn "Try to remove any kind of configuration 'upload' on your project inside of [.lighthouserc.js] like:" &&
+    _log warn "Try to remove any kind of ${C_WHT}'upload'${END} configuration on your project inside of [.lighthouserc.js], like:" &&
     _log warn "*   ${C_WHT}upload: {target: 'temporary-public-storage'}" &&
     exit 1
 
