@@ -95,11 +95,11 @@ for url in $urls; do
         _post_comment
     else
         _log warn "This may not be a PR so not commenting... See full report above"
-        _log info "If you want a comment in the PR, you need to enable the ${C_WHT}'pull_request'${C_END} event in the workflow file [${GITHUB_WORKFLOW_REF%@*}]"
+        _log info "If you want a comment in the PR, you need to enable the 'pull_request' event in the workflow file [${GITHUB_WORKFLOW_REF%@*}]"
         _log info ""
         _log info "┌─────"
         _log info "| name: ${GITHUB_WORKFLOW}"
         _log info "| on:"
-        _log info "|   - pull_request ## Important to comment on PR (lighthouse)"
+        _log info "|   ${C_WHT}- pull_request${C_END} ## Important to comment on PR (lighthouse)"
     fi
 done
