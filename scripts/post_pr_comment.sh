@@ -29,11 +29,16 @@ function _check_for_comments () {
 
 function _post_comment () {
     _log info "Posting comment"
-    curl --location --request POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+    HTTP_RESPONSE=$(curl --location --request POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
         --header "Authorization: token ${GH_TOKEN}" \
         --header "Content-Type: application/json" \
         --data-raw "{\"body\": \"${COMMENT}\"}" \
-        --silent -o /dev/null
+        --silent -o post.response \
+        --write-out '%{http_code}')
+
+    [[ "${HTTP_RESPONSE}" =~ ^20 ]] &&
+        _log info "Posted! HTTP Status was [${HTTP_RESPONSE}]" ||
+        _log warn "Can't post comment on PR Number [${PR_NUMBER}]. HTTP Status was [${HTTP_RESPONSE}] and body [$(cat post.response)]"
 }
 
 ## Create comment
@@ -101,7 +106,7 @@ for url in $urls; do
         _post_comment
     else
         _log warn "This may not be a PR so not commenting... See full report above"
-        _log info "If you want a comment in the PR, you need to enable the 'pull_request' event in the workflow file [${GITHUB_WORKFLOW_REF%@*}]"
+        _log info "If you want a comment in the PR, you need to add/enable the 'pull_request' event in the workflow file [${GITHUB_WORKFLOW_REF%@*}]"
         _log info ""
         _log info "┌─────"
         _log info "| name: ${GITHUB_WORKFLOW}"
