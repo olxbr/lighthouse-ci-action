@@ -94,7 +94,6 @@ for url in $urls; do
     echo ======================= JSON EVENT
     echo "${EVENT_CONTEXT}"
 
-    ${{ }}
     ## Only post if is in a PR
     if [ -n "${PR_NUMBER}" ];
     then
