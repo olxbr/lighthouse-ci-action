@@ -86,7 +86,7 @@ for url in $urls; do
     ## Use template and convert
     _log info "Loading template"
     TEMPLATE="templates/pr_comment_template"
-    COMMENT=$(envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < ${TEMPLATE})
+    COMMENT=$(envsubst < ${TEMPLATE})
 
     ## Getting header after variable substitution, escaping the parenthesis
     HEADER=$(echo "${COMMENT}" | head -n1 | sed 's/[\(\)]/\\\\&/g')
