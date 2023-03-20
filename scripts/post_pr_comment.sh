@@ -88,6 +88,13 @@ for url in $urls; do
     COMMENT="${COMMENT#\$\'}"
     COMMENT="${COMMENT%\'}"
 
+    echo ======================== ENV
+    env
+
+    echo ======================= JSON EVENT
+    echo ${{ toJSON(github.event) }}
+
+    ${{ }}
     ## Only post if is in a PR
     if [ -n "${PR_NUMBER}" ];
     then
