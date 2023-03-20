@@ -92,7 +92,7 @@ for url in $urls; do
     env
 
     echo ======================= JSON EVENT
-    echo "${{ toJSON(github.event) }}"
+    echo "${EVENT_CONTEXT}"
 
     ${{ }}
     ## Only post if is in a PR
