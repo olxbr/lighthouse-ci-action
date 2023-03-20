@@ -10,7 +10,7 @@ function _check_for_comments () {
             --silent)
     ## Is a valid response ?
     [[ -z "$(jq -r '.[].body' <<< $COMMENTS 2> /dev/null)" ]] &&
-        _log warn "Can't find comments in the repository. Maybe the API is out blocked by rate-limit. Skipping process to check comment." &&
+        _log warn "Can't find comments in the repository. Maybe the API is out or blocked by rate-limit. Skipping process to check comment." &&
         _log warn "CMD: curl --location --request GET https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" &&
         _log warn "BODY: ${COMMENTS}"
         return
@@ -38,7 +38,7 @@ function _post_comment () {
 
     [[ "${HTTP_RESPONSE}" =~ ^20 ]] &&
         _log info "Posted! HTTP Status was [${HTTP_RESPONSE}]" ||
-        _log warn "Can't post comment on PR Number [${PR_NUMBER}]. HTTP Status was [${HTTP_RESPONSE}] and body [$(cat post.response)]"
+        _log warn "Can't post comment on PR Number [${PR_NUMBER}]. HTTP Status was [${HTTP_RESPONSE}], response body was [$(cat post.response)] and resquest body was [${COMMENT}]"
 }
 
 ## Create comment
