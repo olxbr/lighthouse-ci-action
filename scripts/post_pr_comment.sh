@@ -93,10 +93,15 @@ for url in $urls; do
     ## Getting header after variable substitution, escaping the parenthesis
     HEADER=$(echo "${COMMENT}" | head -n1 | sed 's/[\(\)]/\\\\&/g')
 
+    echo ===================== COMMENT
+    echo $COMMENT
     COMMENT="${COMMENT@Q}"
     COMMENT="${COMMENT#\$\'}"
     COMMENT="${COMMENT%\'}"
     COMMENT="${COMMENT//$'\n'/\\n}" ## Escape newlines for comments (JSON)
+
+    echo ===================== AFTER COMMENT
+    echo $COMMENT
 
     ## Only post if is in a PR and github token was filled in
     if [ -n "${PR_NUMBER}" ];
