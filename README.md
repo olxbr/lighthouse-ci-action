@@ -61,6 +61,21 @@ urls: |
   https://example.com/pricing
 ````
 
+#### ` urls_to_compare` (default: none)
+
+Set a list of URLs separed by new line to be compared.
+For each url in the list, compare the values found for the purpose of comparing worsening or improving.
+
+Very useful for comparing a production URL with the development URL.
+
+```yml
+urls_to_compare: |
+  https://example.prod.com/
+  https://example.stg.com/blog
+  https://example.qa.com/pricing
+
+```
+
 #### `collect_preset` (default: mobile)
 
 Set the collect preset: perf, experimental or desktop.
@@ -68,17 +83,6 @@ Set the collect preset: perf, experimental or desktop.
 #### `branch_to_compare` (default: none)
 
 Set a branch to compare the new results with specific version/branch
-
-```yml
-branch_to_compare: ${{ github.repository.default_branch }}
-```
-
-#### ` urls_to_compare` (default: none)
-
-Set a list of URLs separed by new line to be compared.
-For each url in the list, compare the values found for the purpose of comparing worsening or improving.
-
-Very useful for comparing a production URL with the development URL.
 
 ```yml
 branch_to_compare: ${{ github.repository.default_branch }}
