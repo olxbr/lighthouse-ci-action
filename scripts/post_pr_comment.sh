@@ -93,7 +93,7 @@ for url in $urls; do
     ## Only post if is in a PR and github token was filled in
     if [ -n "${PR_NUMBER}" ];
     then
-        [ -z "GH_TOKEN" ] &&
+        [ -z "${GH_TOKEN}" ] &&
             _log warn "There is NO GH_TOKEN found to comment on PR. Skipping this process." &&
             return
 
