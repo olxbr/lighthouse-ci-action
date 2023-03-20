@@ -39,6 +39,8 @@ function _post_comment () {
     [[ "${HTTP_RESPONSE}" =~ ^20 ]] &&
         _log info "Posted! HTTP Status was [${HTTP_RESPONSE}]" ||
         _log warn "Can't post comment on PR Number [${PR_NUMBER}]. HTTP Status was [${HTTP_RESPONSE}], response body was [$(cat post.response)] and resquest body was [${COMMENT}]"
+        echo $COMMENT
+        echo $COMMENTS
 }
 
 ## Create comment
