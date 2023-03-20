@@ -96,7 +96,7 @@ for url in $urls; do
     # COMMENT="${COMMENT@Q}"
     # COMMENT="${COMMENT#\$\'}"
     # COMMENT="${COMMENT%\'}"
-    # COMMENT="${COMMENT//$'\n'/\\n}" ## Escape newlines for comments (JSON)
+    COMMENT="${COMMENT//$'\n'/\\n}" ## Escape newlines for comments (JSON)
 
     # echo ===================== AFTER COMMENT
     # echo $COMMENT
