@@ -63,8 +63,8 @@ urls: |
 
 #### ` urls_to_compare` (default: none)
 
-Set a list of URLs separed by new line to be compared.
-For each url in the list, compare the values found for the purpose of comparing worsening or improving.
+List of URLs separed by new line to be compared.
+For each url in the list, compare the values found for the purpose of comparing improving or worsening.
 
 Very useful for comparing a production URL with the development URL.
 
@@ -76,10 +76,6 @@ urls_to_compare: |
 
 ```
 
-#### `collect_preset` (default: mobile)
-
-Set the collect preset: perf, experimental or desktop.
-
 #### `branch_to_compare` (default: none)
 
 Set a branch to compare the new results with specific version/branch
@@ -87,6 +83,9 @@ Set a branch to compare the new results with specific version/branch
 ```yml
 branch_to_compare: ${{ github.repository.default_branch }}
 ```
+#### `collect_preset` (default: mobile)
+
+Set the collect preset: perf, experimental or desktop.
 
 #### `uploadArtifacts` (default: false)
 
