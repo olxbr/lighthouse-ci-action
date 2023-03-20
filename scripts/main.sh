@@ -64,8 +64,8 @@ for url in ${URLS[@]}; do
         aggregate_summary_report=$(jq ". += { ${camel_metric_name}: \"$(_summary_color ${avg} clean)\" }" <<< "${aggregate_summary_report}")
 
         [[ ${idx} -lt ${#list_summary_name[@]} ]] &&
-        _log "   ├⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})" ||
-        _log "   └⎯⎯$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})"
+        _log "   ├─$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})" ||
+        _log "   └─$(_snake_case_to_hr ${metric_name}): $(_summary_color ${avg})"
     done
 
     ## Metrics (AVG)
@@ -92,8 +92,8 @@ for url in ${URLS[@]}; do
 
         ## Print output
         [[ ${idx} -lt ${#list_metrics_name[@]} ]] &&
-        _log "   ├⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}" ||
-        _log "   └⎯⎯${metric_name}: ${C_WHT}${avg} ${metric_unit}"
+        _log "   ├─${metric_name}: ${C_WHT}${avg} ${metric_unit}" ||
+        _log "   └─${metric_name}: ${C_WHT}${avg} ${metric_unit}"
         
         ## Agregate metric to output
         aggregate_metrics=$(jq ". += { ${metric_name}: ${avg} }" <<< "${aggregate_metrics}")
