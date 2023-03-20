@@ -88,12 +88,6 @@ for url in $urls; do
     COMMENT="${COMMENT#\$\'}"
     COMMENT="${COMMENT%\'}"
 
-    echo ======================== ENV
-    env
-
-    echo ======================= JSON EVENT
-    echo "${EVENT_CONTEXT}"
-
     ## Only post if is in a PR
     if [ -n "${PR_NUMBER}" ];
     then
@@ -101,5 +95,8 @@ for url in $urls; do
         _post_comment
     else
         _log warn "This may not be a PR so not commenting... See full report above"
+        _log info "If you want a comment in the PR, you need to enable the ${C_WHT}'pull_request'${END} event in the workflow"
+        _log info "on:"
+        _log info "  - pull_request"
     fi
 done
