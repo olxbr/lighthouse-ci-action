@@ -94,6 +94,7 @@ for url in $urls; do
     COMMENT="${COMMENT@Q}"
     COMMENT="${COMMENT#\$\'}"
     COMMENT="${COMMENT%\'}"
+    COMMENT="${COMMENT//$'\n'/\\n}" ## Escape newlines for comments (JSON)
 
     ## Only post if is in a PR and github token was filled in
     if [ -n "${PR_NUMBER}" ];
