@@ -9,10 +9,10 @@ function _check_for_comments () {
             --header "Authorization: token ${GH_TOKEN}" \
             --silent)
     ## Is a valid response ?
-    _log warn "CMD: curl --location --request GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100""
-    _log warn "COMMENTS: ${COMMENTS}"
     [[ -z "$(jq -r '.[].body' <<< $COMMENTS 2> /dev/null)" ]] &&
         _log warn "Can't find comments in the repository. Maybe the API is out blocked by rate-limit. Skipping process to check comment." &&
+        _log warn "CMD: curl --location --request GET https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" &&
+        _log warn "BODY: ${COMMENTS}"
         return
 
     LAST_COMMENT_ID=$(jq -c '.[] | select(.body | test("'"^${HEADER}"'")) | .id' <<< ${COMMENTS} | tail -n1)
@@ -90,9 +90,13 @@ for url in $urls; do
     COMMENT="${COMMENT#\$\'}"
     COMMENT="${COMMENT%\'}"
 
-    ## Only post if is in a PR
+    ## Only post if is in a PR and github token was filled in
     if [ -n "${PR_NUMBER}" ];
     then
+        [ -z "GH_TOKEN" ] &&
+            _log warn "There is NO GH_TOKEN found to comment on PR. Skipping this process." &&
+            return
+
         _check_for_comments
         _post_comment
     else
