@@ -95,7 +95,7 @@ for url in $urls; do
     then
         [ -z "${GH_TOKEN}" ] &&
             _log warn "There is NO GH_TOKEN found to comment on PR. Skipping this process." &&
-            return
+            exit 0
 
         _check_for_comments
         _post_comment
