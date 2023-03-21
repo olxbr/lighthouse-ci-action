@@ -99,7 +99,7 @@ for url in $urls; do
     ## Getting header after variable substitution and escaping as necessary
     HEADER=${COMMENT%%\\n*}     ## Just Title
     HEADER=${HEADER//\?/.}      ## Escape querystring
-    HEADER=${$HEADER//[()]/.}   ## Escape parenthesis
+    HEADER=${$HEADER//[\(\)]/.}   ## Escape parenthesis
 
     ## Only post if is in a PR and github token was filled in
     if [ -n "${PR_NUMBER}" ];
