@@ -89,7 +89,7 @@ runs:
         LINKS: ${{ steps.treosh-lhci-action.outputs.links }}
         URLS: ${{ inputs.urls }}
       run: |
-        ## Print outputs | summary | pr comment
+        ## Print outputs and generate report
         cd ${{github.action_path}}
         bash scripts/main.sh
 
