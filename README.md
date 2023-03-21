@@ -86,7 +86,7 @@ branch_to_compare: ${{ github.repository.default_branch }}
 
 #### `comment_on_pr` (default: true)
 
-Post a comment on PR with the results when CI is triggered
+Post a comment on PR with the results when CI was triggered
 
 ##### :bulb: _*Important*_
 > For this feature work, you need to add `pull_request` event on workflow
