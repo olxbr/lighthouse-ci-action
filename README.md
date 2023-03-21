@@ -80,6 +80,10 @@ urls_to_compare: |
 
 Set a branch to compare the new results with specific version/branch
 
+```yml
+branch_to_compare: ${{ github.repository.default_branch }}
+```
+
 #### `comment_on_pr`(default: true)
 
 Post a comment on PR with the results when CI is triggered
@@ -95,9 +99,6 @@ Post a comment on PR with the results when CI is triggered
 > .
 > ```
 
-```yml
-branch_to_compare: ${{ github.repository.default_branch }}
-```
 #### `collect_preset` (default: mobile)
 
 Set the collect preset: perf, experimental or desktop.
