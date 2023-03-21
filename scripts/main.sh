@@ -41,7 +41,7 @@ for url in ${URLS[@]}; do
     ## Remove QS due regex select
     sanitized_url=${url//\?/.}
     
-    lighthouse_link=$(jq -r ". | to_entries[] | select(.key | test(\"${urlsanitized_url%/}/?$\")) | .value" <<< ${LINKS})
+    lighthouse_link=$(jq -r "to_entries[] | select(.key | test(\"${sanitized_url%/}/?$\")) | .value" <<< ${LINKS})
 
     ## Summary (AVG)
     list_summary_name=(performance accessibility "best-practices" seo pwa)
