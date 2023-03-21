@@ -96,9 +96,10 @@ for url in $urls; do
     ## Escape newlines to 1 line for comments (JSON)
     COMMENT="${COMMENT//$'\n'/\\n}"
 
-    ## Getting header after variable substitution, escaping the parenthesis
-    HEADER=${COMMENT%%\\n*}                      ## Just Title
-    # HEADER=$(sed 's,[\(\)],\\\\&,g' <<< $HEADER) ## Escape parenthesis
+    ## Getting header after variable substitution and escaping as necessary
+    HEADER=${COMMENT%%\\n*}     ## Just Title
+    HEADER=${HEADER//\?/.}      ## Escape querystring
+    HEADER=${$HEADER//[()]/.}   ## Escape parenthesis
 
     ## Only post if is in a PR and github token was filled in
     if [ -n "${PR_NUMBER}" ];
