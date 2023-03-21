@@ -28,7 +28,7 @@ function _check_for_comments () {
 }
 
 function _post_comment () {
-    _log info "Posting comment"
+    _log info "Posting comment..."
     HTTP_RESPONSE=$(curl --location --request POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
         --header "Authorization: token ${GH_TOKEN}" \
         --header "Content-Type: application/json" \
@@ -37,8 +37,8 @@ function _post_comment () {
         --write-out '%{http_code}')
 
     [[ "${HTTP_RESPONSE}" =~ ^20 ]] &&
-        _log info "Posted! HTTP Status was [${HTTP_RESPONSE}]" ||
-        _log warn "Can't post comment on PR Number [${PR_NUMBER}]. HTTP Status was [${HTTP_RESPONSE}], response body was [$(cat post.response)] and resquest body was [${COMMENT}]"
+        _log info "Posted! HTTP status was [${HTTP_RESPONSE}]" ||
+        _log warn "Can't post comment on PR Number [${PR_NUMBER}]. HTTP status was [${HTTP_RESPONSE}], response body was [$(cat post.response)] and resquest body was [${COMMENT}]"
 }
 
 ## Create comment
