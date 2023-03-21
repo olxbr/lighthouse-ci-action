@@ -84,7 +84,7 @@ Set a branch to compare the new results with specific version/branch
 branch_to_compare: ${{ github.repository.default_branch }}
 ```
 
-#### `comment_on_pr`(default: true)
+#### `comment_on_pr` (default: true)
 
 Post a comment on PR with the results when CI is triggered
 
