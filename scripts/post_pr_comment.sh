@@ -94,6 +94,8 @@ for url in $urls; do
     ## Getting header after variable substitution, escaping the parenthesis
     HEADER=$(echo "${COMMENT}" | head -n1 | sed 's/[\(\)]/\\\\&/g')
 
+    echo $HEADER
+
     ## Only post if is in a PR and github token was filled in
     if [ -n "${PR_NUMBER}" ];
     then
