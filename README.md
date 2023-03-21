@@ -80,6 +80,21 @@ urls_to_compare: |
 
 Set a branch to compare the new results with specific version/branch
 
+#### `comment_on_pr`(default: true)
+
+Post a comment on PR with the results when CI is triggered
+
+##### :bulb: _*Important*_
+> For this feature work, you need to add `pull_request` event on workflow
+> ```yml
+> name: Lighthouse CI
+> on:
+>   - pull_request
+> .
+> .
+> .
+> ```
+
 ```yml
 branch_to_compare: ${{ github.repository.default_branch }}
 ```
