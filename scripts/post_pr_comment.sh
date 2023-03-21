@@ -93,11 +93,12 @@ for url in $urls; do
     TEMPLATE="templates/pr_comment_template"
     COMMENT=$(envsubst < ${TEMPLATE})
 
-    ## Escape newlines for comments (JSON)
+    ## Escape newlines to 1 line for comments (JSON)
     COMMENT="${COMMENT//$'\n'/\\n}"
 
     ## Getting header after variable substitution, escaping the parenthesis
-    HEADER=$(echo "${COMMENT}" | head -n1 | sed 's/[\(\)]/\\\\&/g')
+    HEADER=${COMMENT%%\\n*} ## Just Title
+    HEADER=$(sed 's,[\(\)],\\\\&,g' <<< $COMMENT) ## Escape parenthes
 
     echo $HEADER
 
