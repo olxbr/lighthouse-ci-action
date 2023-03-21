@@ -18,10 +18,15 @@ function _check_for_comments () {
     LAST_COMMENT_ID=$(jq -c '.[] | select(.body | test("'"^${HEADER}"'")) | .id' <<< ${COMMENTS} | tail -n1)
     if [ -n "${LAST_COMMENT_ID}" ];
     then
-        _log info "Found past comments, deleting it..."
-        curl --location --request DELETE "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/comments/${LAST_COMMENT_ID}" \
+        _log info "Found past comments id [${LAST_COMMENT_ID}], deleting it..."
+        HTTP_RESPONSE=(curl --location --request DELETE "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/comments/${LAST_COMMENT_ID}" \
             --header "Authorization: token ${GH_TOKEN}" \
-            --silent -o /dev/null || _log warn "Got an error during deletion of ${LAST_COMMENT_ID}! This may be a Token issue!"
+            --silent -o delete.response \
+            --write-out '%{http_code}' || _log warn "Got an error during deletion of ${LAST_COMMENT_ID}! This may be a Token issue!")
+
+        [[ "${HTTP_RESPONSE}" =~ ^20 ]] &&
+            _log info "Deleted! HTTP status was [${HTTP_RESPONSE}]" ||
+            _log warn "Can't delete comment id [${LAST_COMMENT_ID}] on PR Number [${PR_NUMBER}]. HTTP status was [${HTTP_RESPONSE}] and response body was [$(cat delete.response)]"
     else
         _log info "There is no old comments of this action in the PR!"
     fi
