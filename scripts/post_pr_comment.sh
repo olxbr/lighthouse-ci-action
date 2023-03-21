@@ -49,7 +49,7 @@ else
     exit 0
 fi
 
-urls=($(jq '.[].url' <<< $aggregate_reports))
+urls=$(jq '.[].url' <<< $aggregate_reports)
 
 for url in $urls; do
 

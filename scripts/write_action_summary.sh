@@ -3,7 +3,7 @@ source scripts/utils.sh
 
 _log "Writing summary on action..."
 
-urls=($(jq '.[].url' <<< $aggregate_reports))
+urls=$(jq '.[].url' <<< $aggregate_reports)
 
 for url in $urls; do
 
