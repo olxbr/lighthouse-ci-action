@@ -98,7 +98,7 @@ for url in $urls; do
 
     ## Getting header after variable substitution, escaping the parenthesis
     HEADER=${COMMENT%%\\n*} ## Just Title
-    HEADER=$(sed 's,[\(\)],\\\\&,g' <<< $COMMENT) ## Escape parenthes
+    HEADER=$(sed 's,[\(\)],\\\\&,g' <<< $HEADER) ## Escape parenthes
 
     echo $HEADER
 
