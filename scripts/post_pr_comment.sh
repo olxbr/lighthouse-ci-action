@@ -97,10 +97,8 @@ for url in $urls; do
     COMMENT="${COMMENT//$'\n'/\\n}"
 
     ## Getting header after variable substitution, escaping the parenthesis
-    HEADER=${COMMENT%%\\n*} ## Just Title
-    HEADER=$(sed 's,[\(\)],\\\\&,g' <<< $HEADER) ## Escape parenthes
-
-    echo $HEADER
+    HEADER=${COMMENT%%\\n*}                      ## Just Title
+    HEADER=$(sed 's,[\(\)],\\\\&,g' <<< $HEADER) ## Escape parenthesis
 
     ## Only post if is in a PR and github token was filled in
     if [ -n "${PR_NUMBER}" ];
