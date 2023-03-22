@@ -10,7 +10,7 @@ function _check_for_comments () {
             --silent)
     ## Is a valid response ?
     [[ -z "$(jq -r '.[].body' <<< $COMMENTS 2> /dev/null)" ]] &&
-        _log warn "Can't find comments in the repository. Maybe the API is out or blocked by rate-limit. Skipping process to check comment." &&
+        _log warn "Can't find comments in the repository. Maybe there isn't any comment or the API is out or blocked by rate-limit. Skipping process to check comment." &&
         _log warn "CMD: curl --location --request GET https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" &&
         _log warn "BODY: ${COMMENTS}" &&
         return
@@ -97,9 +97,9 @@ for url in $urls; do
     COMMENT="${COMMENT//$'\n'/\\n}"
 
     ## Getting header after variable substitution and escaping as necessary
-    HEADER=${COMMENT%%\\n*}    ## Just Title
-    HEADER=${HEADER//\?/.}     ## Escape querystring
-    HEADER=${HEADER//[()]/.}   ## Escape parenthesis
+    HEADER="${COMMENT%%\\n*}\n" ## Just Title
+    HEADER=${HEADER//\?/.}      ## Escape querystring
+    HEADER=${HEADER//[()]/.}    ## Escape parenthesis
 
     ## Only post if is in a PR and github token was filled in
     if [ -n "${PR_NUMBER}" ];
