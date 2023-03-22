@@ -61,6 +61,44 @@ urls: |
   https://example.com/pricing
 ````
 
+#### ` urls_to_compare` (default: none)
+
+List of URLs separed by new line to be compared.
+For each url in the list, compare the values found for the purpose of comparing improving or worsening.
+
+Very useful for comparing a production URL with the development URL.
+
+```yml
+urls_to_compare: |
+  https://example.prod.com/
+  https://example.stg.com/blog
+  https://example.qa.com/pricing
+
+```
+
+#### `branch_to_compare` (default: none)
+
+Set a branch to compare the new results with specific version/branch
+
+```yml
+branch_to_compare: ${{ github.repository.default_branch }}
+```
+
+#### `comment_on_pr` (default: true)
+
+Post a comment on PR with the results when CI was triggered
+
+##### :bulb: _*Important*_
+> For this feature work, you need to add `pull_request` event on workflow
+> ```yml
+> name: Lighthouse CI
+> on:
+>   - pull_request
+> .
+> .
+> .
+> ```
+
 #### `collect_preset` (default: mobile)
 
 Set the collect preset: perf, experimental or desktop.

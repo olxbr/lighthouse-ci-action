@@ -31,6 +31,12 @@ inputs:
     description: "Boolean to define if will comment on PR or not"
   collect_preset:
     description: "Set the collect preset: perf, experimental or desktop. Default: mobile"
+  urls_to_compare:
+    description: "Which urls should be used to campare results. Useful without config file"
+    default: ''
+  branch_to_compare:
+    description: "Which branch should be used to campare results. Useful for config file."
+    default: ''
 outputs:
   resultsPath:
     description: "Path to the folder with LHCI results"
@@ -83,6 +89,93 @@ runs:
         LINKS: ${{ steps.treosh-lhci-action.outputs.links }}
         URLS: ${{ inputs.urls }}
       run: |
-        ## Print outputs | summary | pr comment
+        ## Print outputs and generate report
         cd ${{github.action_path}}
         bash scripts/main.sh
+
+    - if: ${{ inputs.urls_to_compare || inputs.branch_to_compare }}
+      name: Compare result (When necessary)
+      shell: bash
+      run: |
+        ## Should compare result
+        source ${{ github.action_path }}/scripts/utils.sh
+
+        ## Trim the string (removes newline)
+        URLs="${{ inputs.urls_to_compare }}"
+        URLs=$(echo $URLs)
+
+        if [ -n '${{ inputs.urls_to_compare }}' ]; then
+          _log "Others URLS [${C_BLU}${URLs}${C_END}] has been configured to compare results"
+        fi
+
+        if [ -n '${{ inputs.branch_to_compare }}' ]; then
+          _log "Branch or tag [${C_BLU}${{ inputs.branch_to_compare }}${C_END}] has been configured to compare results"
+        fi
+
+    - if: ${{ inputs.branch_to_compare }}
+      name: Checkout to specific branch (When necessary)
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ inputs.branch_to_compare }}
+
+    - if: ${{ inputs.urls_to_compare || inputs.branch_to_compare }}
+      name: Treosh Lighthouse CI Action to compare (When necessary)
+      id: treosh-lhci-action-to-compare
+      uses: treosh/lighthouse-ci-action@v9
+      with:
+        urls: ${{ inputs.urls_to_compare }}
+        budgetPath: ${{ inputs.budgetPath }}
+        configPath: ${{ inputs.configPath }}
+        uploadArtifacts: ${{ inputs.uploadArtifacts }}
+        artifactName: ${{ inputs.artifactName }}
+        temporaryPublicStorage: ${{ inputs.temporaryPublicStorage }}
+        runs: ${{ inputs.runs }}
+        serverBaseUrl: ${{ inputs.serverBaseUrl }}
+        serverToken: ${{ inputs.serverToken }}
+        basicAuthUsername: ${{ inputs.basicAuthUsername }}
+        basicAuthPassword: ${{ inputs.basicAuthPassword }}
+
+    - if: ${{ steps.treosh-lhci-action-to-compare.conclusion == 'success' }}
+      name: Create output for previows version
+      id: previous-run
+      shell: bash
+      env:
+        JSON: ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
+        RUNS: ${{ inputs.runs }}
+        URLS: ${{ inputs.urls_to_compare }}
+        LINKS: ${{ steps.treosh-lhci-action-to-compare.outputs.links }}
+        PREVIOUS_RUN: true
+      run: |
+        ## Generation previous version outputs
+        cd ${{github.action_path}}
+        bash scripts/main.sh
+
+    - if: ${{ steps.previous-run.conclusion == 'success' &&
+              steps.treosh-lhci-action-to-compare.conclusion == 'success' }}
+      name: Difference between os 2 executions
+      id: compare-results
+      shell: bash
+      env:
+        JSON: ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
+        RUNS: ${{ inputs.runs }}
+        URLS: ${{ inputs.urls_to_compare }}
+        LINKS: ${{ steps.treosh-lhci-action-to-compare.outputs.links }}
+        RECENT_RESULTS: ${{ steps.print.outputs.aggregateResults }}           ## New Version
+        PREVIOUS_RESULTS: ${{ steps.previous-run.outputs.aggregateResults }}  ## Old Version
+      run: |
+        ## Comparing difference
+        cd ${{github.action_path}}
+        bash scripts/compare_results.sh
+
+    - name: Create Action summary and Comment on PR
+      shell: bash
+      env:
+        COMPARATION_WAS_EXECUTED: ${{ steps.compare-results.conclusion == 'success' }}
+        COMMENT_ON_PR: ${{ inputs.comment_on_pr }}
+        GH_TOKEN: ${{ inputs.gh_token }}
+        PR_NUMBER: ${{ github.event.number }}
+      run: |
+        ## Writing summary and comment on PR
+        cd ${{github.action_path}}
+        bash scripts/write_action_summary.sh
+        bash scripts/post_pr_comment.sh

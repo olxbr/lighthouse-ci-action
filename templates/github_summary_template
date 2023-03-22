@@ -2,10 +2,10 @@
 
 ${E_SUM} Summary 	
 
-| Category            | Score                                                |	
-|---------------------|------------------------------------------------------|	
-| Performance         | ${emoji_performance} ${LIGHTHOUSE_PERFORMANCE}%      |	
-| Acessibility        | ${emoji_accessibility} ${LIGHTHOUSE_ACESSIBILITY}%   |	
-| Best Practices      | ${emoji_best_practices} ${LIGHTHOUSE_BP}%            |	
-| SEO                 | ${emoji_seo} ${LIGHTHOUSE_SEO}%                      |	
-| Progressive Web App | ${emoji_pwa} ${LIGHTHOUSE_PWA}%                      |
+| Category            | Score ${score_comparation_desc} |
+|---------------------|---------------------------------|
+| Performance         | ${performance}                  |
+| Acessibility        | ${accessibility}                |
+| Best Practices      | ${bestPractices}                |
+| SEO                 | ${seo}                          |
+| Progressive Web App | ${pwa}                          |

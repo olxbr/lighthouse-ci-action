@@ -5,8 +5,10 @@ export ESC_SEQ='\033['
 export C_END=$ESC_SEQ'0m'
 export C_GRE=$ESC_SEQ'1;32m'
 export C_YEL=$ESC_SEQ'1;33m'
+export C_BLU=$ESC_SEQ'1;34m'
 export C_RED=$ESC_SEQ'1;31m'
 export C_WHT=$ESC_SEQ'1;37m'
+export C_WHT_NO_BOLD=$ESC_SEQ'0;37m'
 
 export E_GRE='\xE2\x9C\x85'
 export E_YEL='\xE2\x9A\xA0'
@@ -19,45 +21,66 @@ function _log() {
     case $1 in
         erro) logLevel="${C_RED}[ERRO]${C_END}";;
         warn) logLevel="${C_YEL}[WARN]${C_END}";;
+        debug) [[ $ACTIONS_RUNNER_DEBUG == true ]] && logLevel="${C_YEL}[DEBUG]${C_END}" || return;;
         *)    logLevel="${C_WHT}[INFO]${C_END}";;
     esac
 
-    msg=$( (($#>1)) && echo ${2} || echo ${1} )
+    msg=$( (($#==2)) && echo "${2}" || echo "${1}" )
+    if (($#>2)); then
+        msg_evaluated=$(echo -e $msg) ## Transform hex to char
+        msg_length=$(echo ${#msg_evaluated})
+        msg_total_coll=$2
+        msg_last_char=$3
+        msg_more=$(($msg_total_coll-$msg_length))
+        msg_space_end=$(printf '\\x20%.0s' $(seq 1 $(($msg_total_coll-$msg_length))))
+        msg="${msg}${msg_space_end}${msg_last_char}"
+    fi
 
-    echo -e "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${msg}"
+    echo -e "$(date +"%d-%b-%Y %H:%M:%S") ${logLevel} - ${msg}${C_END}"
 }
 
 function _summary_color() {
     ! [[ $1 =~ ^[0-9] ]] && printf "${C_RED}${1}${C_END}" && return ## not a number
 
+    ## Print for json
+    [[ "$2" == "clean" ]] && print_clean=true || print_clean=false
+
     [[ $1 -ge 90 && $1 -le 99 ]] &&
-        printf "${E_GRE} ${C_GRE}$1%%${C_END}" &&
+        ([[ $print_clean == true ]] &&
+            printf "${E_GRE} $1%%" ||
+            printf "${E_GRE} ${C_GRE}$1%%${C_END}") &&
         return
 
     [[ $1 -le 89 && $1 -ge 50 ]] &&
-        printf "${E_YEL} ${C_YEL}$1%%${C_END}" &&
+        ([[ $print_clean == true ]] &&
+            printf "${E_YEL} $1%%" ||
+            printf "${E_YEL} ${C_YEL}$1%%${C_END}") &&
         return
 
     [[ $1 -eq 100 ]] &&
-        printf "${E_TRO} ${C_GRE}$1%%${C_END}" &&
+        ([[ $print_clean == true ]] &&
+            printf "${E_TRO} $1%%" ||
+            printf "${E_TRO} ${C_GRE}$1%%${C_END}") &&
         return
 
-    printf "${E_RED} ${C_RED}$1%%${C_END}"
+    [[ $print_clean == true ]] &&
+        printf "${E_RED} $1%%" ||
+        printf "${E_RED} ${C_RED}$1%%${C_END}"
 }
 
 function _badge_color() {
-    ! [[ $1 =~ ^[0-9] ]] && printf "red" && return ## not a number
+    ## Get only number from string
+    only_num=${1//%*/}
+    only_num=${only_num//[!0-9]/}
 
-    [[ $1 -ge 90 && $1 -le 99 ]] &&
-        printf "green" &&
+    ! [[ $only_num =~ ^[0-9] ]] && printf "red" && return ## not a number
+
+    [[ $only_num -ge 90 ]] &&
+        printf "brightgreen" &&
         return
 
-    [[ $1 -le 89 && $1 -ge 50 ]] &&
+    [[ $only_num -le 89 && $only_num -ge 50 ]] &&
         printf "yellow" &&
-        return
-
-    [[ $1 -eq 100 ]] &&
-        printf "green" &&
         return
 
     printf "red"
@@ -79,10 +102,6 @@ function _summary_emoji() {
         return
 
     printf "${E_RED}" $1
-}
-
-function _camel_to_snake_case () {
-    echo $1 | sed -E 's,([A-Z]),_\1,g' | sed -E 's,(\-),_,g' | tr '[:upper:]' '[:lower:]'
 }
 
 function _snake_to_camel_case () {
