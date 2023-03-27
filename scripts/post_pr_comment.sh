@@ -118,5 +118,6 @@ for url in $urls; do
         _log info "| name: ${GITHUB_WORKFLOW}"
         _log info "| on:"
         _log info "|   ${C_WHT}- pull_request${C_END} ## Important to comment on PR (lighthouse)"
+        break
     fi
 done
