@@ -8,6 +8,7 @@ This composite action uses the [treosh/lighthouse-ci-action](https://github.com/
 - 🌈 Print beautiful results in workflow summary
 - 🏆 Comment results in Pull Request
 - 🚀 Aggregate metrics output
+- 🎉 Collect and compare metrics across previously listed branches or URLs
 
 
 #### Workflow Summary
