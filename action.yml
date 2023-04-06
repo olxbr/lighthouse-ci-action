@@ -56,6 +56,8 @@ runs:
     - name: Set LHCI env vars
       id: set-lhci-env-vars
       shell: bash
+      env:
+        ACTIONS_RUNNER_DEBUG: ${{ contains(runner.debug, '1') }}
       run: |        
         cd ${{github.action_path}}
         source scripts/utils.sh
@@ -81,6 +83,7 @@ runs:
       shell: bash
       id: print
       env:
+        ACTIONS_RUNNER_DEBUG: ${{ contains(runner.debug, '1') }}
         COMMENT_ON_PR: ${{ inputs.comment_on_pr }}
         GH_TOKEN: ${{ inputs.gh_token }}
         PR_NUMBER: ${{ github.event.number }}
@@ -96,6 +99,8 @@ runs:
     - if: ${{ inputs.urls_to_compare || inputs.branch_to_compare }}
       name: Compare result (When necessary)
       shell: bash
+      env:
+        ACTIONS_RUNNER_DEBUG: ${{ contains(runner.debug, '1') }}
       run: |
         ## Should compare result
         source ${{ github.action_path }}/scripts/utils.sh
@@ -140,6 +145,7 @@ runs:
       id: previous-run
       shell: bash
       env:
+        ACTIONS_RUNNER_DEBUG: ${{ contains(runner.debug, '1') }}
         JSON: ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
         RUNS: ${{ inputs.runs }}
         URLS: ${{ inputs.urls_to_compare }}
@@ -156,6 +162,7 @@ runs:
       id: compare-results
       shell: bash
       env:
+        ACTIONS_RUNNER_DEBUG: ${{ contains(runner.debug, '1') }}
         JSON: ${{ steps.treosh-lhci-action-to-compare.outputs.manifest }}
         RUNS: ${{ inputs.runs }}
         URLS: ${{ inputs.urls_to_compare }}
@@ -170,6 +177,7 @@ runs:
     - name: Create Action summary and Comment on PR
       shell: bash
       env:
+        ACTIONS_RUNNER_DEBUG: ${{ contains(runner.debug, '1') }}
         COMPARATION_WAS_EXECUTED: ${{ steps.compare-results.conclusion == 'success' }}
         COMMENT_ON_PR: ${{ inputs.comment_on_pr }}
         GH_TOKEN: ${{ inputs.gh_token }}
