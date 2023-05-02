@@ -62,6 +62,9 @@ for previous_url in $previous_urls; do
             aggregate_reports=$(jq -c ".[$idx].summary.$s_key=\"$report_metric (${eql_mark}  ${res_value}%)\"" <<< $aggregate_reports) &&
             log_line="|      ${eql_mark}\x09Same score in ${bold_key} (${res_value}%)"
 
+        ## Adding raw value of metrics comparison
+        aggregate_reports=$(jq -c ".[$idx].summary_diff.$s_key=${res_value}" <<< $aggregate_reports)
+
         _log "$log_line" $(($coll_length+7)) │
 
     done
@@ -89,6 +92,9 @@ for previous_url in $previous_urls; do
             aggregate_reports=$(jq -c ".[$idx].metrics.$m_key=\"$report_metric (${res_value} ${metric_unit})\"" <<< $aggregate_reports) &&
             log_line="|      ${eql_mark}\x09Same time in ${bold_key} (${res_value} ${metric_unit})"
 
+        ## Adding raw value of metrics comparison
+        aggregate_reports=$(jq -c ".[$idx].metrics_diff.$m_key=${res_value}" <<< $aggregate_reports)
+        
         _log "$log_line" $(($coll_length+7)) │
 
     done
@@ -97,6 +103,9 @@ for previous_url in $previous_urls; do
     _log ""
     let idx++
 done
+
+# Export Comparison Results to Output
+echo "comparisonResults=${aggregate_reports}" >> "$GITHUB_OUTPUT"
 
 ## Update json report
 echo "aggregate_reports=${aggregate_reports}" >> $GITHUB_ENV
