@@ -48,11 +48,8 @@ outputs:
     description: "Assertion results (content of assertion-results.json)"
     value: ${{ steps.treosh-lhci-action.outputs.assertionResults }}
   aggregateResults:
-    description: "Json containing all aggregate summary and metrics from runs"
-    value: ${{ steps.print.outputs.aggregateResults }}
-  comparisonResults:
-    description: "Json containing all comparison summary and metrics from runs"
-    value: ${{ steps.compare-results.outputs.comparisonResults }}
+    description: "Json containing all aggregate summary and metrics from runs with diffs results when comparation was used"
+    value: ${{ steps.compare-results.outputs.comparisonResults || steps.print.outputs.aggregateResults }}
 runs:
   using: "composite"
   steps:
