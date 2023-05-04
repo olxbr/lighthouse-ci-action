@@ -33,10 +33,10 @@ inputs:
     description: "Set the collect preset: perf, experimental or desktop. Default: mobile"
   urls_to_compare:
     description: "Which urls should be used to campare results. Useful without config file"
-    default: ''
+    default: ""
   branch_to_compare:
     description: "Which branch should be used to campare results. Useful for config file."
-    default: ''
+    default: ""
 outputs:
   resultsPath:
     description: "Path to the folder with LHCI results"
@@ -48,8 +48,8 @@ outputs:
     description: "Assertion results (content of assertion-results.json)"
     value: ${{ steps.treosh-lhci-action.outputs.assertionResults }}
   aggregateResults:
-    description: "Json containing all aggregate summary and metrics from runs"
-    value: ${{ steps.print.outputs.aggregateResults }}
+    description: "Json containing all aggregate summary and metrics from runs with diffs results when comparation was used"
+    value: ${{ steps.compare-results.outputs.aggregateResults || steps.print.outputs.aggregateResults }}
 runs:
   using: "composite"
   steps:
@@ -58,7 +58,7 @@ runs:
       shell: bash
       env:
         ACTIONS_RUNNER_DEBUG: ${{ contains(runner.debug, '1') }}
-      run: |        
+      run: |
         cd ${{github.action_path}}
         source scripts/utils.sh
         _set_up_lhci_env_vars ${{ inputs.collect_preset }}
@@ -157,7 +157,7 @@ runs:
         bash scripts/main.sh
 
     - if: ${{ steps.previous-run.conclusion == 'success' &&
-              steps.treosh-lhci-action-to-compare.conclusion == 'success' }}
+        steps.treosh-lhci-action-to-compare.conclusion == 'success' }}
       name: Difference between os 2 executions
       id: compare-results
       shell: bash
@@ -167,8 +167,8 @@ runs:
         RUNS: ${{ inputs.runs }}
         URLS: ${{ inputs.urls_to_compare }}
         LINKS: ${{ steps.treosh-lhci-action-to-compare.outputs.links }}
-        RECENT_RESULTS: ${{ steps.print.outputs.aggregateResults }}           ## New Version
-        PREVIOUS_RESULTS: ${{ steps.previous-run.outputs.aggregateResults }}  ## Old Version
+        RECENT_RESULTS: ${{ steps.print.outputs.aggregateResults }} ## New Version
+        PREVIOUS_RESULTS: ${{ steps.previous-run.outputs.aggregateResults }} ## Old Version
       run: |
         ## Comparing difference
         cd ${{github.action_path}}

@@ -9,7 +9,7 @@ red_mark="🔴"
 gre_mark="🟢"
 eql_mark="🔵"
 previous_results=${PREVIOUS_RESULTS}
-recent_results=${RECENT_RESULTS}
+recent_results=${RECENT_RESULTS} ## Same as aggregateResults
 aggregate_reports=${aggregate_reports}
 previous_urls=$(jq '.[].url' <<< ${previous_results})
 
@@ -62,6 +62,9 @@ for previous_url in $previous_urls; do
             aggregate_reports=$(jq -c ".[$idx].summary.$s_key=\"$report_metric (${eql_mark}  ${res_value}%)\"" <<< $aggregate_reports) &&
             log_line="|      ${eql_mark}\x09Same score in ${bold_key} (${res_value}%)"
 
+        ## Update aggregateResults (Recent Results) with metrics comparison
+        recent_results=$(jq -c ".[$idx].summary += {\"diff_$s_key\": $res_value}" <<< $recent_results)
+
         _log "$log_line" $(($coll_length+7)) │
 
     done
@@ -89,6 +92,9 @@ for previous_url in $previous_urls; do
             aggregate_reports=$(jq -c ".[$idx].metrics.$m_key=\"$report_metric (${res_value} ${metric_unit})\"" <<< $aggregate_reports) &&
             log_line="|      ${eql_mark}\x09Same time in ${bold_key} (${res_value} ${metric_unit})"
 
+        ## Update aggregateResults (Recent Results) with metrics comparison
+        recent_results=$(jq -c ".[$idx].metrics += {\"diff_$m_key\": $res_value}" <<< $recent_results)
+        
         _log "$log_line" $(($coll_length+7)) │
 
     done
@@ -97,6 +103,9 @@ for previous_url in $previous_urls; do
     _log ""
     let idx++
 done
+
+# Export Comparison Results to Output (aggregateResults)
+echo "aggregateResults=${recent_results}" >> "$GITHUB_OUTPUT"
 
 ## Update json report
 echo "aggregate_reports=${aggregate_reports}" >> $GITHUB_ENV
