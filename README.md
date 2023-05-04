@@ -235,7 +235,7 @@ Json containing all aggregate summary and metrics from runs:
 ]
 ```
 
-When `urls_to_compare` has been used, a new metrics will appear (`diff_` prefix) with the diference
+When `urls_to_compare` has been used, a new metrics will appear (prefix `diff_`) with the difference
 ```json
 [
   {
