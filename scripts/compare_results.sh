@@ -63,7 +63,7 @@ for previous_url in $previous_urls; do
             log_line="|      ${eql_mark}\x09Same score in ${bold_key} (${res_value}%)"
 
         ## Update aggregateResults (Recent Results) with metrics comparison
-        recent_results=$(jq -c ".[$idx].summary += {$s_key_diff: $res_value}" <<< $recent_results)
+        recent_results=$(jq -c ".[$idx].summary += {\"diff_$s_key\": $res_value}" <<< $recent_results)
 
         _log "$log_line" $(($coll_length+7)) │
 
@@ -93,7 +93,7 @@ for previous_url in $previous_urls; do
             log_line="|      ${eql_mark}\x09Same time in ${bold_key} (${res_value} ${metric_unit})"
 
         ## Update aggregateResults (Recent Results) with metrics comparison
-        recent_results=$(jq -c ".[$idx].metrics += {$m_key_diff=$res_value}" <<< $recent_results)
+        recent_results=$(jq -c ".[$idx].metrics += {\"diff_$m_key\"=$res_value}" <<< $recent_results)
         
         _log "$log_line" $(($coll_length+7)) │
 
