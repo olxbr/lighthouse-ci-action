@@ -235,6 +235,42 @@ Json containing all aggregate summary and metrics from runs:
 ]
 ```
 
+When `urls_to_compare` has been used, a new metrics will appear (`diff_` prefix) with the diference
+```json
+[
+  {
+    "url": "http://localhost/",
+    "numericUnit": "ms",
+    "link": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1683225917291-99845.report.html",
+    "summary": {
+      "performance": 45,
+      "accessibility": 86,
+      "bestPractices": 100,
+      "seo": 58,
+      "pwa": 0,
+      "diff_accessibility": 0,
+      "diff_bestPractices": 0,
+      "diff_performance": 0,
+      "diff_pwa": 0,
+      "diff_seo": 0
+    },
+    "metrics": {
+      "firstContentfulPaint": 20908,
+      "largestContentfulPaint": 20908,
+      "interactive": 20908,
+      "speedIndex": 41731,
+      "totalBlockingTime": 0,
+      "totalCumulativeLayoutShift": 0,
+      "diff_firstContentfulPaint": 217,
+      "diff_interactive": 217,
+      "diff_largestContentfulPaint": 217,
+      "diff_speedIndex": 374,
+      "diff_totalBlockingTime": 0,
+      "diff_totalCumulativeLayoutShift": 0
+    }
+  }
+```
+
 ### `resultsPath`
 
 A path to `.lighthouseci` results folder:
