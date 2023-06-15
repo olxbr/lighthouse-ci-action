@@ -31,11 +31,18 @@ inputs:
     description: "Boolean to define if will comment on PR or not"
   collect_preset:
     description: "Set the collect preset: perf, experimental or desktop. Default: mobile"
+    default: ""
   urls_to_compare:
     description: "Which urls should be used to campare results. Useful without config file"
     default: ""
   branch_to_compare:
     description: "Which branch should be used to campare results. Useful for config file."
+    default: ""
+  puppeteerScript:
+    description: "The path to a script that manipulates the browser with puppeteer before running Lighthouse, used for auth."
+    default: ""
+  puppeteerLaunchOptions:
+    description: "The object of puppeteer launch options"
     default: ""
 outputs:
   resultsPath:
@@ -61,7 +68,15 @@ runs:
       run: |
         cd ${{github.action_path}}
         source scripts/utils.sh
-        _set_up_lhci_env_vars ${{ inputs.collect_preset }}
+        _set_up_lhci_env_vars ${{ inputs.collect_preset }} \
+                              ${{ inputs.puppeteerScript }} \
+                              ${{ inputs.puppeteerLaunchOptions }}
+
+    # - if: ${{ inputs.puppeteerScript }}
+    #   name: Install Puppeteer (When necessary)
+    #   shell: bash
+    #   run: |
+    #     npm install puppeteer
 
     - name: Treosh Lighthouse CI Action
       id: treosh-lhci-action
