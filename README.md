@@ -104,6 +104,10 @@ Post a comment on PR with the results when CI was triggered
 
 Set the collect preset: perf, experimental or desktop.
 
+```yml
+collect_preset: desktop
+```
+
 #### `uploadArtifacts` (default: false)
 
 Upload Lighthouse results as [action artifacts](https://help.github.com/en/actions/configuring-and-managing-workflows/persisting-workflow-data-using-artifacts) to persist results. Equivalent to using [`actions/upload-artifact`](https://github.com/actions/upload-artifact) to save the artifacts with additional action steps.
@@ -202,6 +206,22 @@ basicAuthPassword: ${{ secrets.LHCI_SERVER_BASIC_AUTH_PASSWORD }}
 ```
 
 > **Note**: Use [Github secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets#creating-encrypted-secrets) to keep your username and password hidden!
+
+#### `puppeteerScript`
+
+The path to a script that manipulates the browser with puppeteer before running Lighthouse, used for auth.
+
+```yml
+puppeteerScript: ./docs/recipes/puppeteer-example.js
+```
+
+#### `puppeteerLaunchOptions`
+
+The object of puppeteer launch options.
+
+```yml
+puppeteerLaunchOptions: "{args: ['--no-sandbox', '--disable-setuid-sandbox']}"
+```
 
 ## Outputs
 
