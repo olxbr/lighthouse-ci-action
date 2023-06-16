@@ -72,11 +72,17 @@ runs:
                               ${{ inputs.puppeteerScript }} \
                               ${{ inputs.puppeteerLaunchOptions }}
 
-    # - if: ${{ inputs.puppeteerScript }}
-    #   name: Install Puppeteer (When necessary)
-    #   shell: bash
-    #   run: |
-    #     npm install puppeteer
+      - if: ${{ inputs.puppeteerScript }}
+      name: Setup Node.js
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+    - if: ${{ inputs.puppeteerScript }}
+      name: Install Puppeteer
+      shell: bash
+      run: |
+        npm install puppeteer
 
     - name: Treosh Lighthouse CI Action
       id: treosh-lhci-action
