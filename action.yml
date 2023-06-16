@@ -83,6 +83,8 @@ runs:
       shell: bash
       run: |
         npm install puppeteer
+      env:
+        PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
 
     - name: Treosh Lighthouse CI Action
       id: treosh-lhci-action
