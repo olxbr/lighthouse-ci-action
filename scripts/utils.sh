@@ -130,12 +130,12 @@ function _check_url_availability() {
     local count=0
     local available=false
 
-    _log info "Checking availability of urls [${urls}]"
     if [[ -z "${urls}" ]]; then 
         _log warn "No urls to check availability"
         return
     fi
-
+    
+    _log info "Checking availability of urls [${urls}]"
     _log debug "Checking availability of urls [${urls}] with timeout: ${timeout}s - retries: ${retries} - sleep: ${sleep}s"
 
     for url in ${urls}; do
