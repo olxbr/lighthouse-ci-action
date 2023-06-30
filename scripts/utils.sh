@@ -122,7 +122,7 @@ function _set_up_lhci_env_vars() {
 }
 
 function _check_url_availability() {
-    local urls=("$@")
+    local urls=($@)
     local timeout=5
     local retries=2
     local sleep=1
@@ -130,9 +130,9 @@ function _check_url_availability() {
     local count=0
     local available=false
 
-    [[ ${#urls[@]} -eq 0 ]] && _log warn "No urls to check availability" && exit 0
+    [[ ${#urls[@]} -eq 0 ]] && _log warn "No urls to check availability" && return
 
-    _log info "Checking availability of ${#urls[@]} urls ${urls[@]} - $@"
+    _log debug "Checking availability of ${#urls[@]} urls [${urls[@]}] with timeout: ${timeout}s - retries: ${retries} - sleep: ${sleep}s"
 
     for url in ${urls[@]}; do
         _log "Checking availability of ${url}"

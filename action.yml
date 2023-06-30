@@ -63,8 +63,6 @@ runs:
         source scripts/utils.sh
         urls=$(echo '${{ inputs.urls }}' | tr '\n' ' ')
         urls_to_compare=$(echo '${{ inputs.urls_to_compare }}' | tr '\n' ' ')
-        echo "URLs: $urls"
-        echo "URLs to compare: $urls_to_compare"
         _check_url_availability $urls $urls_to_compare
 
     - name: Set LHCI env vars
