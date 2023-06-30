@@ -21,7 +21,7 @@ function _log() {
     case $1 in
         erro) logLevel="${C_RED}[ERRO]${C_END}";;
         warn) logLevel="${C_YEL}[WARN]${C_END}";;
-        debug) [[ $ACTIONS_RUNNER_DEBUG == true ]] && logLevel="${C_YEL}[DEBUG]${C_END}" || printf;;
+        debug) [[ $ACTIONS_RUNNER_DEBUG == true ]] && logLevel="${C_YEL}[DEBUG]${C_END}" || return;;
         *)    logLevel="${C_WHT}[INFO]${C_END}";;
     esac
 
@@ -135,8 +135,7 @@ function _check_url_availability() {
         return
     fi
 
-    _log info "Checking availability of urls [${urls}]"
-    _log debug "Checking availability of urls [${urls}] with timeout: ${timeout}s - retries: ${retries} - sleep: ${sleep}s"
+    _log "Checking availability of urls [${urls}] with timeout: ${timeout}s - retries: ${retries} - sleep: ${sleep}s"
 
     for url in ${urls}; do
         _log "Checking availability of ${url}"
