@@ -133,7 +133,7 @@ function _check_url_availability() {
     for url in ${urls[@]}; do
         _log "Checking availability of ${url}"
         while [[ $count -lt $retries ]]; do
-            if curl --output /dev/null --silent --head --fail --max-time $timeout "${url}"; then
+            if curl --output /dev/null --silent --head --fail --max-time $timeout "${url}" 2> /dev/null; then
                 available=true
                 break
             fi
