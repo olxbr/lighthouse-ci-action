@@ -120,3 +120,29 @@ function _set_up_lhci_env_vars() {
         echo "LHCI_COLLECT__SETTINGS__PRESET=${1}" >> ${GITHUB_ENV}
     fi
 }
+
+function _check_url_availability() {
+    local urls=($@)
+    local timeout=5
+    local retries=2
+    local sleep=1
+
+    local count=0
+    local available=false
+
+    for url in ${urls[@]}; do
+        _log "Checking availability of ${url}"
+        while [[ $count -lt $retries ]]; do
+            if curl --output /dev/null --silent --head --fail --max-time $timeout $url; then
+                available=true
+                break
+            fi
+            count=$((count + 1))
+            sleep $sleep
+        done
+        if [[ $available == false ]]; then
+            _log erro "URL ${url} is not available"
+            exit 1
+        fi
+    done
+}
