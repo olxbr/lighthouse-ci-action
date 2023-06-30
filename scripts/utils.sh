@@ -130,6 +130,8 @@ function _check_url_availability() {
     local count=0
     local available=false
 
+    _log info "Checking availability of ${#urls[@]} urls ${urls[@]} - $@"
+
     for url in ${urls[@]}; do
         _log "Checking availability of ${url}"
         while [[ $count -lt $retries ]]; do
