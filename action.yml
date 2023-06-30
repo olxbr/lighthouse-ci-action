@@ -61,7 +61,7 @@ runs:
         ## Check if URL is available
         cd ${{github.action_path}}
         source scripts/utils.sh
-        _check_url_availability ${{ inputs.urls }} ${{ inputs.branch_to_compare }}
+        _check_url_availability $(echo ${{ inputs.urls }} ${{ inputs.branch_to_compare }})
 
     - name: Set LHCI env vars
       id: set-lhci-env-vars
