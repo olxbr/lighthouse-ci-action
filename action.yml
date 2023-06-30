@@ -53,7 +53,7 @@ outputs:
 runs:
   using: "composite"
   steps:
-    _ name: Check URL availability
+    - name: Check URL availability
       shell: bash
       env:
         ACTIONS_RUNNER_DEBUG: ${{ contains(runner.debug, '1') }}
