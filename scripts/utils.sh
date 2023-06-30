@@ -143,7 +143,7 @@ function _check_url_availability() {
             grep -q ^2.. <<< "$curl_response" &&
                 available=true &&
                 break
-            count=$((count + 1))
+            let count++
             sleep $sleep
         done
         if [[ $available == false ]]; then
