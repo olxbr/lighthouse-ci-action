@@ -63,6 +63,11 @@ runs:
         source scripts/utils.sh
         _set_up_lhci_env_vars ${{ inputs.collect_preset }}
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+
     - name: Treosh Lighthouse CI Action
       id: treosh-lhci-action
       uses: treosh/lighthouse-ci-action@v9
