@@ -122,13 +122,15 @@ function _set_up_lhci_env_vars() {
 }
 
 function _check_url_availability() {
-    local urls=($@)
+    local urls=("$@")
     local timeout=5
     local retries=2
     local sleep=1
 
     local count=0
     local available=false
+
+    [[ ${#urls[@]} -eq 0 ]] && _log warn "No urls to check availability" && exit 0
 
     _log info "Checking availability of ${#urls[@]} urls ${urls[@]} - $@"
 
