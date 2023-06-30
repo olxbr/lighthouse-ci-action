@@ -130,6 +130,7 @@ function _check_url_availability() {
     local count=0
     local available=false
 
+    _log info "Checking availability of urls [${urls}]"
     if [[ -z "${urls}" ]]; then 
         _log warn "No urls to check availability"
         return
