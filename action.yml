@@ -53,6 +53,21 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Check URL availability
+      shell: bash
+      env:
+        ACTIONS_RUNNER_DEBUG: ${{ contains(runner.debug, '1') }}
+      run: |
+        ## Check if URL is available
+        cd ${{github.action_path}}
+        source scripts/utils.sh
+
+        ## Remove new line from input
+        urls="$(echo '${{ inputs.urls }}' | tr '\n' ' ')"
+        urls_to_compare="$(echo '${{ inputs.urls_to_compare }}' | tr '\n' ' ')"
+        
+        _check_url_availability $urls $urls_to_compare
+
     - name: Set LHCI env vars
       id: set-lhci-env-vars
       shell: bash

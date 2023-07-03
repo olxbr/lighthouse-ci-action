@@ -120,3 +120,36 @@ function _set_up_lhci_env_vars() {
         echo "LHCI_COLLECT__SETTINGS__PRESET=${1}" >> ${GITHUB_ENV}
     fi
 }
+
+function _check_url_availability() {
+    local urls=($@)
+    local timeout=5
+    local retries=2
+    local sleep=1
+
+    local count=0
+    local available=false
+
+    if [[ -z "${urls[@]}" ]]; then 
+        _log warn "No urls to check availability"
+        return
+    fi
+
+    _log "Checking availability of ${#urls[@]} urls with timeout: ${timeout}s - retries: ${retries} - sleep: ${sleep}s"
+
+    for url in ${urls[@]}; do
+        while [[ $count -lt $retries ]]; do
+            curl_response=$(curl --write-out '%{http_code}' --output /dev/null --silent --head --fail --max-time $timeout "${url}")
+            grep -q ^2.. <<< "$curl_response" &&
+                available=true &&
+                break
+            let count++
+            sleep $sleep
+        done
+        if [[ $available == false ]]; then
+            _log erro "URL ${url} is not available. Please check the url [${url}] or if the status code is different from 2xx [${curl_response}] and try again."
+            exit 1
+        fi
+        _log "URL ${url} is available with status code [${curl_response}]. Proceeding..."
+    done
+}
