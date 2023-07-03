@@ -31,11 +31,18 @@ inputs:
     description: "Boolean to define if will comment on PR or not"
   collect_preset:
     description: "Set the collect preset: perf, experimental or desktop. Default: mobile"
+    default: ""
   urls_to_compare:
     description: "Which urls should be used to campare results. Useful without config file"
     default: ""
   branch_to_compare:
     description: "Which branch should be used to campare results. Useful for config file."
+    default: ""
+  puppeteerScript:
+    description: "The path to a script that manipulates the browser with puppeteer before running Lighthouse, used for auth."
+    default: ""
+  puppeteerLaunchOptions:
+    description: "The object of puppeteer launch options"
     default: ""
 outputs:
   resultsPath:
@@ -76,7 +83,23 @@ runs:
       run: |
         cd ${{github.action_path}}
         source scripts/utils.sh
-        _set_up_lhci_env_vars ${{ inputs.collect_preset }}
+        _set_up_lhci_env_vars ${{ inputs.collect_preset }} \
+                              ${{ inputs.puppeteerScript }} \
+                              ${{ inputs.puppeteerLaunchOptions }}
+
+    - if: ${{ inputs.puppeteerScript }}
+      name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - if: ${{ inputs.puppeteerScript }}
+      name: Install Puppeteer
+      shell: bash
+      run: |
+        npm install puppeteer
+      env:
+        PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -85,7 +108,7 @@ runs:
 
     - name: Treosh Lighthouse CI Action
       id: treosh-lhci-action
-      uses: treosh/lighthouse-ci-action@v9
+      uses: treosh/lighthouse-ci-action@v10
       with:
         urls: ${{ inputs.urls }}
         budgetPath: ${{ inputs.budgetPath }}

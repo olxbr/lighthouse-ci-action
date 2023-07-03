@@ -119,6 +119,16 @@ function _set_up_lhci_env_vars() {
     if [ -n "${1}" ]; then
         echo "LHCI_COLLECT__SETTINGS__PRESET=${1}" >> ${GITHUB_ENV}
     fi
+
+    ## input.puppeteerScript
+    if [ -n "${2}" ]; then
+        echo "LHCI_COLLECT__PUPPETEER_SCRIPT=${2}" >> ${GITHUB_ENV}
+    fi
+
+    ## input.puppeteerLaunchOptions
+    if [ -n "${3}" ]; then
+        echo "LHCI_COLLECT__PUPPETEER_LAUNCH_OPTIONS=${3}" >> ${GITHUB_ENV}
+    fi
 }
 
 function _check_url_availability() {
