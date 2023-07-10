@@ -115,12 +115,16 @@ function _snake_case_to_hr () {
 }
 
 function _set_up_lhci_env_vars() {
+    local collect_preset=${1}
+    local chrome_flags=${2}
+
     ## input.collect_preset
-    if [ -n "${1}" ]; then
+    if [ -n $collect_preset ]; then
         echo "LHCI_COLLECT__SETTINGS__PRESET=${1}" >> ${GITHUB_ENV}
     fi
+
     ## input.chrome_flags
-    if [ -n "${2}" ]; then
+    if [ -n $chrome_flags ]; then
         echo "LHCI_COLLECT__SETTINGS__CHROME_FLAGS=${2}" >> ${GITHUB_ENV}
     fi
 }
