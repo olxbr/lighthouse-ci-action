@@ -79,7 +79,7 @@ runs:
       run: |
         cd ${{github.action_path}}
         source scripts/utils.sh
-        _set_up_lhci_env_vars "${{ inputs.collect_preset }}" "${{ inputs.chrome_flags }}"
+        _set_up_lhci_env_vars ${{ inputs.collect_preset }} ${{ inputs.chrome_flags }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
