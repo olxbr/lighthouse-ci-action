@@ -119,6 +119,10 @@ function _set_up_lhci_env_vars() {
     if [ -n "${1}" ]; then
         echo "LHCI_COLLECT__SETTINGS__PRESET=${1}" >> ${GITHUB_ENV}
     fi
+    ## input.chrome_flags
+    if [ -n "${2}" ]; then
+        echo "LHCI_COLLECT__SETTINGS__CHROME_FLAGS=${2}" >> ${GITHUB_ENV}
+    fi
 }
 
 function _check_url_availability() {
