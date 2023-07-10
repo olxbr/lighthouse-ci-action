@@ -88,7 +88,7 @@ runs:
 
     - name: Treosh Lighthouse CI Action
       id: treosh-lhci-action
-      uses: treosh/lighthouse-ci-action@v9
+      uses: treosh/lighthouse-ci-action@v10
       with:
         urls: ${{ inputs.urls }}
         budgetPath: ${{ inputs.budgetPath }}
