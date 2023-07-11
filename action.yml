@@ -37,6 +37,9 @@ inputs:
   branch_to_compare:
     description: "Which branch should be used to campare results. Useful for config file."
     default: ""
+  chrome_flags:
+    description: "Chrome flags to use when launching the browser"
+    default: "--no-sandbox --headless --disable-gpu --disable-dev-shm-usage"
 outputs:
   resultsPath:
     description: "Path to the folder with LHCI results"
@@ -76,7 +79,7 @@ runs:
       run: |
         cd ${{github.action_path}}
         source scripts/utils.sh
-        _set_up_lhci_env_vars ${{ inputs.collect_preset }}
+        _set_up_lhci_env_vars --chromeFlags="${{ inputs.chrome_flags }}" --collectPreset="${{ inputs.collect_preset }}"
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -85,7 +88,7 @@ runs:
 
     - name: Treosh Lighthouse CI Action
       id: treosh-lhci-action
-      uses: treosh/lighthouse-ci-action@v9
+      uses: treosh/lighthouse-ci-action@v10
       with:
         urls: ${{ inputs.urls }}
         budgetPath: ${{ inputs.budgetPath }}

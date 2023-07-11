@@ -115,10 +115,31 @@ function _snake_case_to_hr () {
 }
 
 function _set_up_lhci_env_vars() {
-    ## input.collect_preset
-    if [ -n "${1}" ]; then
-        echo "LHCI_COLLECT__SETTINGS__PRESET=${1}" >> ${GITHUB_ENV}
-    fi
+    _log "Setting environment variables:"
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --collectPreset=*)
+                collectPreset="${1#*=}"
+                if [ -n "$collectPreset" ]; then
+                    _log "LHCI_COLLECT__SETTINGS__PRESET=\"$collectPreset\""
+                    echo "LHCI_COLLECT__SETTINGS__PRESET=$collectPreset" >> ${GITHUB_ENV}
+                fi
+                shift
+                ;;
+            --chromeFlags=*)
+                chrome_flags="${1#*=}"
+                if [ -n "$chrome_flags" ]; then
+                    _log "LHCI_COLLECT__SETTINGS__CHROME_FLAGS=\"$chrome_flags\""
+                    echo "LHCI_COLLECT__SETTINGS__CHROME_FLAGS=$chrome_flags" >> ${GITHUB_ENV}
+                fi
+                shift
+                ;;
+            *)
+                echo "Unknown option: $1"
+                shift
+                ;;
+        esac
+    done
 }
 
 function _check_url_availability() {

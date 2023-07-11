@@ -104,6 +104,10 @@ Post a comment on PR with the results when CI was triggered
 
 Set the collect preset: perf, experimental or desktop.
 
+```yml
+collect_preset: desktop
+```
+
 #### `uploadArtifacts` (default: false)
 
 Upload Lighthouse results as [action artifacts](https://help.github.com/en/actions/configuring-and-managing-workflows/persisting-workflow-data-using-artifacts) to persist results. Equivalent to using [`actions/upload-artifact`](https://github.com/actions/upload-artifact) to save the artifacts with additional action steps.
@@ -155,6 +159,14 @@ configPath: ./lighthouserc.json
 ```
 
 If some configurations aren't set using action parameters, the settings are fetched from the config file provided here.
+
+#### `chrome_flags` (default: --no-sandbox --disable-gpu --disable-dev-shm-usage)
+
+Chrome flags are a way to activate browser features that are not available by default.
+
+```yml
+chrome_flags: "--no-sandbox --disable-gpu --disable-dev-shm-usage"
+```
 
 #### `artifactName`
 
