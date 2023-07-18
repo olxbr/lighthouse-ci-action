@@ -161,8 +161,8 @@ function _check_url_availability() {
     for url in ${urls[@]}; do
         while [[ $count -lt $retries ]]; do
             _log "Checking availability of ${url} - attempt: $((count+1))"
+            curl -v --head --fail --max-time $timeout "${url}"
             curl_response=$(curl --write-out '%{http_code}' --output /dev/null --silent --head --fail --max-time $timeout "${url}")
-            _log warn "Response: ${curl_response}"
             grep -q ^[23].. <<< "$curl_response" &&
                 available=true &&
                 break
