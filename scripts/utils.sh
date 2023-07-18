@@ -145,7 +145,7 @@ function _set_up_lhci_env_vars() {
 function _check_url_availability() {
     local urls=($@)
     local timeout=5
-    local retries=2
+    local retries=5
     local sleep=1
 
     local count=0
@@ -161,7 +161,7 @@ function _check_url_availability() {
     for url in ${urls[@]}; do
         while [[ $count -lt $retries ]]; do
             curl_response=$(curl --write-out '%{http_code}' --output /dev/null --silent --head --fail --max-time $timeout "${url}")
-            grep -q ^2.. <<< "$curl_response" &&
+            grep -q ^[23].. <<< "$curl_response" &&
                 available=true &&
                 break
             let count++
