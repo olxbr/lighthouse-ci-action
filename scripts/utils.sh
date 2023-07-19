@@ -160,13 +160,15 @@ function _check_url_availability() {
 
     for url in ${urls[@]}; do
         while [[ $count -lt $retries ]]; do
-            _log "Checking availability of ${url} - attempt: $((count+1))"
             curl_response=$(curl --write-out '%{http_code}' --output /dev/null --silent --head --fail --max-time $timeout "${url}" || true)
-            grep -q ^[23].. <<< "$curl_response" &&
-                available=true &&
-                break || true
-            let count++
-            sleep $sleep
+            if [[ "${curl_response}" =~ ^[23].. ]]; then
+                available=true
+                break
+            else
+                _log warn "URL ${url} is not available. Retrying in ${sleep}s..."
+                let count++
+                sleep $sleep
+            fi
         done
         if [[ $available == false ]]; then
             _log erro "URL ${url} is not available. Please check the url [${url}] or if the status code is different from 2xx [${curl_response}] and try again."
