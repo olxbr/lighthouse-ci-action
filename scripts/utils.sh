@@ -145,7 +145,7 @@ function _set_up_lhci_env_vars() {
 function _check_url_availability() {
     local urls=($@)
     local timeout=5
-    local retries=2
+    local retries=5
     local sleep=1
 
     local count=0
@@ -160,12 +160,16 @@ function _check_url_availability() {
 
     for url in ${urls[@]}; do
         while [[ $count -lt $retries ]]; do
-            curl_response=$(curl --write-out '%{http_code}' --output /dev/null --silent --head --fail --max-time $timeout "${url}")
-            grep -q ^2.. <<< "$curl_response" &&
-                available=true &&
+            curl_response=$(curl --write-out '%{http_code}' --output /dev/null --silent --head --fail --max-time $timeout "${url}" || true)
+            if [[ "${curl_response}" =~ ^[23].. ]]; then
+                available=true
                 break
-            let count++
-            sleep $sleep
+            else
+                _log warn "URL ${url} is not available. Retrying in ${sleep}s..."
+                count=$((count+1))
+                sleep $sleep
+                _log "Retrying... ${count}/${retries}"
+            fi
         done
         if [[ $available == false ]]; then
             _log erro "URL ${url} is not available. Please check the url [${url}] or if the status code is different from 2xx [${curl_response}] and try again."
