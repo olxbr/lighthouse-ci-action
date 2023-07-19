@@ -164,7 +164,7 @@ function _check_url_availability() {
             curl_response=$(curl --write-out '%{http_code}' --output /dev/null --silent --head --fail --max-time $timeout "${url}" || true)
             grep -q ^[23].. <<< "$curl_response" &&
                 available=true &&
-                break
+                break || true
             let count++
             sleep $sleep
         done
