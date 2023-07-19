@@ -166,7 +166,7 @@ function _check_url_availability() {
                 break
             else
                 _log warn "URL ${url} is not available. Retrying in ${sleep}s..."
-                let count++
+                count=$((count+1))
                 sleep $sleep
                 _log "Retrying... ${count}/${retries}"
             fi
