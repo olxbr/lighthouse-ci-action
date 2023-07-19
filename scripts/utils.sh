@@ -168,6 +168,7 @@ function _check_url_availability() {
                 _log warn "URL ${url} is not available. Retrying in ${sleep}s..."
                 let count++
                 sleep $sleep
+                _log "Retrying... ${count}/${retries}"
             fi
         done
         if [[ $available == false ]]; then
