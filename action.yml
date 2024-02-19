@@ -82,13 +82,13 @@ runs:
         _set_up_lhci_env_vars --chromeFlags="${{ inputs.chrome_flags }}" --collectPreset="${{ inputs.collect_preset }}"
 
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: 18.x
 
     - name: Treosh Lighthouse CI Action
       id: treosh-lhci-action
-      uses: treosh/lighthouse-ci-action@v10
+      uses: treosh/lighthouse-ci-action@v11
       with:
         urls: ${{ inputs.urls }}
         budgetPath: ${{ inputs.budgetPath }}
